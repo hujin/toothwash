@@ -1,0 +1,25 @@
+var path = require('path');
+
+module.exports = {
+    build:{
+        env:{
+          NODE_ENV:JSON.stringify('production')
+        },
+        assetsRoot:path.resolve(__dirname,'dist'),
+        assetsSubDirectory:'static',
+        assetsPublicPath:'/',
+        productionSourceMap:true,
+        productionGzip:false,
+        productionGzipExtensions:['js','css']
+    },
+    dev:{
+        env:{
+            NODE_ENV:'development'
+        },
+        port:2888,
+        assetsSubDirectory:'static',
+        assetsPublicPath:'/',
+        proxyTable:{},
+        cssSourceMap:false
+    }
+}
