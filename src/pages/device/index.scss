@@ -286,54 +286,33 @@
   height: .68rem;
 }
 
-.mask{
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,.5);
-  top:0;
-  left: 0;
-  z-index: 10;
-}
-
-.dialog{
-  position: absolute;
-  z-index: 11;
-  background-color: #fff;
-  top:50%;
-  left: .4rem;
-  border-radius: 15px;
-  padding: .6rem;
-}
-
-.dialog-header{
-  text-align: center;
-  position: relative;
-
-  span{
-    font-size: .53rem;
-    line-height: 1;
-  }
-
-  .icon-close{
-    position: absolute;
-    right:0;
-    font-size: .28rem;
-  }
-}
-
-.dialog-content{
-  padding-top: .666667rem;
-}
-
 .custom-dialog{
-  width: 9.2rem;
   height: 7.04rem;
   margin-top: -3.52rem;
 }
 
-.form-row{
+.row{
   margin-bottom: .36rem;
+
+  .col-label{
+    display: inline-block;
+    width: 1rem;
+    font-size: .4rem;
+  }
+
+  .col-content{
+    display: inline-block;
+    width: 5.92rem;
+    vertical-align: sub;
+  }
+
+  .col-text{
+    font-size: .4rem;
+    color: #707070;
+    position: absolute;
+    right: .45rem;
+  }
+
   .form-input{
     width: 5.8rem;
     height: .68rem;
@@ -342,6 +321,53 @@
     outline: none;
     font-size: .48rem;
   }
+
+}
+
+html{
+  .mint-button{
+    height: 1rem;
+    width: 2.88rem;
+    background: url('../../assets/device/bg.png') repeat;
+    background-size: 100% 100%;
+    font-size: .5rem;
+    border-radius: 3rem;
+  }
+}
+
+.clock-dialog{
+  height: 5.88rem;
+  margin-top: -2.94rem;
+
+  .swtich-list{
+    padding: .33rem 1.08rem;
+  }
+
+  .switch-item{
+    width: 1.28rem;
+    height: 1.28rem;
+    margin-right: 1rem;
+    float: left;
+    border:3px solid #5eb8b9;
+    border-radius: 100%;
+    line-height: 1.2rem;
+    text-align: center;
+    color: #5eb8b9;
+
+    &.current{
+      color: #fff;
+      background-color: #5eb8b9;
+    }
+
+    &:last-child{
+      margin-right: 0;
+    }
+  }
+}
+
+.device-dialog{
+  height: 5.92rem;
+  margin-top: -2.96rem;
 }
 
 

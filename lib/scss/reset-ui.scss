@@ -31,12 +31,49 @@
   background-color: #5eb8b9;
 }
 
+.mt-range-runway{
+  background-color: #dcdcdc;
+  border-top-color: #dcdcdc;
+}
+
 .mt-range-thumb{
   width: .53333rem;
   height: .53333rem;
-  top:-.08rem
+  top:-.08rem;
+  background-color: #5eb8b9;
+  box-shadow: 0 1px 3px rgba(94, 184, 185, 0.4);
+
+  &::after{
+    position: absolute;
+    left: 50%;
+    top:50%;
+    margin-left: -.08rem;
+    margin-top: -.08rem;
+    width: .16rem;
+    height: .16rem;
+    background-color: #fff;
+    border-radius: 100%;
+    content:' ';
+  }
 }
 
 .mt-range-progress{
   background-color: #5eb8b9;
 }
+
+.el-checkbox-inner{
+  width: .4rem !important;
+  height: .4rem !important;
+
+  &::after{
+    height: .2rem !important;
+    left: .1rem !important;
+    width: .1rem !important;
+    border-width: 4px !important;
+  }
+}
+
+.mint-button--primary{
+  background-color: #5eb8b9;
+}
+

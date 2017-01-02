@@ -1,0 +1,41 @@
+.mask{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,.5);
+  top:0;
+  left: 0;
+  z-index: 10;
+}
+
+.dialog{
+  position: absolute;
+  z-index: 11;
+  background-color: #fff;
+  top:50%;
+  left: .4rem;
+  border-radius: 15px;
+  padding: .6rem;
+  width: 9.2rem;
+
+}
+
+.dialog-header{
+  text-align: center;
+  position: relative;
+
+  span{
+    font-size: .53rem;
+    line-height: 1;
+  }
+
+  .icon-close{
+    position: absolute;
+    right:0;
+    font-size: .28rem;
+  }
+}
+
+.dialog-content{
+  padding-top: .666667rem;
+}

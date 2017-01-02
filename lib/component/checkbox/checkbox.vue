@@ -37,7 +37,7 @@
     </label>
 </template>
 <script>
-    import Emitter from '../../../utils/emitter';
+    import Emitter from '../../util/emitter';
 
     export default {
         name: 'ElCheckbox',

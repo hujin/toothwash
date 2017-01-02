@@ -1,0 +1,59 @@
+.avatar{
+  text-align: center;
+  margin-top: 1.68rem;
+
+  img{
+    width: 5.52rem;
+    height: 5.52rem;
+  }
+}
+
+.form{
+  padding: 1.52rem .4rem 0 .4rem;
+
+  .row{
+    height: 1.6rem;
+    line-height: 1.6rem;
+    border-bottom: 2px solid #eeeeee;
+    font-size: .48rem;
+
+    .col-label{
+      float: left;
+    }
+
+    .col-content{
+      float: right;
+      color: #5eb8b9;
+    }
+  }
+
+  .mint-button{
+    width: 5.52rem !important;
+  }
+}
+
+html{
+  .mint-button{
+    height: 1rem;
+    width: 2.88rem;
+    background: url('../../assets/device/bg.png') repeat;
+    background-size: 100% 100%;
+    font-size: .5rem;
+    border-radius: 3rem;
+  }
+}
+
+.mask{
+  .dialog{
+    height: 5.88rem;
+    margin-top: -2.94rem;
+  }
+
+  .tips{
+    text-align: center;
+    font-size: .48rem;
+    line-height: .48rem;
+    margin-bottom: 1.34rem;
+    margin-top: .654rem;
+  }
+}

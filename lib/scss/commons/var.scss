@@ -1,4 +1,4 @@
-$color-blue: #26a2ff;
+$color-blue: #5eb8b9;
 $color-white: #fff;
 $color-grey: #d9d9d9;
 $border-color: #c8c8cd;
@@ -18,7 +18,7 @@ $button-default-background-color: #f6f8fa;
 $button-default-plain-color: #5a5a5a;
 $button-default-box-shadow: 0 0 1px #b8bbbf;
 $button-primary-color: #fff;
-$button-primary-background-color: #26a2ff;
+$button-primary-background-color: #5eb8b9;
 $button-danger-color: #fff;
 $button-danger-background-color: #ef4f4f;
 
@@ -42,3 +42,58 @@ $radio-title-color: #888;
 
 /* z-index */
 $z-index-normal: 1;
+
+$index-normal:1;
+$index-top:1000;
+$index-popper:2000;
+
+//Disable base
+$disabled-fill-base:#eff2f2;
+$disabled-color-base:#bbb;
+$disabled-border-base:#d3dce6;
+
+$fill-base:$color-white;
+
+$color-primary:#5eb8b9;
+$color-blue:#5eb8b9;
+$color-black:#000;
+$color-blue-light:#5eb8b9;
+$color-blue-lighter:rgba($color-blue,0.12);
+
+
+//Border
+$border-width-base:1px;
+$border-style-base:solid;
+$border-color-base:$color-grey;
+$border-base:$border-width-base $border-style-base $border-color-base;
+$border-radius-base:2px;
+$border-radius-small:2px;
+$border-radius-circle:100%;
+$shadow-base:0 0 2px rgba($color-black,0.18),
+             0 0 1px $color-blue-light;
+
+//Checkbox
+$checkbox-font-size:14px;
+$checkbox-color:#1f2d3d;
+$checkbox-input-height:18px;
+$checkbox-input-width:18px;
+$checkbox-input-border-radius:$border-radius-base;
+$checkbox-input-fill:#fff;
+$checkbox-input-border:$border-base;
+$checkbox-input-border-color:$border-color-base;
+$checkbox-icon-color:#fff;
+
+$checkbox-disabled-input-border-color:$disabled-border-base;
+$checkbox-disabled-input-fill:$disabled-fill-base;
+$checkbox-disabled-icon-color:$disabled-fill-base;
+
+$checkbox-disabled-checked-input-fill:$disabled-border-base;
+$checkbox-disabled-checked-input-border-color:$disabled-border-base;
+$checkbox-disabled-checked-icon-color:#fff;
+
+$checkbox-checked-input-border-color:$color-blue;
+$checkbox-checked-input-fill:$color-primary;
+$checkbox-checked-icon-color:$fill-base;
+
+$checkbox-input-shadow-hover:$shadow-base;
+$checkbox-input-border-color-hover:$color-primary;
