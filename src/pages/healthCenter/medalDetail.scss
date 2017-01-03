@@ -1,0 +1,28 @@
+.medal-img {
+  width: 6rem;
+  height: 6rem;
+  position:absolute;
+  top:20%;
+  left:50%;
+  margin-left: -3rem;
+  background: url("../../assets/health/medal1.png") center no-repeat;
+  background-size: contain;
+  border: none;
+  filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
+  -webkit-filter: grayscale(1);
+}
+
+.complete {
+  width: 100%;
+  text-align: center;
+  font-size: 0.6rem;
+  margin-top: 100%;
+  padding: 0.6rem 0;
+}
+
+.tip {
+  width: 100%;
+  text-align: center;
+  font-size: 0.4rem;
+}
+

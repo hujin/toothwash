@@ -1,0 +1,103 @@
+.health {
+  padding: 0.77rem 0.56rem;
+  .health-panel {
+    width: 100%;
+    height: 9.38rem;
+    position: relative;
+    background: linear-gradient(#70c1ad, #5fb8b9);
+    border-radius: 0.35rem;
+    box-shadow: 0.2rem 0.3rem 0.5rem #e0f1f2;
+    
+    .avatar {
+      width: 1.2rem;
+      height: 1.2rem;
+      border-radius: 1.2rem;
+      background-image: url("../../assets/health/avatar.png");
+      background-size: contain;
+      position: absolute;
+      top: -0.3rem;
+      left:0.5rem;
+    }
+    .refresh {
+      width: 0.8rem;
+      height: 0.8rem;
+      position: absolute;
+      top:0.3rem;
+      right: 0.5rem;
+      background: url("../../assets/health/refresh.png") no-repeat;
+      background-size: contain;
+    }
+
+    .out-circle {
+      width: 5rem;
+      height: 5rem;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-left: -2.5rem;
+      margin-top: -2.5rem;
+      text-align: center;
+      color: #fff;
+      font-size: 0.4rem;
+
+      .percent {
+        font-size: 1rem;
+        padding: 0.3rem 0;
+
+      }
+
+    }
+
+    .star-c {
+      position: absolute;
+      width: 90%;
+      height: 1.5rem;
+      margin: 0 5% ;
+      bottom: 0;
+      border-top: 1px dashed#e7ebeb;
+      line-height: 1.5rem;
+      color: #fff;
+      font-size: 0.4rem;
+
+      .right-btn {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+      }
+
+    }
+  }
+
+  .medal-c {
+    width: 100%;
+    height: 2rem;
+    margin: 0.8rem 0;
+    border: 1px solid#efefef;
+    border-radius: 0.4rem;
+    box-shadow: 0 0.1rem 0.1rem #efefef;
+    line-height: 2rem;
+    font-size: 0.5rem;
+
+    span {
+      padding-left: 0.8rem;
+    }
+
+  }
+
+  .use-c {
+    position: relative;
+
+    span {
+      width: 50%;
+      float: left;
+      display: inline-block;
+      line-height: 2rem;
+      text-align: center;
+      font-size: 0.42rem;
+
+    }
+    .use-second {
+      border-right: 1px dashed#c4c4c4;
+    }
+  }
+}

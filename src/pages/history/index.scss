@@ -1,0 +1,130 @@
+.history {
+  padding: 1rem 0.6rem 0 0.6rem;
+}
+
+.nav-group {
+  text-align: center;
+
+}
+
+.nav-btn {
+  height: 1rem;
+  width: 2.88rem;
+  color: #66bbb4;
+  background-color: #ffffff;
+  font-size: .5rem;
+  border-radius: 3rem;
+  border: 1px solid #66bbb4;
+  outline: none;
+  transition: all 0.2s ease-in;
+
+}
+
+.nav-btn.active {
+  background: url('../../assets/device/bg.png') repeat;
+  background-size: 100% 100%;
+  color: #ffffff;
+}
+
+.tab-day {
+  margin-top: 1rem;
+  border-top: 1px solid #efefef;
+
+  ul {
+    margin-left: 1.5rem;
+    min-height: 100vh;
+    border-left: 1px solid #efefef;
+    transition: all 0.2s ease-in;
+
+    li {
+      position: relative;
+      height: 1.65rem;
+      color: #707070;
+      .date {
+        position: absolute;
+        top: 0.6rem;;
+        left: -1.5rem;
+        font-size: 0.4rem;
+
+      }
+      .data-group {
+        margin-left: 1rem;
+        line-height: 1.65rem;
+        border-bottom: 1px dashed #efefef;
+
+        span {
+          font-size: 0.4rem;
+          padding-right: 10px;
+        }
+      }
+      &:before {
+        content: '';
+        width: 0.2rem;
+        height: 0.2rem;
+        display: block;
+        position: absolute;
+        background-color: #66bbb4;
+        border-radius: 10px;
+        top: 0.75rem;;
+        left: -0.1rem;
+      }
+    }
+  }
+}
+
+.tab-month {
+  width: 100%;
+  .date-pick-header {
+    position: relative;
+    margin-top: 1rem;
+  }
+  i {
+    position: absolute;
+    font-size: 0.4rem;
+    top: 0;
+
+    color: #369ea7;
+  }
+  .left-btn {
+    left: 0;
+    padding: 0.1rem 0 0.5rem 0.4rem;
+  }
+  .right-btn {
+    right: 0;
+    padding: 0.1rem 0.4rem 0.5rem 0;
+  }
+
+  .date-picker {
+    width: 6rem;
+    display: inline-block;
+    overflow: hidden;
+    width: 84%;
+    margin: 0 8%;
+    border-bottom: 1px solid#efefef;
+
+    ul {
+      width: 50rem;
+      height: 1rem;
+      overflow: hidden;
+      .date-item {
+        display: inline-block;
+        font-size: 0.4rem;
+        text-align: center;
+        color: #dcdcdc;
+        width: 2.6rem;
+        transition: all 0.2s ease-in;
+
+        &.active {
+          font-size: 0.5rem;
+          color: #5eb8b9;
+        }
+
+      }
+    }
+  }
+}
+
+.el-echarts {
+  height: 9rem;
+  width: 8rem;
+}

@@ -1,0 +1,24 @@
+.medalWall {
+  .medal-count{
+    width: 100%;
+    text-align: center;
+    font-size: 0.5rem;
+    margin: 1rem 0;
+
+    .medal-num {
+      font-size: 0.6rem;
+      color: #279ba5;
+    }
+  }
+  .medal-c {
+    .medal-item {
+      height: 2.5rem;
+      width:calc(33.33% - 1rem);
+      background: url("../../assets/health/medal1.png") no-repeat center;
+      background-size: contain;
+      float: left;
+      margin: 0.5rem;
+
+    }
+  }
+}
