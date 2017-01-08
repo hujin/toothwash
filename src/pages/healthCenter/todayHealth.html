@@ -5,15 +5,15 @@
     <meta content="telephone=no" name="format-detection"/>
     <title>今日健康</title>
 </head>
-<body id="todayHealth" class="todayHealth">
+<body class="todayHealth">
 
-<div>
+<div id="todayHealth">
     <p class="date">12月18日</p>
     <div class="avatar"></div>
     <p>dog</p>
     <p class="mouth-text">今日口腔清洁度</p>
-    <p class="percent-text">90<span class="percent-symbol">%</span></p>
-    <p class="mouth-tip">您今天口腔非常健康，请继续保持哦！</p>
+    <p class="percent-text">{{todayHealthData.startNum}}<span class="percent-symbol">%</span></p>
+    <p class="mouth-tip">{{todayHealthData.titleDetail}}</p>
     <p class="mouth-state">牙菌斑状况</p>
 
     <div class="state-img"></div>
