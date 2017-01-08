@@ -58,6 +58,30 @@
       line-height: 1.5rem;
       color: #fff;
       font-size: 0.4rem;
+      span {
+        margin-right: 0.5rem;
+      }
+
+      .star-img {
+        display: inline-block;
+        position: relative;
+        width: 0.6rem;
+        height: 0.6rem;
+        background: url("../../assets/health/star-all.png")  no-repeat;
+        background-size: contain;
+        vertical-align: middle;
+        margin-right: 0.2rem;
+        bottom: 0.1rem;
+      }
+      .full-star {
+        background: url("../../assets/health/star-all.png") no-repeat;
+      }
+      .half-star {
+        background: url("../../assets/health/star-half.png") no-repeat;
+      }
+      .null-star{
+        background: url("../../assets/health/star-null.png") no-repeat;
+      }
 
       .right-btn {
         position: absolute;
@@ -80,6 +104,39 @@
 
     span {
       padding-left: 0.8rem;
+      margin-right: 0.8rem;
+    }
+    .medal1 {
+      display: inline-block;
+      width: 1.2rem;
+      height: 1.2rem;
+      background: url("../../assets/health/medal1.png") no-repeat;
+      background-size: contain;
+      vertical-align: middle;
+      margin-right: 0.3rem;
+    }
+    .medal2 {
+      display: inline-block;
+      width: 1.2rem;
+      height: 1.2rem;
+      background: url("../../assets/health/medal2.png") no-repeat;
+      background-size: contain;
+      vertical-align: middle;
+      margin-right: 0.3rem;
+    }
+    .medal3 {
+      display: inline-block;
+      width: 1.2rem;
+      height: 1.2rem;
+      background: url("../../assets/health/medal3.png") no-repeat;
+      background-size: contain;
+      vertical-align: middle;
+      margin-right: 0.3rem;
+    }
+
+    .grey-filter {
+      filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
+      -webkit-filter: grayscale(1);
     }
 
   }

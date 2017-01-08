@@ -6,19 +6,21 @@ import util from '../../../lib/util/util';
 Vue.use(Mint);
 Vue.use(VueResource);
 
-import './medalDetail.scss';
+import './index.scss';
 
 new Vue({
-    el:'#medalDetail',
+    el:'#app',
+
     data(){
         return {
 
+
         }
     },
-    methods: {
-        getData(obj) {
 
-            let url = '/Brush/weixin/UserMedalInfo/queryUserObtainMedal?' + util.getParam(obj);
+    methods:{
+        getData(obj) {
+            let url = '/Brush/weixin/queryHealthSummary/queryTodayHealthSummary?' + util.getParam(obj);
             this.$http.post(url).then((response) =>  {
                 console.log(response.body.result.healthSummary)
                 this.todayHealthData = response.body.result.healthSummary;
@@ -31,6 +33,7 @@ new Vue({
     },
 
     mounted() {
+
         this.getData({userId:13})
 
     }

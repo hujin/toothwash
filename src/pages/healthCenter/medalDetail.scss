@@ -1,3 +1,9 @@
+
+.grey-filter {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
+  -webkit-filter: grayscale(1);
+}
+
 .medal-img {
   width: 6rem;
   height: 6rem;
@@ -8,9 +14,8 @@
   background: url("../../assets/health/medal1.png") center no-repeat;
   background-size: contain;
   border: none;
-  filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
-  -webkit-filter: grayscale(1);
 }
+
 
 .complete {
   width: 100%;

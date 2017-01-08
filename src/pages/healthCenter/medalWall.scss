@@ -20,5 +20,9 @@
       margin: 0.5rem;
 
     }
+    .grey-filter {
+      filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
+      -webkit-filter: grayscale(1);
+    }
   }
 }

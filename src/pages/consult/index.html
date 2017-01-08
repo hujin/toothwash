@@ -3,47 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta content="telephone=no" name="format-detection"/>
-    <title>历史记录</title>
+    <title>售后服务</title>
 </head>
 <body>
 
-<div id="app" class="history">
-    <!--<div class="nav-group">-->
-        <!--<button type="default" class="nav-btn" style="margin-right: 1rem" :class="{active: active=='tab-day'}"-->
-                <!--@click=chooseTab('tab-day')>日-->
-        <!--</button>-->
-        <!--<button type="default" class="nav-btn" :class="{active: active=='tab-month'}" @click=chooseTab('tab-month')>月-->
-        <!--</button>-->
-    <!--</div>-->
-    <!--<mt-tab-container v-model="active">-->
-        <!--<mt-tab-container-item id="tab-day" class="tab-day">-->
-            <!--<ul class="">-->
-                <!--<li v-for="data in dayDatas">-->
-                    <!--<span class="date">{{data.startTime}}</span>-->
-                    <!--<div class="data-group">-->
-                        <!--<span>{{data.startTime}}</span>-->
-                        <!--<span>{{data.totalTime}}秒</span>-->
-                        <!--<span>健康度：{{data.heathRate}}%</span>-->
-                    <!--</div>-->
-                <!--</li>-->
-            <!--</ul>-->
-        <!--</mt-tab-container-item>-->
-        <!--<mt-tab-container-item id="tab-month">-->
-            <!--<div class="tab-month">-->
-                <!--<div class="date-pick-header">-->
-                    <!--<i class="left-btn" @click="slideLeft()"><</i>-->
-                    <!--<div class="date-picker" @touchstart="swipeStart($event)" @touchend="swipeEnd($event)">-->
-                        <!--<ul :style="datePickerStyle">-->
-                            <!--<li class="date-item" :class="{active: data.isActive}" v-for="data in datePickerData">{{data.date}}</li>-->
+<div id="app" class="consult">
+    <div class="title-c">
+        <i class="iconfont icon-search search-btn"></i>
+        <p>购买咨询</p>
+        <i class="iconfont icon-rename write-btn "></i>
+    </div>
 
-                        <!--</ul>-->
-                    <!--</div>-->
-                    <!--<i class="right-btn"  @click="slideRight()">></i>-->
-                <!--</div>-->
-                <!--<Echart :options="lineOptions"></Echart>-->
-            <!--</div>-->
-        <!--</mt-tab-container-item>-->
-    <!--</mt-tab-container>-->
+    <div class="select-c">
+        <span>商品咨询</span>
+        <span>我的咨询</span>
+    </div>
+
+
 </div>
 
 

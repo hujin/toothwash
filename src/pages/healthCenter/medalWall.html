@@ -8,18 +8,18 @@
 <body>
 
 <div id="medalWall" class="medalWall">
-    <div class="medal-count">已获得勋章 <span class="medal-num">9</span> /9</div>
+    <div class="medal-count">已获得勋章 <span class="medal-num">{{medalNum}}</span> /9</div>
 
     <ul class="medal-c">
-        <li class="medal-item"></li>
-        <li class="medal-item"></li>
-        <li class="medal-item"></li>
-        <li class="medal-item"></li>
-        <li class="medal-item"></li>
-        <li class="medal-item"></li>
-        <li class="medal-item"></li>
-        <li class="medal-item"></li>
-        <li class="medal-item"></li>
+        <li class="medal-item" :class="{'grey-filter': medalNum<1}"></li>
+        <li class="medal-item" :class="{'grey-filter': medalNum<2}"></li>
+        <li class="medal-item" :class="{'grey-filter': medalNum<3}"></li>
+        <li class="medal-item" :class="{'grey-filter': medalNum<4}"></li>
+        <li class="medal-item" :class="{'grey-filter': medalNum<5}"></li>
+        <li class="medal-item" :class="{'grey-filter': medalNum<6}"></li>
+        <li class="medal-item" :class="{'grey-filter': medalNum<7}"></li>
+        <li class="medal-item" :class="{'grey-filter': medalNum<8}"></li>
+        <li class="medal-item" :class="{'grey-filter': medalNum<9}"></li>
     </ul>
 </div>
 

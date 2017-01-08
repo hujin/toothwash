@@ -8,21 +8,24 @@
 <body>
 
 <div id="app" class="health">
-    <circle color="#16a085" width=130 font-size=48 pv=12 bold=8 text-bg-color='#ffffff'></circle>
     <div class="health-panel">
         <div class="avatar"></div>
         <div class="refresh"></div>
         <div class="out-circle">
             <div class="inner-circle">
                 <span>今日口腔健康度</span>
-                <p class="percent">60%</p>
+                <p class="percent">{{healthData.HealthRate}}</p>
                 <span>点击查看详情</span>
             </div>
         </div>
 
         <div class="star-c">
             <span>上周健康星级</span>
-            <span>⭐️</span>
+            <div class="star-img">️</div>
+            <div class="star-img">️</div>
+            <div class="star-img">️</div>
+            <div class="star-img">️</div>
+            <div class="star-img">️</div>
             <i class="right-btn">></i>
         </div>
 
@@ -30,13 +33,15 @@
 
     <div class="medal-c">
         <span>勋章墙</span>
-        <image src="../../assets/health/medal1.png"></image>
+        <div class="medal1" :class="{'grey-filter': healthData.medalNum<1}"></div>
+        <div class="medal2" :class="{'grey-filter': healthData.medalNum<2}"></div>
+        <div class="medal3" :class="{'grey-filter': healthData.medalNum<3}"></div>
         <i class="right-btn">></i>
     </div>
 
     <div class="use-c">
-        <span class="use-second">上次使用50秒</span>
-        <span>累计冲牙100天</span>
+        <span class="use-second">上次使用{{healthData.longTime}}秒</span>
+        <span>累计冲牙{{healthData.totalDays}}天</span>
     </div>
 
 </div>

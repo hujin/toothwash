@@ -4,6 +4,7 @@
 import Vue from 'vue';
 import Mint from 'mint-ui';
 import VueResource from 'vue-resource';
+import util from '../../../lib/util/util';
 
 Vue.use(Mint);
 Vue.use(VueResource);
@@ -19,17 +20,22 @@ new Vue({
         }
     },
 
-    methods() {
+    methods: {
+        getData(obj) {
+            let url = '/Brush/weixin/queryHealthSummary/queryTodayHealthSummary?' + util.getParam(obj);
+            this.$http.post(url).then((response) =>  {
+                console.log(response.body.result.healthSummary)
+                this.todayHealthData = response.body.result.healthSummary;
+
+            }, (err) => {
+                console.log(err)
+            });
+        }
 
     },
 
     mounted() {
-        this.$http.post('/Brush/weixin/queryHealthSummary/queryTodayHealthSummary?userId=13').then((response) =>  {
-            console.log(response.body.result.healthSummary)
-            this.todayHealthData = response.body.result.healthSummary;
+        this.getData({userId:13})
 
-        }, (err) => {
-            console.log(err)
-        });
     }
 });

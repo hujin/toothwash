@@ -1,9 +1,12 @@
 import Vue from 'vue';
 import Mint from 'mint-ui';
 import Echart from '../../../lib/component/echarts';
+import VueResource from 'vue-resource';
+import util from '../../../lib/util/util';
 Vue.component('Echart', Echart);
 
 Vue.use(Mint);
+Vue.use(VueResource);
 
 import './index.scss';
 
@@ -75,6 +78,7 @@ new Vue({
     data(){
         return {
             active: 'tab-day',
+            dayDatas: [],
             datePickerData: dateArr,
             lineOptions: lineOptions,
             datePickerStyle: {
@@ -85,11 +89,9 @@ new Vue({
             dragState: {
                 startX: 0,
                 endX: 0
-            }
-        }
-    },
-    mounted(){
+            },
 
+        }
     },
     methods: {
         chooseTab: function (tab) {
@@ -126,7 +128,35 @@ new Vue({
             if (moveX < 0 && Math.abs(moveX) > 100) {
                 this.slideRight();
             }
-        }
+        },
+
+        getDayData: function(obj) {
+            let url = '/Brush/weixin/allUserRecord/queryFourteenDaysUserRecord?' + util.getParam(obj);
+            this.$http.post(url).then((response) =>  {
+                console.log(response.body.result)
+                this.dayDatas = response.body.result.infos;
+
+            }, (err) => {
+                console.log(err)
+            });
+        },
+
+        getMonthData: function(obj) {
+            let url = '/Brush/weixin/allUserRecord/queryEveryMonthUserRecord?userId=1&month=0' + util.getParam(obj);
+            this.$http.post(url).then((response) =>  {
+                console.log(response.body.result.healthSummary)
+                this.todayHealthData = response.body.result.healthSummary;
+
+            }, (err) => {
+                console.log(err)
+            });
+        },
+
+
+
+    },
+    mounted(){
+        this.getDayData({userId: 1})
 
     }
 });
