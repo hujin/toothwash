@@ -4,21 +4,21 @@
 	<meta charset="UTF-8">
 	<title>设备管理</title>
 	<meta content="telephone=no" name="format-detection" />
-	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<!--<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>-->
 </head>
 <body>
 	<div id="app">
 		<div class="header" @click="showHeader">
-			<span>{{currentDevice.name}} <i class="iconfont icon-arrow-down"></i></span>
+			<span>{{deviceInfo.equipmentName}} <i class="iconfont icon-arrow-down"></i></span>
 			<ul class="header-list" v-show="headerStatus">
-				<li class="header-list-item" v-for="item in deviceList">{{item.name}}</li>
+				<li class="header-list-item" :class="{'active':item.equipmentId == deviceInfo.equipmentId}" v-for="item in deviceList" @click.stop="getDevice({id:item.equipmentId})">{{item.equipmentName}}</li>
 			</ul>
 		</div>
 		<div class="device-info-wrap">
 			<div class="device-info">
 				<div class="device-item" @click.stop="goDetail">
 					<img src="../../assets/device/1.png" alt="">
-					<span>离更换喷头还剩<strong>90</strong>天</span>
+					<span>离更换喷头还剩<strong>{{deviceInfo.shelfLife}}</strong>天</span>
 				</div>
 				<div class="device-item">
 					<img src="../../assets/device/2.png" alt="">
@@ -30,32 +30,35 @@
 		<div class="model-wrap">
 			<h3>情景模式</h3>
 			<div class="default-model clearfix">
-				<a class="model-item active">
+				<a class="model-item " :class="{'active':deviceInfo.patternId == 1}" @click.stop="choosePattern(1)">
 					<i class="icon item1"></i>
 					<h6>按摩模式</h6>
 					<span>间断水柱按摩牙龈</span>
 				</a>
-				<a class="model-item">
+				<a class="model-item" :class="{'active':deviceInfo.patternId == 2}" @click.stop="choosePattern(2)">
 					<i class="icon item2"></i>
 					<h6>呵护模式</h6>
 					<span>持续冲洗洁白牙齿</span>
 				</a>
-				<a class="model-item">
+				<a class="model-item" :class="{'active':deviceInfo.patternId == 3}" @click.stop="choosePattern(3)">
 					<i class="icon item3"></i>
 					<h6>新手模式</h6>
 					<span>温和水柱舒适牙龈</span>
 				</a>
 			</div>
 			<div class="custom-model clearfix">
-				<a class="model-item" :class="{'delete':deleteStatus}">
-					<i class="iconfont icon-delete"></i>
-					<h6>我的模式</h6>
+				<a class="model-item" :class="{'delete':deleteStatus,'active':deviceInfo.patternId == item.id}" v-for="(item,index) in patternList" @click.stop="choosePattern(item.id)">
+					<div class="delete-pane" @click.stop="deletePattern(item.id,index)">
+						<i class="iconfont icon-close"></i>
+						<h6>{{item.patternName}}</h6>
+					</div>
+					<h6>{{item.patternName}}</h6>
 				</a>
 				<a class="model-item setting" @click.stop="addCustom">
 					<img src="../../assets/device/add.png" alt="">
 					<h6>添加模式</h6>
 				</a>
-				<a class="model-item setting" @click.stop="deleteCustom">
+				<a class="model-item setting" @click.stop="deleteCustom" v-show="patternList.length > 0">
 					<img src="../../assets/device/del.png" alt="">
 					<h6>删除模式</h6>
 				</a>
@@ -71,7 +74,7 @@
 						<span>开机后水压由小到大，防止溅射。</span>
 					</div>
 					<div class="switch-c">
-						<mt-switch v-model="value"></mt-switch>
+						<mt-switch v-model="deviceInfo.sputtering" @change="setSputtering"></mt-switch>
 					</div>
 				</li>
 				<li class="setting-item">
@@ -81,7 +84,7 @@
 						<span>设置提醒时间，管理刷牙习惯。</span>
 					</div>
 					<div class="operate" @click.stop="setClock">
-						<span>15秒</span>
+						<span>{{deviceInfo.remindTimeName}}</span>
 						<i class="iconfont icon-arrow-right"></i>
 					</div>
 				</li>
@@ -92,7 +95,7 @@
 						<span>设置当前设备名称。</span>
 					</div>
 					<div class="operate" @click.stop="setDeviceName">
-						<span>设备A</span>
+						<span>{{deviceInfo.equipmentName}}</span>
 						<i class="iconfont icon-arrow-right"></i>
 					</div>
 				</li>
@@ -106,7 +109,7 @@
 				</div>
 				<div class="dialog-content">
 					<div class="row" style="margin-bottom: .74666rem">
-						<input type="text" class="form-input">
+						<input type="text" class="form-input" v-model="form.patternName">
 						<label style="float:right;">
 							<span style="font-size: .4rem;">试用</span>
 							<i-checkbox v-model="useStatus"></i-checkbox>
@@ -115,23 +118,23 @@
 					<div class="row">
 						<label for="" class="col-label">水压</label>
 						<div class="col-content">
-							<mt-range v-model="waterValue"
+							<mt-range v-model="form.hydraulicPressure"
 									  :min="0"
 									  :max="100" :bar-height="3"></mt-range>
 						</div>
-						<span class="col-text">{{waterValue}}%</span>
+						<span class="col-text">{{form.hydraulicPressure}}%</span>
 					</div>
 					<div class="row" style="margin-bottom: .62rem">
 						<label for="" class="col-label">间隔</label>
 						<div class="col-content">
-							<mt-range v-model="intervalValue"
+							<mt-range v-model="form.frequency"
 									  :min="0"
-									  :max="100" :bar-height="3"></mt-range>
+									  :max="5" :bar-height="3"></mt-range>
 						</div>
-						<span class="col-text">{{intervalValue}}s</span>
+						<span class="col-text">0.{{form.frequency}}s</span>
 					</div>
 					<div class="row" style="text-align: center;margin-bottom: 0">
-						<mt-button type="primary">确定</mt-button>
+						<mt-button type="primary" @click.stop="addPattern">确定</mt-button>
 					</div>
 				</div>
 			</div>
@@ -139,17 +142,18 @@
 		<div class="mask" v-show="clockStatus">
 			<div class="dialog clock-dialog">
 				<div class="dialog-header">
-					<span>设备名称</span>
+					<span>定时提醒</span>
 					<i class="iconfont icon-close" @click.stop="dialogClockClose"></i>
 				</div>
 				<div class="dialog-content">
 					<div class="swtich-list clearfix">
-						<a class="switch-item current">15秒</a>
-						<a class="switch-item">30秒</a>
-						<a class="switch-item">60秒</a>
+						<a class="switch-item" :class="{'current':deviceInfo.remindTime == 0}" @click.stop="deviceInfo.remindTime = 0">关闭</a>
+						<a class="switch-item" :class="{'current':deviceInfo.remindTime == 1}" @click.stop="deviceInfo.remindTime = 1">15秒</a>
+						<a class="switch-item" :class="{'current':deviceInfo.remindTime == 2}" @click.stop="deviceInfo.remindTime = 2">30秒</a>
+						<a class="switch-item" :class="{'current':deviceInfo.remindTime == 3}" @click.stop="deviceInfo.remindTime = 3">60秒</a>
 					</div>
 					<div style="text-align: center;margin-top: .5rem">
-						<mt-button type="primary">确定</mt-button>
+						<mt-button type="primary" @click.stop="setRemindTime">确定</mt-button>
 					</div>
 				</div>
 			</div>
@@ -162,10 +166,10 @@
 				</div>
 				<div class="dialog-content" >
 					<div class="row" style="padding:0 .6rem;margin-bottom: 1.32rem;margin-top: .4rem">
-						<input type="text" class="form-input" style="width: 100%">
+						<input type="text" class="form-input" v-model="deviceInfo.equipmentName" style="width: 100%">
 					</div>
 					<div class="row" style="text-align: center">
-						<mt-button type="primary">确定</mt-button>
+						<mt-button type="primary" @click.stop="setEquipmentName">确定</mt-button>
 					</div>
 				</div>
 			</div>

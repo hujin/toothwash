@@ -23,6 +23,10 @@
 .header-list-item{
   margin: 0 .42rem;
   border-top:1px solid #ddd;
+
+  &.active{
+    color: #5eb8b9;
+  }
 }
 
 .device-info-wrap{
@@ -168,21 +172,30 @@
     padding-top: 0;
     height: 2.88rem;
     line-height: 2.88rem;
+    overflow: hidden;
 
-    .iconfont{
-      width: .53rem;
-      height: .53rem;
+    .delete-pane{
       position: absolute;
-      top:-.4rem;
-      right: -.2rem;
-      line-height: .53rem;
-      font-size: .53rem;
+      width: 100%;
+      height: 100%;
+      background-color: #fff1f1;
+      top:0;
+      left:0;
       display: none;
 
-      &.icon-delete{
-        color: #fc4e4a;
+      .icon-close{
+        position: absolute;
+        right:.15rem;
+        top: .1rem;
+        color: #ff7a76;
+        font-size: .28rem;
+      }
+
+      h6{
+        color: #ff7a76;
       }
     }
+
 
     &.setting{
       line-height: 0;
@@ -198,7 +211,7 @@
     }
 
     &.delete{
-      .iconfont{
+      .delete-pane{
         display: block;
       }
     }
@@ -346,7 +359,7 @@ html{
   .switch-item{
     width: 1.28rem;
     height: 1.28rem;
-    margin-right: 1rem;
+    margin-right: .23rem;
     float: left;
     border:3px solid #5eb8b9;
     border-radius: 100%;
