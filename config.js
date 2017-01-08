@@ -20,11 +20,11 @@ module.exports = {
         assetsSubDirectory:'static',
         assetsPublicPath:'/',
         proxyTable:{
-            '/brush':{
-                target:'http://116.62.30.219/brush',
+            '/Brush':{
+                target:'http://116.62.30.219/Brush',
                 changeOrigin:true,
                 pathRewrite:function (path,req) {
-                    return path.replace('/brush', '');
+                    return path.replace('/Brush', '');
                 }
             }
         },
