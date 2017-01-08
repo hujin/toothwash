@@ -4,9 +4,12 @@
 import Vue from 'vue';
 import Mint from 'mint-ui';
 import Echart from '../../../lib/component/echarts';
+import VueResource from 'vue-resource';
+
 Vue.component('Echart', Echart);
 
 Vue.use(Mint);
+Vue.use(VueResource);
 
 import './weekHealth.scss';
 
@@ -53,14 +56,27 @@ var lineOptions = {
 };
 
 new Vue({
-    el:'#weekHealth',
+    el: '#weekHealth',
     data(){
         return {
             lineOptions: lineOptions,
+            weekHealthData: ''
 
         }
     },
-    methods:{
+    methods(){
+
+    },
+    mounted(){
+
+        this.$http.post('/Brush/weixin/queryHealthSummary/queryLastWeekHealthSummary?userId=1').then((response) =>  {
+
+            console.log(response.body.result)
+            this.weekHealthData = response.body.result.healthSummary;
+
+        }, (err) => {
+            console.log(err)
+        });
 
     }
 });
