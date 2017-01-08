@@ -59,5 +59,15 @@ new Vue({
         goDetail(){
             window.location.href = 'detail.html'
         }
+    },
+    mounted(){
+        wx.config({
+            debug:true,
+            appId: 'wxf67c994040b19368',
+            timestamp:1483605524379,
+            noncestr:'Tr4O7u0RTWCle42weF9bQBFTaX1VTlBb',
+            signature:'204c7873bc4ded748b151f4025b6acd1b72d4d1d',
+            jsApiList:['openWXDeviceLib']
+        });
     }
 });

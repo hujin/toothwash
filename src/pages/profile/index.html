@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>账户信息</title>
+</head>
+<body>
+    <div id="app">
+        <div class="avatar-wrap">
+            <div class="avatar">
+                <img src="../../assets/profile/avatar.png" alt="">
+                <span>calm</span>
+            </div>
+        </div>
+        <div class="profile-info">
+            <h6>详细信息</h6>
+            <div class="profile-item clearfix">
+                <label class="profile-label">真实姓名</label>
+                <span class="profile-content" @click.stop="showName">
+                    {{profile.name || '未填写'}}
+                    <i class="iconfont icon-arrow-right"></i>
+                </span>
+            </div>
+            <div class="profile-item clearfix">
+                <label class="profile-label">邮箱</label>
+                <span class="profile-content" @click.stop="showEmail">
+                    {{profile.email || '未填写'}}
+                    <i class="iconfont icon-arrow-right"></i>
+                </span>
+            </div>
+            <div class="profile-item clearfix">
+                <label class="profile-label">手机</label>
+                <span class="profile-content">
+                    {{profile.phone || '未填写'}}
+                    <i class="iconfont icon-arrow-right"></i>
+                </span>
+            </div>
+            <h6>口腔状况</h6>
+            <div class="profile-item clearfix">
+                <label class="profile-label">牙结石</label>
+                <span class="profile-content">
+                    {{profile.phone || '未填写'}}
+                    <i class="iconfont icon-arrow-right"></i>
+                </span>
+            </div>
+            <div class="profile-item clearfix">
+                <label class="profile-label">蛀牙</label>
+                <span class="profile-content">
+                    {{profile.phone || '未填写'}}
+                    <i class="iconfont icon-arrow-right"></i>
+                </span>
+            </div>
+        </div>
+        <div class="mask" v-show="nameStatus">
+            <div class="dialog info-dialog">
+                <div class="dialog-header">
+                    <span>填写真实姓名</span>
+                    <i class="iconfont icon-close" @click.stop="dialogNameClose"></i>
+                </div>
+                <div class="dialog-content">
+                    <div class="row " style="margin-top: .4rem">
+                        <input type="text" class="form-input" placeholder="请输入您的真实姓名">
+                        <span class="error-text">请输入姓名</span>
+                    </div>
+                    <div class="row" style="text-align: center;margin-bottom: 0;margin-top: 1.28rem">
+                        <mt-button type="primary">确定</mt-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mask" v-show="emailStatus">
+            <div class="dialog info-dialog">
+                <div class="dialog-header">
+                    <span>更改绑定邮箱</span>
+                    <i class="iconfont icon-close" @click.stop="dialogEmailClose"></i>
+                </div>
+                <div class="dialog-content">
+                    <div class="row " style="margin-top: .4rem">
+                        <input type="text" class="form-input" placeholder="请输入邮箱地址">
+                        <span class="error-text">邮箱格式不正确，请重新填写</span>
+                    </div>
+                    <div class="row" style="text-align: center;margin-bottom: 0;margin-top: 1.28rem">
+                        <mt-button type="primary">确定</mt-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mask">
+            <div class="dialog info-dialog">
+                <div class="dialog-header">
+                    <span>绑定手机</span>
+                    <i class="iconfont icon-close" @click.stop="dialogEmailClose"></i>
+                </div>
+                <div class="dialog-content">
+                    <div class="row " style="margin-top: .4rem">
+                        <input type="text" class="form-input" placeholder="请输入手机号码">
+                        <span class="error-text">邮箱格式不正确，请重新填写</span>
+                    </div>
+                    <div class="row " >
+                        <input type="text" class="form-input" placeholder="请输入验证码">
+                        <span class="error-text">邮箱格式不正确，请重新填写</span>
+                    </div>
+                    <div class="row" style="text-align: center;margin-bottom: 0;margin-top: 1.28rem">
+                        <mt-button type="primary">确定</mt-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        ;(function(win, lib) {
+            var doc = win.document;
+            var docEl = doc.documentElement;
+            var metaEl = doc.querySelector('meta[name="viewport"]');
+            var flexibleEl = doc.querySelector('meta[name="flexible"]');
+            var dpr = 0;
+            var scale = 0;
+            var tid;
+            var flexible = lib.flexible || (lib.flexible = {});
+
+            if (metaEl) {
+                console.warn('将根据已有的meta标签来设置缩放比例');
+                var match = metaEl.getAttribute('content').match(/initial\-scale=([\d\.]+)/);
+                if (match) {
+                    scale = parseFloat(match[1]);
+                    dpr = parseInt(1 / scale);
+                }
+            } else if (flexibleEl) {
+                var content = flexibleEl.getAttribute('content');
+                if (content) {
+                    var initialDpr = content.match(/initial\-dpr=([\d\.]+)/);
+                    var maximumDpr = content.match(/maximum\-dpr=([\d\.]+)/);
+                    if (initialDpr) {
+                        dpr = parseFloat(initialDpr[1]);
+                        scale = parseFloat((1 / dpr).toFixed(2));
+                    }
+                    if (maximumDpr) {
+                        dpr = parseFloat(maximumDpr[1]);
+                        scale = parseFloat((1 / dpr).toFixed(2));
+                    }
+                }
+            }
+
+            if (!dpr && !scale) {
+                var isAndroid = win.navigator.appVersion.match(/android/gi);
+                var isIPhone = win.navigator.appVersion.match(/iphone/gi);
+                var devicePixelRatio = win.devicePixelRatio;
+                if (isIPhone) {
+                    // iOS下，对于2和3的屏，用2倍的方案，其余的用1倍方案
+                    if (devicePixelRatio >= 3 && (!dpr || dpr >= 3)) {
+                        dpr = 3;
+                    } else if (devicePixelRatio >= 2 && (!dpr || dpr >= 2)){
+                        dpr = 2;
+                    } else {
+                        dpr = 1;
+                    }
+                } else {
+                    // 其他设备下，仍旧使用1倍的方案
+                    dpr = 1;
+                }
+                scale = 1 / dpr;
+            }
+
+            docEl.setAttribute('data-dpr', dpr);
+            if (!metaEl) {
+                metaEl = doc.createElement('meta');
+                metaEl.setAttribute('name', 'viewport');
+                metaEl.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
+                if (docEl.firstElementChild) {
+                    docEl.firstElementChild.appendChild(metaEl);
+                } else {
+                    var wrap = doc.createElement('div');
+                    wrap.appendChild(metaEl);
+                    doc.write(wrap.innerHTML);
+                }
+            }
+
+            function refreshRem(){
+                var width = docEl.getBoundingClientRect().width;
+                if (width / dpr > 540) {
+                    width = 540 * dpr;
+                }
+                var rem = width / 10;
+                docEl.style.fontSize = rem + 'px';
+                flexible.rem = win.rem = rem;
+            }
+
+            win.addEventListener('resize', function() {
+                clearTimeout(tid);
+                tid = setTimeout(refreshRem, 300);
+            }, false);
+            win.addEventListener('pageshow', function(e) {
+                if (e.persisted) {
+                    clearTimeout(tid);
+                    tid = setTimeout(refreshRem, 300);
+                }
+            }, false);
+
+            if (doc.readyState === 'complete') {
+                doc.body.style.fontSize = 12 * dpr + 'px';
+            } else {
+                doc.addEventListener('DOMContentLoaded', function(e) {
+                    doc.body.style.fontSize = 12 * dpr + 'px';
+                }, false);
+            }
+
+
+            refreshRem();
+
+            flexible.dpr = win.dpr = dpr;
+            flexible.refreshRem = refreshRem;
+            flexible.rem2px = function(d) {
+                var val = parseFloat(d) * this.rem;
+                if (typeof d === 'string' && d.match(/rem$/)) {
+                    val += 'px';
+                }
+                return val;
+            }
+            flexible.px2rem = function(d) {
+                var val = parseFloat(d) / this.rem;
+                if (typeof d === 'string' && d.match(/px$/)) {
+                    val += 'rem';
+                }
+                return val;
+            }
+
+        })(window, window['lib'] || (window['lib'] = {}));
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+#app{
+  padding: .58rem .4rem;
+}
+
+.avatar-wrap{
+  width: 100%;
+  height: 3.31rem;
+  background-image: url("../../assets/profile/bg.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  position: relative;
+}
+
+.avatar{
+  position: absolute;
+  width: 2.75rem;
+  text-align: center;
+  left: 50%;
+  margin-left: -1.375rem;
+  bottom:-1.2rem;
+
+  img{
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 100%;
+    margin-bottom: .1rem;
+  }
+
+  span{
+    font-size: .48rem;
+    line-height: .56rem;
+  }
+}
+
+.profile-info{
+  margin-top: 1.2rem;
+
+  h6{
+    padding: .8rem 0 .68rem 0;
+    color: #279ba5;
+    font-size: .4rem;
+    line-height: .4rem;
+  }
+}
+
+.profile-item{
+  font-size: .43rem;
+  margin-bottom: 1.16rem;
+}
+
+.profile-label{
+  float: left;
+  line-height: .43rem;
+}
+
+.profile-content{
+  position: relative;
+  float: right;
+  color: #959595;
+  line-height: .43rem;
+  padding-right: .53rem;
+
+  .iconfont{
+    position: absolute;
+    font-size: .43rem;
+    top:-.12rem;
+    right: 0;
+  }
+}
+
+.info-dialog{
+  margin-top: -2.95rem;
+
+  .dialog-content{
+    padding: .666667rem .5rem 0 .5rem;
+  }
+}
+
+.row{
+  margin-bottom: .36rem;
+  position: relative;
+  .form-input{
+    width: 100%;
+    height: .68rem;
+    border: none;
+    border-bottom:2px solid #5eb8b9;
+    outline: none;
+    font-size: .48rem;
+  }
+
+  .error-text{
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    color:#ff7a76;
+    font-size: .32rem;
+    bottom: -.6rem;
+    display: none;
+  }
+
+  &.error{
+    .form-input{
+      border-bottom:2px solid #ff7a76;
+    }
+
+    .error-text{
+      display: block;
+    }
+  }
+
+
+}
+
+
+html{
+  .mint-button{
+    height: 1rem;
+    width: 2.88rem;
+    background: url('../../assets/device/bg.png') repeat;
+    background-size: 100% 100%;
+    font-size: .5rem;
+    border-radius: 3rem;
+  }
+}

@@ -19,7 +19,15 @@ module.exports = {
         port:2888,
         assetsSubDirectory:'static',
         assetsPublicPath:'/',
-        proxyTable:{},
+        proxyTable:{
+            '/brush':{
+                target:'http://116.62.30.219/brush',
+                changeOrigin:true,
+                pathRewrite:function (path,req) {
+                    return path.replace('/brush', '');
+                }
+            }
+        },
         cssSourceMap:false
     }
 }
