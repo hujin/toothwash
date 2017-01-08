@@ -1,10 +1,11 @@
-.todayHealth {
+.weekHealth {
   background-color: #5eb8b9;
   color: #f5fbfb;
+  padding-bottom: 1rem;
 
   font-size: 0.4rem;
 
-  p{
+  p {
     text-align: center;
   }
 
@@ -24,48 +25,18 @@
     margin-top: 0.8rem;
   }
 
-  .percent-text {
-    font-size: 2rem;
-    position: relative;
-
-    .percent-symbol {
-      display: block;
-      position: absolute;
-      right: 32%;
-      bottom: 0.6rem;
-      font-size: 0.6rem;
-    }
+  .rate-num {
+    font-size: 1.5rem;
   }
 
-  .mouth-tip {
-    padding-bottom: 0.8rem;
+  .star-c {
+    margin-bottom: 2rem;
     border-bottom: 2px dotted#efefef;
-  }
-
-  .mouth-state {
-    margin: 0.6rem;
-  }
-
-  .state-img {
-    width: 5rem;
-    height: 5rem;
-    background: url("../../assets/health/good-health.png") center no-repeat;
-    background-size: contain;
-    margin-left: calc(50% - 2.5rem);
-  }
-
-  .state-text {
-    font-size: 1rem;
-    margin: 0.3rem;
-  }
-
-  .state-tip {
-    margin: 0 2.2rem;
   }
 
 
   .info-c {
-    margin: 1rem 0.5rem;
+    margin: 0 0.5rem;
     background-color: #ffffff;
     border-radius: 0.3rem;
     color: #535353;
@@ -80,10 +51,9 @@
       .time-text {
         line-height: 1.2rem;
         display: block;
-        position: absolute;
         right: 0;
-        text-align: right;
         color: #63abab;
+        text-align: right;
 
       }
       .time-tip {
@@ -103,4 +73,9 @@
       padding: 0 0.4rem 0.4rem;
     }
   }
+}
+
+.el-echarts {
+  height: 6rem;
+  width: 8.5rem;
 }
