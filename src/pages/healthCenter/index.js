@@ -12,32 +12,50 @@ Vue.use(VueResource);
 import './index.scss';
 
 new Vue({
-    el:'#app',
+    el: '#app',
 
     data(){
         return {
-            healthData: ''
+            healthData: '',
+            starData: ['null-star', 'null-star', 'null-star', 'null-star', 'null-star']
+
 
         }
     },
 
-    methods:{
+    methods: {
         getData(obj) {
             let url = '/Brush/weixin/allUserRecord/healthCenter?' + util.getParam(obj);
-            this.$http.post(url).then((response) =>  {
+            this.$http.post(url).then((response) => {
                 console.log(response)
                 this.healthData = response.body.result;
+                this.setStarData();
 
             }, (err) => {
                 console.log(err)
             });
+        },
+        setStarData() {
+            let starNum = this.healthData.starNum * 2;
+            for (let i = 1; i <= 5; i++) {
+                console.log(starNum - (2 * i))
+                if (starNum - (2 * i) == -1) {
+                    this.starData[i - 1] = 'half-star'
+                }
+                if (starNum - (2 * i) >= 0) {
+                    this.starData[i - 1] = 'full-star'
+                }
+                if (starNum - (2 * i) < -1) {
+                    this.starData[i - 1] = 'null-star'
+                }
+            }
         }
 
     },
 
     mounted() {
 
-        this.getData({userId:13})
+        this.getData({userId: 13})
 
     }
 });

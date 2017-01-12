@@ -8,42 +8,42 @@
 <body>
 
 <div id="app" class="history">
-    <!--<div class="nav-group">-->
-        <!--<button type="default" class="nav-btn" style="margin-right: 1rem" :class="{active: active=='tab-day'}"-->
-                <!--@click=chooseTab('tab-day')>日-->
-        <!--</button>-->
-        <!--<button type="default" class="nav-btn" :class="{active: active=='tab-month'}" @click=chooseTab('tab-month')>月-->
-        <!--</button>-->
-    <!--</div>-->
-    <!--<mt-tab-container v-model="active">-->
-        <!--<mt-tab-container-item id="tab-day" class="tab-day">-->
-            <!--<ul class="">-->
-                <!--<li v-for="data in dayDatas">-->
-                    <!--<span class="date">{{data.startTime}}</span>-->
-                    <!--<div class="data-group">-->
-                        <!--<span>{{data.startTime}}</span>-->
-                        <!--<span>{{data.totalTime}}秒</span>-->
-                        <!--<span>健康度：{{data.heathRate}}%</span>-->
-                    <!--</div>-->
-                <!--</li>-->
-            <!--</ul>-->
-        <!--</mt-tab-container-item>-->
-        <!--<mt-tab-container-item id="tab-month">-->
-            <!--<div class="tab-month">-->
-                <!--<div class="date-pick-header">-->
-                    <!--<i class="left-btn" @click="slideLeft()"><</i>-->
-                    <!--<div class="date-picker" @touchstart="swipeStart($event)" @touchend="swipeEnd($event)">-->
-                        <!--<ul :style="datePickerStyle">-->
-                            <!--<li class="date-item" :class="{active: data.isActive}" v-for="data in datePickerData">{{data.date}}</li>-->
+    <div class="nav-group">
+        <button type="default" class="nav-btn" style="margin-right: 1rem" :class="{active: active=='tab-day'}"
+                @click=chooseTab('tab-day')>日
+        </button>
+        <button type="default" class="nav-btn" :class="{active: active=='tab-month'}" @click=chooseTab('tab-month')>月
+        </button>
+    </div>
+    <mt-tab-container v-model="active">
+        <mt-tab-container-item id="tab-day" class="tab-day">
+            <ul class="">
+                <li v-for="data in dayDatas">
+                    <span class="date">{{getDate(data.startTime)}}</span>
+                    <div class="data-group">
+                        <span>{{getHours(data.startTime)}}</span>
+                        <span>{{getMinutes(data.totalTime)}}</span>
+                        <span>健康度：{{data.heathRate}}%</span>
+                    </div>
+                </li>
+            </ul>
+        </mt-tab-container-item>
+        <mt-tab-container-item id="tab-month">
+            <div class="tab-month">
+                <div class="date-pick-header">
+                    <i class="left-btn" @click="slideLeft()"><</i>
+                    <div class="date-picker" @touchstart="swipeStart($event)" @touchend="swipeEnd($event)">
+                        <ul :style="datePickerStyle">
+                            <li class="date-item" :class="{active: data.isActive}" v-for="data in datePickerData">{{data.date}}</li>
 
-                        <!--</ul>-->
-                    <!--</div>-->
-                    <!--<i class="right-btn"  @click="slideRight()">></i>-->
-                <!--</div>-->
-                <!--<Echart :options="lineOptions"></Echart>-->
-            <!--</div>-->
-        <!--</mt-tab-container-item>-->
-    <!--</mt-tab-container>-->
+                        </ul>
+                    </div>
+                    <i class="right-btn"  @click="slideRight()">></i>
+                </div>
+                <Echart :options="lineOptions"></Echart>
+            </div>
+        </mt-tab-container-item>
+    </mt-tab-container>
 </div>
 
 

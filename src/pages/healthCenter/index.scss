@@ -67,20 +67,21 @@
         position: relative;
         width: 0.6rem;
         height: 0.6rem;
-        background: url("../../assets/health/star-all.png")  no-repeat;
-        background-size: contain;
         vertical-align: middle;
         margin-right: 0.2rem;
         bottom: 0.1rem;
       }
       .full-star {
         background: url("../../assets/health/star-all.png") no-repeat;
+        background-size: contain;
       }
       .half-star {
         background: url("../../assets/health/star-half.png") no-repeat;
+        background-size: contain;
       }
       .null-star{
         background: url("../../assets/health/star-null.png") no-repeat;
+        background-size: contain;
       }
 
       .right-btn {

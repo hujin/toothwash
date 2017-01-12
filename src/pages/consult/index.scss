@@ -29,3 +29,36 @@
   }
 
 }
+
+.select-c {
+  width: 100%;
+  padding: 0.2rem 1rem;
+  display: inline-block;
+
+  .goods-c {
+    width: 3.5rem;
+    height: 0.8rem;
+    border: 1px solid#63abab;
+    border-radius: 0.1rem;
+    display: inline-block;
+
+    .goods {
+      line-height: 0.8rem;
+      color: #63abab;
+      padding-left: 0.3rem;
+    }
+  }
+  .my {
+    width: 3.5rem;
+    height: 0.8rem;
+    border: 1px solid #63abab;
+    border-radius: 0.1rem;
+    display: inline-block;
+    vertical-align: bottom;
+    line-height: 0.8rem;
+    text-align: center;
+    color: #63abab;
+    position: absolute;
+    right: 1rem;
+  }
+}

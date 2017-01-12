@@ -129,6 +129,29 @@ new Vue({
                 this.slideRight();
             }
         },
+        
+        getDate: function (time) {
+            let date = new Date(time);
+            console.log(date.getMonth()+'月'+date.getDate()+'日');
+            if (date==new Date()){
+                return '今天'
+            }else {
+                return date.getMonth()+1+'月'+date.getDate()+'日'
+            }
+
+        },
+
+        getHours: function (time) {
+            let date = new Date(time);
+
+            return date.getHours()+':'+date.getMinutes();
+        },
+
+        getMinutes: function (seconds) {
+
+               return parseInt(seconds/60)+'分'+parseInt(seconds%60)+'秒'
+
+        },
 
         getDayData: function(obj) {
             let url = '/Brush/weixin/allUserRecord/queryFourteenDaysUserRecord?' + util.getParam(obj);
