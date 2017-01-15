@@ -22,10 +22,31 @@
       width: 0.8rem;
       height: 0.8rem;
       position: absolute;
-      top:0.3rem;
+      top: 0;
       right: 0.5rem;
-      background: url("../../assets/health/refresh.png") no-repeat;
-      background-size: contain;
+      font-size: 0.8rem;
+      color: #fff;
+    }
+
+
+    .yieldCircle .progressCircle {
+      transition: stroke-dasharray 0.4s linear 0.2s;
+      -webkit-transition: stroke-dasharray 0.4s linear 0.2s;
+    }
+    .yieldCircle .lineEnd {
+      transform: rotate(0deg);
+      -webkit-transform: rotate(0deg);
+      transform-origin: 19px 19px; /*0% 100%*/
+      -webkit-transform-origin: 19px 19px;
+      -webkit-transition: transform 0.4s linear 0.2s;
+      transition: transform 0.4s linear 0.2s;
+    }
+
+    svg{
+      margin: 0 auto;
+      display: block;
+      padding-top: 1.2rem;
+      width: 6rem;
     }
 
     .out-circle {
@@ -39,11 +60,23 @@
       text-align: center;
       color: #fff;
       font-size: 0.4rem;
+      font-size: 0.36rem;
 
+      .inner-circle {
+        height: 4rem;
+        width: 4rem;
+        text-align: center;
+        margin: 0 auto;
+        background-color: rgba(255,255,255,0.5);
+        border: 1px solid#fff;
+        border-radius: 2rem;
+      }
+      p{
+        margin-top: 0.7rem;
+      }
       .percent {
         font-size: 1rem;
-        padding: 0.3rem 0;
-
+        margin: 0;
       }
 
     }
@@ -86,8 +119,9 @@
 
       .right-btn {
         position: absolute;
-        bottom: 0;
+        top: 0.4rem;
         right: 0;
+        font-size: 0.4rem;
       }
 
     }
@@ -102,6 +136,7 @@
     box-shadow: 0 0.1rem 0.1rem #efefef;
     line-height: 2rem;
     font-size: 0.5rem;
+    position: relative;
 
     span {
       padding-left: 0.8rem;
@@ -138,6 +173,14 @@
     .grey-filter {
       filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
       -webkit-filter: grayscale(1);
+    }
+
+    .right-btn {
+      position: absolute;
+      top: 0.7rem;
+      right: 0.45rem;
+      font-size: 0.5rem;
+      color: #878787;
     }
 
   }

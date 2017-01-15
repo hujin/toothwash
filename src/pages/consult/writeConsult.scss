@@ -1,0 +1,98 @@
+.title-c {
+  width: 100%;
+  margin: 0.8rem 0 0.6rem;
+  position: relative;
+
+  p {
+    text-align: center;
+    font-size: 0.5rem;
+  }
+
+}
+
+.select-c {
+  color: #63abab;
+  margin-right: 1rem;
+  position: relative;
+  select {
+    width: 3.5rem;
+    height: 0.8rem;
+    border: solid 1px #63abab;
+    appearance: none;
+    -webkit-appearance: none;
+    background:  transparent;
+    padding-left: 0.5rem;
+  }
+  .down-icon {
+    width: 0.8rem;
+    height: 0.8rem;
+    display: inline-block;
+    font-size: 0.4rem;
+    color: #63abab;
+    line-height: 0.6rem;
+    vertical-align: bottom;
+    text-align: center;
+    border-left: 1px solid #63abab;
+    position: absolute;
+    top:0;
+    right:0;
+  }
+}
+
+.write-c {
+  padding: 0 0.4rem;
+
+  .title {
+
+    font-size: 0.42rem;
+  }
+  .select-c {
+    width: 3.5rem;
+    height: 0.8rem;
+    border: 1px solid #63abab;
+    border-radius: 0.1rem;
+    display: inline-block;
+    margin-left: 1.1rem;
+
+    .select-text {
+      line-height: 0.8rem;
+      color: #63abab;
+      padding: 0 0.5rem;
+    }
+
+    .down-icon {
+      width: 0.8rem;
+      height: 0.8rem;
+      display: inline-block;
+      font-size: 0.4rem;
+      color: #63abab;
+      line-height: 0.6rem;
+      vertical-align: bottom;
+      text-align: center;
+      border-left: 1px solid #63abab;
+    }
+  }
+
+  p {
+    margin: 0.3rem 0;
+  }
+  textarea {
+    width: 100%;
+    border: 2px solid#63abab;
+    border-radius: 0.2rem;
+    padding: 0.2rem;
+  }
+
+  .confirm-btn {
+    width: 2.8rem;
+    height: 1rem;
+    display: block;
+    text-align: center;
+    margin: 1rem auto;
+    line-height: 1rem;
+    color: white;
+    background: linear-gradient(#70c1ad, #5fb8b9);
+    border-radius: 0.8rem;
+    font-size: 0.45rem;
+  }
+}

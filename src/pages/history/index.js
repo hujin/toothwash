@@ -17,11 +17,13 @@ var lineOptions = {
         trigger: 'axis'
     },
     legend: {
-        data: ['邮件营销']
+        data: ['邮件营销'],
+
     },
+
     toolbox: {
         feature: {
-            saveAsImage: {}
+            saveAsImage: {},
         }
     },
     grid: {
@@ -30,26 +32,55 @@ var lineOptions = {
         bottom: '3%',
         containLabel: true
     },
+
+
     xAxis: [
         {
             type: 'category',
             boundaryGap: false,
-            data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+            axisTick: false,
+            splitArea: {show: true},
+            data: ['一', '二', '三', '四', '五', '六', '日'],
+            axisLine: {
+                lineStyle: {
+                    color: '#d2d2d2'
+                }
+            }
         }
     ],
     yAxis: [
         {
-            type: 'value'
-        }
+            type: 'value',
+            axisTick: false,
+
+            axisLine: {
+                lineStyle: {
+                    color: '#d2d2d2'
+                }
+            }
+        },
+
     ],
-    series: [
-        {
-            name: '邮件营销',
-            type: 'line',
-            stack: '总量',
-            data: [120, 132, 101, 134, 90, 230, 210]
-        }
-    ]
+    series: [{
+        legendHoverLink: false,
+        type: 'line',
+        smooth:true,
+        data: [120, 132, 101, 134, 90, 230, 210],
+        itemStyle: {
+            normal: {
+                areaStyle: {
+                    type: 'default',
+                    color: 'rgba(255,255,255,0.3)'
+                },
+                color: '#66bbb4',
+                lineStyle: {
+                    color: '#66bbb4',
+                    width: 2
+                }
+            }
+        },
+    }],
+
 };
 
 var dateArr = [
