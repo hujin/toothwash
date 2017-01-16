@@ -15,7 +15,8 @@ new Vue({
     el:'#medalWall',
     data(){
         return {
-            medalNum: 0
+            medalNum: 0,
+            medalData:[true,true,true,true,true,true,true,true,true]
 
         }
     },
@@ -25,6 +26,12 @@ new Vue({
             this.$http.post(url).then((response) =>  {
 
                 this.medalNum = response.body.userMedals.length;
+                for (let data of response.body.userMedals) {
+                    console.log(data)
+                    this.medalData[data.id-1] = false;
+
+                }
+
 
             }, (err) => {
 

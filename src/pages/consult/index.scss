@@ -29,3 +29,108 @@
   }
 
 }
+
+.select-c {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  display: inline-block;
+  position: relative;
+
+  .goods-c {
+    color: #63abab;
+    margin-right: 1rem;
+    position: relative;
+    width: 3.5rem;
+    display: inline-block;
+    select {
+      width: 3.5rem;
+      height: 0.8rem;
+      border: solid 1px #63abab;
+      appearance: none;
+      -webkit-appearance: none;
+      background: transparent;
+      padding-left: 0.5rem;
+    }
+    .down-icon {
+      width: 0.8rem;
+      height: 0.8rem;
+      display: inline-block;
+      font-size: 0.4rem;
+      color: #63abab;
+      line-height: 0.6rem;
+      vertical-align: bottom;
+      text-align: center;
+      border-left: 1px solid #63abab;
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+  }
+
+    .my {
+      width: 3.5rem;
+      height: 0.8rem;
+      border: 1px solid #63abab;
+      border-radius: 0.1rem;
+      display: inline-block;
+      vertical-align: bottom;
+      line-height: 0.8rem;
+      text-align: center;
+      color: #63abab;
+      position: absolute;
+      right: 1rem;
+    }
+    .badge {
+      width: 0.5rem;
+      height: 0.5rem;
+      display: block;
+      position: absolute;
+      top: 0.4rem;
+      right: 0.8rem;
+      background-color: rgb(240,54,54);
+      border-radius: 0.5rem;
+      text-align: center;
+      color: white;
+    }
+
+}
+
+.issue-c {
+  padding: 0 0.5rem;
+  color: #707070;
+
+  .info-c {
+    position: relative;
+    font-size: 0.35rem;
+    padding-top: 0.2rem;
+
+    .ask-time {
+      position: absolute;
+      right: 0;
+    }
+  }
+
+  .ask-c {
+    font-size: 0.45rem;
+    .ask-logo {
+      font-size: 0.5rem;
+      line-height: 0.4rem;
+    }
+  }
+
+  .answer-c {
+    font-size: 0.45rem;
+    padding: 0.1rem 0 0.2rem;
+    border-bottom: 1px solid #ededed;
+    .answer-logo {
+      font-size: 0.5rem;
+      line-height: 0.4rem;
+      color: #63abab;
+    }
+    .answer-content {
+      display: inline-block;
+      width: 90%;
+      vertical-align: top;
+    }
+  }
+}

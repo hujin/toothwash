@@ -1,0 +1,48 @@
+.title-c {
+  width: 100%;
+  margin: 0.8rem 0 0.6rem;
+  position: relative;
+
+
+  p {
+    text-align: center;
+    font-size: 0.5rem;
+  }
+
+}
+
+.issue-c {
+  padding: 0 0.5rem;
+  color: #707070;
+
+  .info-c {
+    position: relative;
+    font-size: 0.35rem;
+    padding-top: 0.2rem;
+
+  }
+
+  .ask-c {
+    font-size: 0.45rem;
+    .ask-logo {
+      font-size: 0.5rem;
+      line-height: 0.4rem;
+    }
+  }
+
+  .answer-c {
+    font-size: 0.45rem;
+    padding: 0.1rem 0 0.2rem;
+    border-bottom: 1px solid#ededed;
+    .answer-logo {
+      font-size: 0.5rem;
+      line-height: 0.4rem;
+      color: #63abab;
+    }
+    .answer-content {
+      display: inline-block;
+      width: 90%;
+      vertical-align: top;
+    }
+  }
+}

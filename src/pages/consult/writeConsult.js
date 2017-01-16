@@ -6,16 +6,16 @@ import util from '../../../lib/util/util';
 Vue.use(Mint);
 Vue.use(VueResource);
 
-import './index.scss';
+import './writeConsult.scss';
 
 new Vue({
-    el: '#app',
+    el: '#writeConsult',
 
     data(){
         return {
-            selected: 0,
             options: [],
-            allQuestions:[]
+            selected: 1,
+            question: ''
 
 
         }
@@ -33,18 +33,18 @@ new Vue({
                 console.log(err)
             });
         },
-        getAllQuestion(obj) {
-            let url = '/Brush/weixin/questionInfo/queryQuestionInfo?' + util.getParam(obj);
+
+        commit() {
+            var obj = {userId: 13}
+            let url = '/Brush/weixin/questionInfo/submitMyQuestion?' + util.getParam(obj)+"&typeId="+this.selected+"&question="
+                +this.question;
             this.$http.post(url).then((response) => {
                 //问题类型
-                console.log(response.body.result.questionInfos)
-                this.allQuestions = response.body.result.questionInfos;
+                console.log(response.body.result)
 
             }, (err) => {
                 console.log(err)
-            });
-        },
-        search() {
+            })
 
         }
 
@@ -53,7 +53,6 @@ new Vue({
     mounted() {
 
         this.getQuestionTypes({userId: 13})
-        this.getAllQuestion({userId: 1})
 
     }
 });

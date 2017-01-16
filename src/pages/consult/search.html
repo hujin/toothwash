@@ -7,42 +7,19 @@
 </head>
 <body>
 
-<div id="app" class="consult">
+<div id="search" class="search">
     <div class="title-c">
-        <i class="iconfont icon-search search-btn"></i>
-        <p>购买咨询</p>
-        <i class="iconfont icon-rename write-btn "></i>
+        <p>搜索问题</p>
     </div>
 
-    <div class="select-c">
-        <div class="goods-c">
-            <select v-model="selected" :change="search()">
-                <option value=0 >全部问题</option>
-                <option v-for="option in options" :value="option.id" >
-                    {{ option.typeName }}
-                </option>
-            </select>
-            <i class="iconfont icon-arrow-down down-icon"></i>
-        </div>
-            <span class="my">我的咨询</span>
-            <i class="badge">1</i>
+    <div class="input-c">
+        <input type="text" class="search-input" v-model="searchText">
+        <i class="iconfont icon-search search-logo" @click="search()"></i>
     </div>
-
-    <div class="issue-c">
-        <div v-for="item in allQuestions">
-            <div class="info-c">
-                <span class="ask-name">name</span>
-                <span class="ask-time">{{item.updateTime}}</span>
-            </div>
-            <div class="ask-c">
-                <i class="iconfont icon-ask ask-logo"></i>
-                <span>{{item.question}}</span>
-            </div>
-            <div class="answer-c">
-                <i class="iconfont icon-answer answer-logo"></i>
-                <div class="answer-content">{{item.answer}}</div>
-            </div>
-
+    <div class="history-c">
+        <div class="item" v-for="item in history">
+        <span>请问最快几天能发货？</span>
+        <i class="iconfont icon-close" @click="delete($index)"></i>
         </div>
 
     </div>
