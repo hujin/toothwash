@@ -3,8 +3,9 @@
 <head>
 	<meta charset="UTF-8">
 	<title>设备管理</title>
+	<meta name="flexible" content="initial-dpr=2,maximum-dpr=2" />
 	<meta content="telephone=no" name="format-detection" />
-	<!--<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>-->
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 </head>
 <body>
 	<div id="app">
@@ -30,17 +31,17 @@
 		<div class="model-wrap">
 			<h3>情景模式</h3>
 			<div class="default-model clearfix">
-				<a class="model-item " :class="{'active':deviceInfo.patternId == 1}" @click.stop="choosePattern(1)">
+				<a class="model-item " :class="{'active':deviceInfo.patternId == 3}" @click.stop="choosePattern(3)">
 					<i class="icon item1"></i>
 					<h6>按摩模式</h6>
 					<span>间断水柱按摩牙龈</span>
 				</a>
-				<a class="model-item" :class="{'active':deviceInfo.patternId == 2}" @click.stop="choosePattern(2)">
+				<a class="model-item" :class="{'active':deviceInfo.patternId == 4}" @click.stop="choosePattern(4)">
 					<i class="icon item2"></i>
 					<h6>呵护模式</h6>
 					<span>持续冲洗洁白牙齿</span>
 				</a>
-				<a class="model-item" :class="{'active':deviceInfo.patternId == 3}" @click.stop="choosePattern(3)">
+				<a class="model-item" :class="{'active':deviceInfo.patternId == 5}" @click.stop="choosePattern(5)">
 					<i class="icon item3"></i>
 					<h6>新手模式</h6>
 					<span>温和水柱舒适牙龈</span>

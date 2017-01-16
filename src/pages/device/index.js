@@ -9,49 +9,49 @@ Vue.use(Mint);
 Vue.use(Resource);
 
 Vue.component('i-checkbox',Checkbox);
-//
-// wx.config({
-//     beta:true,
-//     debug:true,
-//     appId: 'wxf67c994040b19368',
-//     timestamp:1483844878,
-//     noncestr:'Tr4O7u0RTWCle42weF9bQBFTaX1VTlBb',
-//     signature:'c77a4f4ad5749bf5b568536668d1b252fce02f42',
-//     jsApiList:['checkJsApi',
-//         'onMenuShareTimeline',
-//         'onMenuShareAppMessage',
-//         'onMenuShareQQ',
-//         'onMenuShareWeibo',
-//         'hideMenuItems',
-//         'showMenuItems',
-//         'hideAllNonBaseMenuItem',
-//         'showAllNonBaseMenuItem',
-//         'translateVoice',
-//         'startRecord',
-//         'stopRecord',
-//         'onRecordEnd',
-//         'playVoice',
-//         'pauseVoice',
-//         'stopVoice',
-//         'uploadVoice',
-//         'downloadVoice',
-//         'chooseImage',
-//         'previewImage',
-//         'uploadImage',
-//         'downloadImage',
-//         'getNetworkType',
-//         'openLocation',
-//         'getLocation',
-//         'hideOptionMenu',
-//         'showOptionMenu',
-//         'closeWindow',
-//         'scanQRCode',
-//         'chooseWXPay',
-//         'openProductSpecificView',
-//         'addCard',
-//         'chooseCard',
-//         'openCard']
-// });
+
+wx.config({
+    beta:true,
+    debug:true,
+    appId: 'wxf67c994040b19368',
+    timestamp:1483844878,
+    noncestr:'Tr4O7u0RTWCle42weF9bQBFTaX1VTlBb',
+    signature:'47f564e3b6da81241a1dde8d2384bc9611f6b75f',
+    jsApiList:['checkJsApi',
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo',
+        'hideMenuItems',
+        'showMenuItems',
+        'hideAllNonBaseMenuItem',
+        'showAllNonBaseMenuItem',
+        'translateVoice',
+        'startRecord',
+        'stopRecord',
+        'onRecordEnd',
+        'playVoice',
+        'pauseVoice',
+        'stopVoice',
+        'uploadVoice',
+        'downloadVoice',
+        'chooseImage',
+        'previewImage',
+        'uploadImage',
+        'downloadImage',
+        'getNetworkType',
+        'openLocation',
+        'getLocation',
+        'hideOptionMenu',
+        'showOptionMenu',
+        'closeWindow',
+        'scanQRCode',
+        'chooseWXPay',
+        'openProductSpecificView',
+        'addCard',
+        'chooseCard',
+        'openCard','openWXDeviceLib']
+});
 
 import './index.scss';
 
@@ -247,7 +247,6 @@ new Vue({
                     str = '60秒';
                     break;
             }
-            console.log(str);
             return str;
         },
         setSputtering(status){
@@ -275,5 +274,11 @@ new Vue({
     },
     mounted(){
         this.getDeviceList({openId:1});
+
+        wx.ready(function () {
+            wx.invoke('openWXDeviceLib',{'connType':'blue'},function (res) {
+               console.log(res);
+            });
+        });
     }
 });
