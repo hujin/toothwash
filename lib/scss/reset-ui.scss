@@ -37,9 +37,6 @@
 }
 
 .mt-range-thumb{
-  width: .53333rem;
-  height: .53333rem;
-  top:-.08rem;
   background-color: #5eb8b9;
   box-shadow: 0 1px 3px rgba(94, 184, 185, 0.4);
 
@@ -47,10 +44,10 @@
     position: absolute;
     left: 50%;
     top:50%;
-    margin-left: -.08rem;
-    margin-top: -.08rem;
-    width: .16rem;
-    height: .16rem;
+    margin-left: -5px;
+    margin-top: -5px;
+    width: 10px;
+    height: 10px;
     background-color: #fff;
     border-radius: 100%;
     content:' ';

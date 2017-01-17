@@ -70,7 +70,7 @@ module.exports = {
                 test:/\.(svg|woff2?|eot|ttf|otf)(\?.*)?$/,
                 loader:'url',
                 query:{
-                    limit:10000,
+                    limit:1000,
                     name:path.join(config.build.assetsSubDirectory + '/font','[name].[hash:7].[ext]')
                 }
             }

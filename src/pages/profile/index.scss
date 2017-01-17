@@ -36,7 +36,7 @@
   margin-top: 1.2rem;
 
   h6{
-    padding: .8rem 0 .68rem 0;
+    padding: .8rem 0 .2rem 0;
     color: #279ba5;
     font-size: .4rem;
     line-height: .4rem;
@@ -44,27 +44,29 @@
 }
 
 .profile-item{
+  height: 1.64rem;
   font-size: .43rem;
-  margin-bottom: 1.16rem;
+  border-bottom: 2px solid #eeeeee;
 }
 
 .profile-label{
   float: left;
-  line-height: .43rem;
+  line-height: 1.64rem;
 }
 
 .profile-content{
   position: relative;
   float: right;
   color: #959595;
-  line-height: .43rem;
+  line-height: 1.64rem;
   padding-right: .53rem;
 
   .iconfont{
     position: absolute;
     font-size: .43rem;
-    top:-.12rem;
+    top:50%;
     right: 0;
+    margin-top: -.37rem;
   }
 }
 
@@ -79,6 +81,27 @@
 .row{
   margin-bottom: .36rem;
   position: relative;
+
+  &.hasline{
+    border-bottom:2px solid #5eb8b9;
+
+    .form-input{
+      border-bottom: none;
+      width: 50%;
+    }
+
+    button{
+      width: 2.8rem;
+      height: .56rem;
+      color: #5eb8b9;
+      border:2px solid #5eb8b9;
+      font-size: .32rem;
+      background-color: #fff;
+      border-radius: 20px;
+      position: absolute;
+      right: 0;
+    }
+  }
   .form-input{
     width: 100%;
     height: .68rem;
@@ -107,8 +130,71 @@
       display: block;
     }
   }
+}
 
+.pane{
+  position: absolute;
+  background-color: #fff;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top:0;
+  z-index: 999;
 
+  h5{
+    font-size: .48rem;
+    line-height: .48rem;
+    text-align: center;
+    margin-top: 1.76rem;
+    margin-bottom: 1.44rem;
+  }
+
+  img{
+    display: block;
+    width: 5.4rem;
+    height: 5.4rem;
+    margin: 0 auto;
+  }
+
+  p{
+    font-size: .4rem;
+    line-height: .533333rem;
+    padding: 0 1.15rem;
+    margin-top: .56rem;
+  }
+
+  .pane-operate-bar{
+    margin-top: 1.33333rem;
+    text-align: center;
+  }
+
+  .swtich-list{
+    padding: 0rem 2rem;
+    margin-top: .56rem;
+  }
+
+  .switch-item {
+    width: 1.28rem;
+    height: 1.28rem;
+    margin-right: 1rem;
+    margin-bottom: .26667rem;
+    float: left;
+    border: 3px solid #5eb8b9;
+    border-radius: 100%;
+    line-height: 1.2rem;
+    text-align: center;
+    color: #5eb8b9;
+
+    &.current {
+      color: #fff;
+      background-color: #5eb8b9;
+    }
+
+    &:nth-child(3n),
+    &:last-child {
+      margin-right: 0;
+    }
+  }
 }
 
 
