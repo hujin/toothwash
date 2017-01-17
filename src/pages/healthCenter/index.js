@@ -30,11 +30,11 @@ new Vue({
                 console.log(response)
                 this.healthData = response.body.result;
                 this.setStarData();
-                window.circleAnim(60);
+                window.circleAnim(100);
 
             }, (err) => {
                 console.log(err)
-                window.circleAnim(60);
+                window.circleAnim(80);
             });
         },
         setStarData() {

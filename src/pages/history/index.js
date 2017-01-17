@@ -10,7 +10,6 @@ Vue.use(VueResource);
 
 import './index.scss';
 
-//折线图
 var lineOptions = {
 
     tooltip: {
@@ -40,7 +39,7 @@ var lineOptions = {
             boundaryGap: false,
             axisTick: false,
             splitArea: {show: true},
-            data: ['一', '二', '三', '四', '五', '六', '日'],
+            data: ['1', '5', '10', '15', '20', '25', '30'],
             axisLine: {
                 lineStyle: {
                     color: '#d2d2d2'
@@ -113,7 +112,7 @@ new Vue({
             datePickerData: dateArr,
             lineOptions: lineOptions,
             datePickerStyle: {
-                marginLeft: '2rem',
+                marginLeft: '2.6rem',
                 transition: 'all 0.2s ease-in'
             },
             dateActiveIndex: 0,
@@ -134,7 +133,7 @@ new Vue({
         slideLeft: function () {
             if (this.dateActiveIndex > 0) {
                 this.dateActiveIndex = this.dateActiveIndex - 1;
-                this.datePickerStyle.marginLeft = (parseInt(this.datePickerStyle.marginLeft.replace('rem', '')) + 2.8) + 'rem',
+                this.datePickerStyle.marginLeft = (parseInt(this.datePickerStyle.marginLeft.replace('rem', '')) + 2.6) + 'rem',
 
                     this.datePickerData[this.dateActiveIndex + 1].isActive = false;
                 this.datePickerData[this.dateActiveIndex].isActive = true;
@@ -143,7 +142,7 @@ new Vue({
         slideRight: function () {
             if (this.dateActiveIndex < this.datePickerData.length - 1) {
                 this.dateActiveIndex = this.dateActiveIndex + 1;
-                this.datePickerStyle.marginLeft = (parseInt(this.datePickerStyle.marginLeft.replace('rem', '')) - 2.5) + 'rem',
+                this.datePickerStyle.marginLeft = (parseInt(this.datePickerStyle.marginLeft.replace('rem', '')) - 2.6) + 'rem',
                     this.datePickerData[this.dateActiveIndex - 1].isActive = false;
                 this.datePickerData[this.dateActiveIndex].isActive = true;
             }
@@ -196,9 +195,9 @@ new Vue({
         },
 
         getMonthData: function(obj) {
-            let url = '/Brush/weixin/allUserRecord/queryEveryMonthUserRecord?userId=1&month=0' + util.getParam(obj);
+            let url = '/Brush/weixin/allUserRecord/queryEveryMonthUserRecord?' + util.getParam(obj);
             this.$http.post(url).then((response) =>  {
-                console.log(response.body.result.healthSummary)
+                console.log(response.body.result)
                 this.todayHealthData = response.body.result.healthSummary;
 
             }, (err) => {
@@ -209,8 +208,10 @@ new Vue({
 
 
     },
-    mounted(){
-        this.getDayData({userId: 1})
 
+    mounted(){
+        this.getDayData({userId: 1});
+        this.getMonthData({userId: 14})
     }
+
 });

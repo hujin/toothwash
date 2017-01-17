@@ -45,7 +45,7 @@
     svg{
       margin: 0 auto;
       display: block;
-      padding-top: 1.2rem;
+      padding-top: 1.12rem;
       width: 6rem;
     }
 
@@ -59,7 +59,6 @@
       margin-top: -2.5rem;
       text-align: center;
       color: #fff;
-      font-size: 0.4rem;
       font-size: 0.36rem;
 
       .inner-circle {
@@ -67,8 +66,8 @@
         width: 4rem;
         text-align: center;
         margin: 0 auto;
-        background-color: rgba(255,255,255,0.5);
-        border: 1px solid#fff;
+        background-color: rgba(255,255,255,0.3);
+        border: 2px solid#fff;
         border-radius: 2rem;
       }
       p{
@@ -178,7 +177,7 @@
     .right-btn {
       position: absolute;
       top: 0.7rem;
-      right: 0.45rem;
+      right: 0.3rem;
       font-size: 0.5rem;
       color: #878787;
     }

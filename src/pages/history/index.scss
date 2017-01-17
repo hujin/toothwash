@@ -86,11 +86,11 @@
     color: #369ea7;
   }
   .left-btn {
-    left: 0;
+    left: -0.4rem;
     padding: 0.1rem 0 0.5rem 0.4rem;
   }
   .right-btn {
-    right: 0;
+    right: -0.4rem;
     padding: 0.1rem 0.4rem 0.5rem 0;
   }
 
@@ -113,9 +113,10 @@
         color: #dcdcdc;
         width: 2.6rem;
         transition: all 0.2s ease-in;
+        overflow: hidden;
 
         &.active {
-          font-size: 0.5rem;
+          font-size: 0.45rem;
           color: #5eb8b9;
         }
 
