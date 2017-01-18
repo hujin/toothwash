@@ -112,7 +112,7 @@ new Vue({
             this.deviceStatus = true;
         },
         goDetail(){
-            window.location.href = 'detail.html'
+            window.location.href = 'detail.html?equipmentId=' + this.deviceInfo.equipmentId
         },
         getDeviceList(obj){
             if(!obj.openId){
@@ -123,7 +123,7 @@ new Vue({
                 if(res.data.isSuccess){
                     this.deviceList = res.data.result.equipmentInfos;
                     if(this.deviceInfo.equipmentId == 0){
-                        this.getDevice({id:this.deviceList[0].equipmentId});
+                        this.getDevice({id:this.deviceList[0].id});
                     }
 
                 }
@@ -142,10 +142,10 @@ new Vue({
                     this.deviceInfo.sputtering = data.equipmentInfo.sputtering;
                     this.deviceInfo.patternId = data.equipmentInfo.patternId;
                     this.deviceInfo.equipmentName = data.equipmentInfo.equipmentName;
-                    this.deviceInfo.equipmentId = data.equipmentInfo.equipmentId;
+                    this.deviceInfo.equipmentId = data.equipmentInfo.id;
                     this.deviceInfo.remindTime = data.equipmentInfo.remindTime;
                     this.deviceInfo.remindTimeName = this.setRemind(this.deviceInfo.remindTime);
-                    this.form.equipmentId = data.equipmentInfo.equipmentId;
+                    this.form.equipmentId = data.equipmentInfo.id;
                     this.patternList = data.patternInfos;
                     this.headerStatus = false;
                 }
@@ -273,7 +273,8 @@ new Vue({
         }
     },
     mounted(){
-        this.getDeviceList({openId:1});
+        let openid = util.getQueryString('openId');
+        this.getDeviceList({openId:openid});
 
         wx.ready(function () {
             wx.invoke('openWXDeviceLib',{'connType':'blue'},function (res) {
