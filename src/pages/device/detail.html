@@ -14,11 +14,11 @@
         <div class="form">
             <div class="row clearfix">
                 <label class="col-label">已损耗</label>
-                <span class="col-content">33%</span>
+                <span class="col-content">{{consume}}%</span>
             </div>
             <div class="row clearfix">
                 <label class="col-label">喷头已使用</label>
-                <span class="col-content">30天</span>
+                <span class="col-content">{{usedDayNum}}天</span>
             </div>
             <div style="text-align: center;margin-top: 1.48rem">
                 <mt-button type="primary" @click.stop="show">更换喷头</mt-button>

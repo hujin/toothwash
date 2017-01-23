@@ -10,9 +10,9 @@
 <body>
 	<div id="app">
 		<div class="header" @click="showHeader">
-			<span>{{deviceInfo.equipmentName}} <i class="iconfont icon-arrow-down"></i></span>
+			<span>{{deviceInfo.equipmentName || '设备'}} <i class="iconfont icon-arrow-down"></i></span>
 			<ul class="header-list" v-show="headerStatus">
-				<li class="header-list-item" :class="{'active':item.equipmentId == deviceInfo.equipmentId}" v-for="item in deviceList" @click.stop="getDevice({id:item.equipmentId})">{{item.equipmentName}}</li>
+				<li class="header-list-item" :class="{'active':item.id == deviceInfo.equipmentId}" v-for="item in deviceList" @click.stop="getDevice({id:item.id})">{{item.equipmentName || '设备'}}</li>
 			</ul>
 		</div>
 		<div class="device-info-wrap">
