@@ -28,6 +28,10 @@
       color: #fff;
     }
 
+    .yieldCircle {
+      padding-top: 1.12rem;
+    }
+
 
     .yieldCircle .progressCircle {
       transition: stroke-dasharray 0.4s linear 0.2s;
@@ -45,7 +49,7 @@
     svg{
       margin: 0 auto;
       display: block;
-      padding-top: 1.12rem;
+      //padding-top: 1.12rem;
       width: 6rem;
     }
 
@@ -76,6 +80,14 @@
       .percent {
         font-size: 1rem;
         margin: 0;
+
+        .percent-symbol {
+          display: block;
+          position: absolute;
+          top: 1.75rem;
+          right: 1.4rem;
+          font-size: 0.55rem;
+        }
       }
 
     }

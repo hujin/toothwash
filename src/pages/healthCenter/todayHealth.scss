@@ -54,6 +54,27 @@
     margin-left: calc(50% - 2.5rem);
   }
 
+  .excellent-status {
+    background: url("../../assets/health/good-health.png") center no-repeat;
+    background-size: contain;
+  }
+  .good-status {
+    background: url("../../assets/health/good-health.png") center no-repeat;
+    background-size: contain;
+  }
+  .medium-status {
+    background: url("../../assets/health/good-health.png") center no-repeat;
+    background-size: contain;
+  }
+  .fine-status {
+    background: url("../../assets/health/good-health.png") center no-repeat;
+    background-size: contain;
+  }
+  .bad-status {
+    background: url("../../assets/health/good-health.png") center no-repeat;
+    background-size: contain;
+  }
+
   .state-text {
     font-size: 1rem;
     margin: 0.3rem;

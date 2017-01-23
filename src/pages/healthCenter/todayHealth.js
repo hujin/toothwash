@@ -15,8 +15,10 @@ new Vue({
     el:'#todayHealth',
     data(){
         return {
-            todayHealthData: ''
-
+            healthRate:0,
+            healthSummary: '',
+            sumTime:0,
+            healthStateClass: 'state-img',
         }
     },
 
@@ -24,8 +26,13 @@ new Vue({
         getData(obj) {
             let url = '/Brush/weixin/queryHealthSummary/queryTodayHealthSummary?' + util.getParam(obj);
             this.$http.post(url).then((response) =>  {
-                console.log(response.body.result.healthSummary)
-                this.todayHealthData = response.body.result.healthSummary;
+                console.log(response.body.result)
+                this.todayHealthData = response.body.result;
+                this.healthRate = response.body.result.healthRate;
+                this.healthSummary = response.body.result.healthSummary;
+                this.sumTime = response.body.result.sumTime;
+                
+                console.log( this.todayHealthData.healthSummary.titleDetail)
 
             }, (err) => {
                 console.log(err)
@@ -35,6 +42,7 @@ new Vue({
     },
 
     mounted() {
+
         this.getData({userId:13})
 
     }

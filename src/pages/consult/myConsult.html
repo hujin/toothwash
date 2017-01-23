@@ -13,20 +13,21 @@
     </div>
 
     <div class="issue-c">
-    <div>
-        <div class="info-c">
-            <span class="ask-time">2016-1-11</span>
-        </div>
-        <div class="ask-c">
-            <i class="iconfont icon-ask ask-logo"></i>
-            <span>电池是锂电池么？</span>
-        </div>
-        <div class="answer-c">
-            <i class="iconfont icon-answer answer-logo"></i>
-            <div class="answer-content">您好，这是锂电池，感谢您对为豆冲牙器的支持。</div>
-        </div>
+        <div v-for="item in myQuestion">
+            <div class="info-c">
+                <span class="ask-name">{{item.nickName}}</span>
+                <span class="ask-time">{{item.updateTime}}</span>
+            </div>
+            <div class="ask-c">
+                <i class="iconfont icon-ask ask-logo"></i>
+                <span>{{item.question}}</span>
+            </div>
+            <div class="answer-c">
+                <i class="iconfont icon-answer answer-logo" :class="{'hide':!item.answer}"></i>
+                <div class="answer-content" :class="{'blue-text':!item.answer}">{{item.answer||'售后正在处理'}}</div>
+            </div>
 
-    </div>
+        </div>
 
     </div>
 

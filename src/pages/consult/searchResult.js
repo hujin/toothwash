@@ -13,17 +13,20 @@ new Vue({
 
     data(){
         return {
-
+            searchData:[]
 
         }
     },
 
     methods:{
+
+
         getData(obj) {
-            let url = '/Brush/weixin/queryHealthSummary/queryTodayHealthSummary?' + util.getParam(obj);
+            var obj = {userId:13}
+            let searchText = document.URL.toString().split('?')[1];
+            let url = '/Brush/weixin/searchInfo/searchQuestionInfo?' + 'keywords='+searchText+'&'+util.getParam(obj);
             this.$http.post(url).then((response) =>  {
-                console.log(response.body.result.healthSummary)
-                this.todayHealthData = response.body.result.healthSummary;
+                this.searchData = response.body.result.questionInfos;
 
             }, (err) => {
                 console.log(err)

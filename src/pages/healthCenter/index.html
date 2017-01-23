@@ -23,14 +23,14 @@
 
         </div>
         <div class="out-circle">
-            <div class="inner-circle">
+            <div class="inner-circle" @click="goTodayHealth()">
                 <p>今日口腔健康度</p>
-                <p class="percent">{{healthData.HealthRate}}</p>
+                <p class="percent">{{healthData.healthRate||0}}<span class="percent-symbol">%</span></p>
                 <span>点击查看详情</span>
             </div>
         </div>
 
-        <div class="star-c">
+        <div class="star-c" @click="goWeekHealth()">
             <span>上周健康星级</span>
             <div class="star-img" :class="starData[0]">️</div>
             <div class="star-img" :class="starData[1]">️</div>
@@ -42,7 +42,7 @@
 
     </div>
 
-    <div class="medal-c">
+    <div class="medal-c" @click="goMedalWall()">
         <span>勋章墙</span>
         <div class="medal1" :class="{'grey-filter': healthData.medalNum<1}"></div>
         <div class="medal2" :class="{'grey-filter': healthData.medalNum<2}"></div>

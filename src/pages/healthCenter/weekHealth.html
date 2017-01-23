@@ -11,7 +11,7 @@
     <div class="avatar"></div>
     <p>dog</p>
     <p class="mouth-text">上周口腔护理星际评估</p>
-    <p class="rate-num">3.5</p>
+    <p class="rate-num">{{starNum}}</p>
     <div class="star-c">
         <div class="star-img" :class="starData[0]">️</div>
         <div class="star-img" :class="starData[1]">️</div>
@@ -29,14 +29,14 @@
     <div class="info-c">
         <div class="time-info">
             <span class="time-tip">上周最高口腔清洁度</span>
-            <span class="time-text">97%</span>
+            <span class="time-text">{{topHealthRate}}%</span>
         </div>
         <div class="time-info">
             <span class="time-tip">上周未健康冲牙次数</span>
-            <span class="time-text">2次</span>
+            <span class="time-text">{{unHealthyTimes}}次</span>
         </div>
         <p class="today-summary">今日小结</p>
-        <p class="tip-info">您已经初步养成健康的口腔护理习惯，但您本周仍有未达标的冲牙天数，建议您按照正确的冲牙方式进行冲牙，确保您的口腔健康，期待您跟好的表现。</p>
+        <p class="tip-info">{{healthSummary.summaryDetail}}</p>
     </div>
 
 </div>

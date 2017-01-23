@@ -23,15 +23,7 @@ new Vue({
     methods:{
         search() {
 
-            var obj = {userId:13}
-            let url = '/Brush/weixin/questionInfo/queyMyQuestion?' + util.getParam(obj);
-            this.$http.post(url).then((response) =>  {
-                console.log(response.body.result.healthSummary)
-                this.todayHealthData = response.body.result.healthSummary;
-
-            }, (err) => {
-                console.log(err)
-            });
+            window.location.href = 'searchResult.html?'+this.searchText
         },
 
         getHistory(obj) {
@@ -46,16 +38,23 @@ new Vue({
             });
         },
 
-        delete(index) {
+        del(index) {
+            console.log(this.history[index])
 
-            let url = '/Brush/weixin/searchInfo/deleteSearchInfo?'+this.history[index].Id;
+            let url = '/Brush/weixin/searchInfo/deleteSearchInfo?id='+this.history[index].id;
             this.$http.post(url).then((response) =>  {
+                console.log(response)
 
                 this.history.splice(index,1)
 
             }, (err) => {
                 console.log(err)
             });
+        },
+
+        goSearch(text){
+            window.location.href = 'searchResult.html?'+text
+
         }
 
 
@@ -63,7 +62,7 @@ new Vue({
 
     mounted() {
 
-        this.getHistory({userId:13})
+        this.getHistory({userId:1})
 
     }
 });

@@ -41,6 +41,13 @@ new Vue({
             this.$http.post(url).then((response) => {
                 //问题类型
                 console.log(response.body.result)
+                Mint.Toast({
+                    message: 'operation success',
+                    iconClass: 'icon icon-success',
+                    className:'icom',
+                    duration:10000000000
+                });
+                this.question = ''
 
             }, (err) => {
                 console.log(err)

@@ -13,6 +13,7 @@ new Vue({
 
     data(){
         return {
+            myQuestion:''
 
 
         }
@@ -20,10 +21,12 @@ new Vue({
 
     methods:{
         getMyQuestion(obj) {
-            let url = '/Brush/weixin/questionInfo/queryMyQuestion' + util.getParam(obj);
+            let url = '/Brush/weixin/questionInfo/queryMyQuestion?' + util.getParam(obj);
             this.$http.post(url).then((response) =>  {
-                console.log(response.body.result.questionInfos2)
-                this.myQuestion = response.body.result.questionInfos2;
+                console.log(response.body.result)
+                this.myQuestion = response.body.result.questionInfos2.concat(response.body.result.questionInfos1);
+                // this.myQuestion.concat(response.body.result.questionInfos1)
+                console.log(this.myQuestion)
 
             }, (err) => {
                 console.log(err)

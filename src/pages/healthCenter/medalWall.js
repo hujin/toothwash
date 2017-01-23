@@ -24,9 +24,10 @@ new Vue({
         getData(obj) {
             let url = '/Brush/weixin/UserMedalInfo/queryUserObtainMedal?' + util.getParam(obj);
             this.$http.post(url).then((response) =>  {
+                console.log()
 
-                this.medalNum = response.body.userMedals.length;
-                for (let data of response.body.userMedals) {
+                this.medalNum = response.body.result.userMedals.length;
+                for (let data of response.body.result.userMedals) {
                     console.log(data)
                     this.medalData[data.id-1] = false;
 

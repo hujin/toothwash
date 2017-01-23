@@ -95,7 +95,6 @@
   }
 
   .date-picker {
-    width: 6rem;
     display: inline-block;
     overflow: hidden;
     width: 84%;
@@ -108,12 +107,13 @@
       overflow: hidden;
       .date-item {
         display: inline-block;
-        font-size: 0.4rem;
+        font-size: 0.35rem;
         text-align: center;
         color: #dcdcdc;
         width: 2.6rem;
         transition: all 0.2s ease-in;
         overflow: hidden;
+        vertical-align: middle;
 
         &.active {
           font-size: 0.45rem;

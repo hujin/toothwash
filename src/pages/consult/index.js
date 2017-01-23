@@ -15,7 +15,8 @@ new Vue({
         return {
             selected: 0,
             options: [],
-            allQuestions:[]
+            allQuestions:[],
+            num: 0
 
 
         }
@@ -34,18 +35,35 @@ new Vue({
             });
         },
         getAllQuestion(obj) {
+            
+            console.log(obj)
             let url = '/Brush/weixin/questionInfo/queryQuestionInfo?' + util.getParam(obj);
             this.$http.post(url).then((response) => {
                 //问题类型
-                console.log(response.body.result.questionInfos)
-                this.allQuestions = response.body.result.questionInfos;
+                console.log(response.body.result.questionInfos2)
+                this.num = response.body.result.num;
+                if (!response.body.result.questionInfos2){
+                    this.allQuestions = response.body.result.questionInfos;
+                }else {
+                    this.allQuestions = response.body.result.questionInfos2;
+                }
+
 
             }, (err) => {
                 console.log(err)
             });
         },
-        search() {
 
+        goWrite(){
+            window.location.href = 'writeConsult.html'
+        },
+
+        goSearch(){
+            window.location.href = 'search.html'
+        },
+
+        goMy() {
+            window.location.href = 'myConsult.html'
         }
 
     },
@@ -53,7 +71,8 @@ new Vue({
     mounted() {
 
         this.getQuestionTypes({userId: 13})
-        this.getAllQuestion({userId: 1})
+        this.getAllQuestion({typeId:0})
+
 
     }
 });

@@ -14,83 +14,88 @@ Vue.use(VueResource);
 
 import './weekHealth.scss';
 
-//折线图
-var lineOptions = {
-
-    tooltip: {
-        trigger: 'axis'
-    },
-    legend: {
-        data: ['邮件营销'],
-
-    },
-
-    toolbox: {
-        feature: {
-            saveAsImage: {}
-        }
-    },
-    grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
-    },
-
-
-    xAxis: [
-        {
-            type: 'category',
-            boundaryGap: false,
-            axisTick: false,
-            splitArea: {show: true},
-            data: ['一', '二', '三', '四', '五', '六', '日'],
-            axisLine: {
-                lineStyle: {
-                    color: '#fff'
-                }
-            }
-        }
-    ],
-    yAxis: [
-        {
-            type: 'value',
-            axisTick: false,
-
-            axisLine: {
-                lineStyle: {
-                    color: '#fff'
-                }
-            }
-        },
-
-    ],
-    series: [{
-        legendHoverLink: false,
-        type: 'line',
-        data: [120, 132, 101, 134, 90, 230, 210],
-        itemStyle: {
-            normal: {
-                areaStyle: {
-                    type: 'default',
-                    color: 'rgba(255,255,255,0.3)'
-                },
-                color: '#ffff',
-                lineStyle: {
-                    color: '#fff'
-                }
-            }
-        },
-    }],
-
-};
-
 new Vue({
     el: '#weekHealth',
     data(){
         return {
-            lineOptions: lineOptions,
-            weekHealthData: '',
+            lineOptions: {
+
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: [],
+
+                },
+
+                toolbox: {
+                    feature: {
+                        saveAsImage: {},
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+
+
+                xAxis: [
+                    {
+                        type: 'category',
+                        boundaryGap: false,
+                        axisTick: false,
+                        splitArea: {show: true},
+                        data: ['一', '二', '三', '四', '五', '六', '日'],
+                        axisLine: {
+                            lineStyle: {
+                                color: '#ffffff'
+                            }
+                        }
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+                        axisTick: false,
+                        axisLabel: {
+                            formatter: '{value}%'
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                color: '#ffffff'
+                            }
+                        }
+                    },
+
+                ],
+                series: [{
+                    legendHoverLink: false,
+                    type: 'line',
+                    smooth: true,
+                    data: [],
+                    itemStyle: {
+                        normal: {
+                            areaStyle: {
+                                type: 'default',
+                                color: 'rgba(255,255,255,0.3)'
+                            },
+                            color: '#fff',
+                            lineStyle: {
+                                color: '#fff',
+                                width: 2
+                            }
+                        }
+                    },
+                }],
+
+            },
+            topHealthRate: 0,
+            healthSummary: '',
+            unHealthyTimes: 1,
+            starNum: '',
+            userRecords: '',
             starData: ['null-star', 'null-star', 'null-star', 'null-star', 'null-star']
 
         }
@@ -103,14 +108,27 @@ new Vue({
             this.$http.post(url).then((response) => {
 
                 console.log(response.body.result)
-                this.weekHealthData = response.body.result.healthSummary;
+                this.topHealthRate = response.body.result.topHealthRate;
+                this.healthSummary = response.body.result.healthSummary;
+                this.unHealthyTimes = response.body.result.unHealthyTimes;
+                this.starNum = response.body.result.starNum;
+                this.userRecords = response.body.result.userRecords;
+
+                response.body.result.userRecords.forEach((data, index) => {
+                    this.lineOptions.series[0].data.push(data.healthRate)
+
+
+
+                })
+
+                this.setStarData()
 
             }, (err) => {
                 console.log(err)
             });
         },
         setStarData() {
-            let starNum = this.healthData.starNum * 2;
+            let starNum = this.starNum * 2;
             for (let i = 1; i <= 5; i++) {
                 console.log(starNum - (2 * i))
                 if (starNum - (2 * i) == -1) {

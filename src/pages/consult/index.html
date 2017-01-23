@@ -9,30 +9,29 @@
 
 <div id="app" class="consult">
     <div class="title-c">
-        <i class="iconfont icon-search search-btn"></i>
+        <i class="iconfont icon-search search-btn" @click.stop="goSearch()"></i>
         <p>购买咨询</p>
-        <i class="iconfont icon-rename write-btn "></i>
+        <i class="iconfont icon-rename write-btn" @click.stop="goWrite()"></i>
     </div>
 
     <div class="select-c">
         <div class="goods-c">
-            <select v-model="selected" :change="search()">
-                <option value=0 >全部问题</option>
-                <option v-for="option in options" :value="option.id" >
+            <select v-model="selected" @change="getAllQuestion({typeId:selected})">
+                <option v-for="option in options" :value="option.id">
                     {{ option.typeName }}
                 </option>
             </select>
             <i class="iconfont icon-arrow-down down-icon"></i>
         </div>
-            <span class="my">我的咨询</span>
-            <i class="badge">1</i>
+            <span class="my" @click.stop="goMy()">我的咨询</span>
+            <i class="badge" v-if="num!=0">{{num}}</i>
     </div>
 
     <div class="issue-c">
         <div v-for="item in allQuestions">
             <div class="info-c">
                 <span class="ask-name">name</span>
-                <span class="ask-time">{{item.updateTime}}</span>
+                <span class="ask-time">{{item.updateTime.split(' ')[0]}}</span>
             </div>
             <div class="ask-c">
                 <i class="iconfont icon-ask ask-logo"></i>
@@ -40,7 +39,7 @@
             </div>
             <div class="answer-c">
                 <i class="iconfont icon-answer answer-logo"></i>
-                <div class="answer-content">{{item.answer}}</div>
+                <div class="answer-content">{{item.answer||'暂无'}}</div>
             </div>
 
         </div>

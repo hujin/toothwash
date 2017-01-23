@@ -24,17 +24,33 @@ new Vue({
     },
 
     methods: {
+        goTodayHealth(){
+            window.location.href = 'todayHealth.html'
+        },
+        goWeekHealth(){
+            window.location.href = 'weekHealth.html'
+        },
+        goMedalWall(){
+            window.location.href = 'medalWall.html'
+        },
+
         getData(obj) {
             let url = '/Brush/weixin/allUserRecord/healthCenter?' + util.getParam(obj);
             this.$http.post(url).then((response) => {
                 console.log(response)
                 this.healthData = response.body.result;
+                let rate = this.healthData.healthRate;
+                this.healthData.healthRate = 0;
+                setInterval(() => {
+                    if(this.healthData.healthRate<rate){
+                        this.healthData.healthRate = this.healthData.healthRate+1
+                    }
+                },5)
                 this.setStarData();
-                window.circleAnim(100);
+                window.circleAnim(rate);
 
             }, (err) => {
                 console.log(err)
-                window.circleAnim(80);
             });
         },
         setStarData() {
