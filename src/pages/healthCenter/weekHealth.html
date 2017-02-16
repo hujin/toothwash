@@ -8,8 +8,10 @@
 <body>
 <div id="weekHealth" class="weekHealth">
     <p class="date">12月11日~12月18日</p>
-    <div class="avatar"></div>
-    <p>dog</p>
+    <div class="avatar">
+        <img :src="profile.userImage" alt="用户头像">
+    </div>
+    <p>{{profile.userName}}</p>
     <p class="mouth-text">上周口腔护理星际评估</p>
     <p class="rate-num">{{starNum}}</p>
     <div class="star-c">

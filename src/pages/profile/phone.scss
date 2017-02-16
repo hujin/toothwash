@@ -1,0 +1,87 @@
+.status-img {
+  width: 6rem;
+  height: 6rem;
+  margin: 2rem auto 0;
+  background: url("../../assets/health/medal1.png") center no-repeat;
+  background-size: contain;
+  border: none;
+}
+
+.phone-text {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.5rem;
+}
+
+
+.confirm-btn {
+  width: 3.8rem;
+  height: 1rem;
+  display: block;
+  text-align: center;
+  margin: 4rem auto 0;
+  line-height: 1rem;
+  color: white;
+  background: linear-gradient(#70c1ad, #5fb8b9);
+  border-radius: 0.8rem;
+  font-size: 0.45rem;
+}
+
+
+.row{
+  margin-bottom: .36rem;
+  position: relative;
+
+  &.hasline{
+    border-bottom:2px solid #5eb8b9;
+
+    .form-input{
+      border-bottom: none;
+      width: 50%;
+    }
+
+    button{
+      width: 2.8rem;
+      height: .56rem;
+      color: #5eb8b9;
+      border:2px solid #5eb8b9;
+      font-size: .32rem;
+      background-color: #fff;
+      border-radius: 20px;
+      position: absolute;
+      right: 0;
+      bottom: 0.2rem;
+    }
+  }
+  .form-input{
+    width: 100%;
+    height: .68rem;
+    border: none;
+    border-bottom:2px solid #5eb8b9;
+    outline: none;
+    font-size: .48rem;
+    line-height: 0.68rem;
+  }
+
+}
+.error-text{
+  text-align: center;
+  width: 100%;
+  color:#ff7a76;
+  font-size: .32rem;
+}
+
+html{
+  .mint-button{
+    height: 1rem;
+    width: 2.88rem;
+    background: url('../../assets/device/bg.png') repeat;
+    background-size: 100% 100%;
+    font-size: .5rem;
+    border-radius: 3rem;
+  }
+
+  .mask .dialog {
+    top: 30%;
+  }
+}

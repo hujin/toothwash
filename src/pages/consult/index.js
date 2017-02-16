@@ -23,8 +23,8 @@ new Vue({
     },
 
     methods: {
-        getQuestionTypes(obj) {
-            let url = '/Brush/weixin/questionType/queryQuestionType?' + util.getParam(obj);
+        getQuestionTypes() {
+            let url = '/Brush/weixin/questionType/queryQuestionType';
             this.$http.post(url).then((response) => {
                 //问题类型
                 console.log(response.body.result.questionTypes)
@@ -35,9 +35,7 @@ new Vue({
             });
         },
         getAllQuestion(obj) {
-            
-            console.log(obj)
-            let url = '/Brush/weixin/questionInfo/queryQuestionInfo?' + util.getParam(obj);
+            let url = '/Brush/weixin/questionInfo/queryQuestionInfo?'+util.getParam(obj)+'&code='+util.getQueryString('code');
             this.$http.post(url).then((response) => {
                 //问题类型
                 console.log(response.body.result.questionInfos2)
@@ -70,8 +68,9 @@ new Vue({
 
     mounted() {
 
-        this.getQuestionTypes({userId: 13})
+        this.getQuestionTypes()
         this.getAllQuestion({typeId:0})
+
 
 
     }

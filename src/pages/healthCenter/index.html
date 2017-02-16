@@ -9,8 +9,10 @@
 
 <div id="app" class="health">
     <div class="health-panel">
-        <div class="avatar"></div>
-        <div class="iconfont icon-refresh refresh" @click="getData({userId:13})"></div>
+        <div class="avatar">
+            <img :src="profile.userImage" alt="用户头像">
+        </div>
+        <div class="iconfont icon-refresh refresh" @click="getData()"></div>
         <div class="wrap">
             <div class="yieldCircle">
                 <svg viewBox="0 0 38 38" class="J_circle" data-pre="88">
@@ -51,8 +53,8 @@
     </div>
 
     <div class="use-c">
-        <span class="use-second">上次使用{{healthData.longTime}}秒</span>
-        <span>累计冲牙{{healthData.totalDays}}天</span>
+        <span class="use-second">上次使用{{healthData.longTime||0}}秒</span>
+        <span>累计冲牙{{healthData.totalDays||0}}天</span>
     </div>
 
 </div>

@@ -21,10 +21,9 @@ new Vue({
     methods:{
 
 
-        getData(obj) {
+        getData() {
             var obj = {userId:13}
-            let searchText = document.URL.toString().split('?')[1];
-            let url = '/Brush/weixin/searchInfo/searchQuestionInfo?' + 'keywords='+searchText+'&'+util.getParam(obj);
+            let url = '/Brush/weixin/searchInfo/searchQuestionInfo?' + 'keywords='+ util.getQueryString('keyword')+'&'+util.getParam(obj);
             this.$http.post(url).then((response) =>  {
                 this.searchData = response.body.result.questionInfos;
 
@@ -36,6 +35,7 @@ new Vue({
     },
 
     mounted() {
+        console.log(util.getQueryString('keyword'))
 
         this.getData({userId:13})
 

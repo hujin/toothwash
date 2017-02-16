@@ -9,8 +9,10 @@
 
 <div id="todayHealth">
     <p class="date">12月18日</p>
-    <div class="avatar"></div>
-    <p>dog</p>
+    <div class="avatar">
+        <img :src="profile.userImage" alt="用户头像">
+    </div>
+    <p>{{profile.userName}}</p>
     <p class="mouth-text">今日口腔清洁度</p>
     <p class="percent-text">{{healthRate}}<span class="percent-symbol">%</span></p>
     <p class="mouth-tip">{{healthSummary.titleDetail}}</p>

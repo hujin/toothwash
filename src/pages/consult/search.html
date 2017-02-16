@@ -17,7 +17,7 @@
         <i class="iconfont icon-search search-logo" @click="search()"></i>
     </div>
     <div class="history-c">
-        <div class="item" v-for="(item, index) in history" @click="goSearch(item.question)" >
+        <div class="item" v-for="(item, index) in history" @click="goResult(item.question)" >
           <span>{{item.question}}</span>
           <i class="iconfont icon-close" @click.stop="del(index)"></i>
         </div>

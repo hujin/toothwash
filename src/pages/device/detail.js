@@ -25,6 +25,9 @@ new Vue({
       hide(){
          this.tipsStatus = false
       },
+      confirm(){
+          window.location.href = 'index.html';
+       },
       getDetail(){
          var equipmentId = util.getQueryString('equipmentId');
          let url = '/Brush/weixin/MyEquipment/queryReplaceSprayerDays?equipmentId=' + equipmentId;

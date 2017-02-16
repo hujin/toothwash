@@ -19,10 +19,24 @@ new Vue({
             healthSummary: '',
             sumTime:0,
             healthStateClass: 'state-img',
+            userId: null,
+            profile: {}
         }
     },
 
     methods: {
+        getUserData(){
+            let url = '/Brush/weixin/userInfo/queryUserInfo?'+'code='+util.getQueryString('code');
+            this.$http.get(url).then((response) => {
+
+                this.userId = response.body.result.userInfo.id;
+                this.profile = response.body.result.userInfo;
+                this.getData({userId:this.userId})
+
+            }, (err) => {
+                console.log(err)
+            });
+        },
         getData(obj) {
             let url = '/Brush/weixin/queryHealthSummary/queryTodayHealthSummary?' + util.getParam(obj);
             this.$http.post(url).then((response) =>  {
@@ -43,7 +57,7 @@ new Vue({
 
     mounted() {
 
-        this.getData({userId:13})
+        this.getUserData()
 
     }
 });

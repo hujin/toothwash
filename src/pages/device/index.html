@@ -3,8 +3,9 @@
 <head>
 	<meta charset="UTF-8">
 	<title>设备管理</title>
-	<!--<meta name="flexible" content="initial-dpr=2,maximum-dpr=2" />-->
+	<!--<meta name="flexible" content="initial-dpr=1,maximum-dpr=1,width=device-width" />-->
 	<meta content="telephone=no" name="format-detection" />
+
 	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 </head>
 <body>
@@ -23,7 +24,7 @@
 				</div>
 				<div class="device-item">
 					<img src="../../assets/device/2.png" alt="">
-					<span>电量还剩<strong>70</strong>%</span>
+					<span>电量还剩<strong>{{deviceInfo.electricQuantity}}</strong>%</span>
 				</div>
 				<i class="line"></i>
 			</div>
@@ -166,8 +167,8 @@
 					<i class="iconfont icon-close" @click.stop="dialogDeviceClose"></i>
 				</div>
 				<div class="dialog-content" >
-					<div class="row" style="padding:0 .6rem;margin-bottom: 1.32rem;margin-top: .4rem">
-						<input type="text" class="form-input" v-model="deviceInfo.equipmentName" style="width: 100%">
+					<div class="row" style="padding:0 .6rem;margin-bottom: 1.32rem;margin-top: .4rem;height: 1rem;">
+						<input type="text" class="form-input" v-model="reEquipmentName" style="width: 100%;line-height: 0rem">
 					</div>
 					<div class="row" style="text-align: center">
 						<mt-button type="primary" @click.stop="setEquipmentName">确定</mt-button>

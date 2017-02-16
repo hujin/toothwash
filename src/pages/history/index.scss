@@ -44,17 +44,19 @@
         position: absolute;
         top: 0.6rem;;
         left: -1.5rem;
-        font-size: 0.4rem;
+        font-size: 0.35rem;
 
       }
       .data-group {
-        margin-left: 1rem;
+        margin-left: 0.5rem;
         line-height: 1.65rem;
         border-bottom: 1px dashed #efefef;
 
         span {
           font-size: 0.4rem;
           padding-right: 10px;
+          display: inline-block;
+          min-width: 1.6rem;
         }
       }
       &:before {

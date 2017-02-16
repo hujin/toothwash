@@ -16,7 +16,7 @@
     <div v-for="item in searchData">
         <div class="info-c">
             <span class="ask-name">name</span>
-            <span class="ask-time">{{item.updateTime}}</span>
+            <span class="ask-time">{{item.updateTime.split(' ')[0]}}</span>
         </div>
         <div class="ask-c">
             <i class="iconfont icon-ask ask-logo"></i>

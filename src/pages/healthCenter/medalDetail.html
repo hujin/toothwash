@@ -8,10 +8,10 @@
 <body>
 
 <div id="medalDetail" class="medalDetail">
-    <div class="medal-img"></div>
+    <div class="medal-img" :class="medalClass"></div>
 
-    <p class="complete">未完成</p>
-    <p class="tip">首次连接公众号即可获得此勋章</p>
+    <p class="complete">{{result}}</p>
+    <p class="tip">{{desc}}</p>
 </div>
 
 

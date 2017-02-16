@@ -15,18 +15,28 @@ new Vue({
         return {
             options: [],
             selected: 1,
-            question: ''
+            question: '',
+            userId:null
 
 
         }
     },
 
     methods: {
-        getQuestionTypes(obj) {
-            let url = '/Brush/weixin/questionType/queryQuestionType?' + util.getParam(obj);
+        getUserData(){
+            let url = '/Brush/weixin/userInfo/queryUserInfo?'+'code='+util.getQueryString('code');
+            this.$http.get(url).then((response) => {
+
+                this.userId = response.body.result.userInfo.id;
+
+            }, (err) => {
+                console.log(err)
+            });
+        },
+        getQuestionTypes() {
+            let url = '/Brush/weixin/questionType/queryQuestionType';
             this.$http.post(url).then((response) => {
                 //问题类型
-                console.log(response.body.result.questionTypes)
                 this.options = response.body.result.questionTypes;
 
             }, (err) => {
@@ -35,7 +45,7 @@ new Vue({
         },
 
         commit() {
-            var obj = {userId: 13}
+            var obj = {userId: this.userId}
             let url = '/Brush/weixin/questionInfo/submitMyQuestion?' + util.getParam(obj)+"&typeId="+this.selected+"&question="
                 +this.question;
             this.$http.post(url).then((response) => {
@@ -45,9 +55,10 @@ new Vue({
                     message: 'operation success',
                     iconClass: 'icon icon-success',
                     className:'icom',
-                    duration:10000000000
+                    duration:3000
                 });
                 this.question = ''
+                window.location.href = document.referrer
 
             }, (err) => {
                 console.log(err)
@@ -59,7 +70,8 @@ new Vue({
 
     mounted() {
 
-        this.getQuestionTypes({userId: 13})
+        this.getQuestionTypes()
+        this.getUserData();
 
     }
 });

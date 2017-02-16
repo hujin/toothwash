@@ -2,16 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="flexible" content="initial-dpr=2,maximum-dpr=2" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta content="telephone=no" name="format-detection"/>
     <title>账户信息</title>
 </head>
 <body>
     <div id="app">
         <div class="avatar-wrap">
             <div class="avatar">
-                <img src="../../assets/profile/avatar.png" alt="">
-                <span>calm</span>
+                <img :src="profile.userImage" alt="">
+                <span>{{profile.userName}}</span>
             </div>
         </div>
         <div class="profile-info">
@@ -19,21 +18,21 @@
             <div class="profile-item clearfix">
                 <label class="profile-label">真实姓名</label>
                 <span class="profile-content" @click.stop="showName">
-                    {{profile.name || '未填写'}}
+                    {{profile.realName || '未填写'}}
                     <i class="iconfont icon-arrow-right"></i>
                 </span>
             </div>
             <div class="profile-item clearfix">
                 <label class="profile-label">邮箱</label>
                 <span class="profile-content" @click.stop="showEmail">
-                    {{profile.email || '未填写'}}
+                    {{profile.userEmail || '未填写'}}
                     <i class="iconfont icon-arrow-right"></i>
                 </span>
             </div>
             <div class="profile-item clearfix">
                 <label class="profile-label">手机</label>
                 <span class="profile-content" @click.stop="showPhone">
-                    {{profile.phone || '未填写'}}
+                    {{profile.userMobile || '未填写'}}
                     <i class="iconfont icon-arrow-right"></i>
                 </span>
             </div>
@@ -41,21 +40,21 @@
             <div class="profile-item clearfix">
                 <label class="profile-label">牙结石</label>
                 <span class="profile-content" @click.stop="status3 = true">
-                    {{profile.phone || '未填写'}}
+                    {{profile.dentalCalculus==true?'有牙结石':'无牙结石'}}
                     <i class="iconfont icon-arrow-right"></i>
                 </span>
             </div>
             <div class="profile-item clearfix">
                 <label class="profile-label">蛀牙</label>
                 <span class="profile-content" @click.stop="status2 = true">
-                    {{profile.phone || '未填写'}}
+                    {{profile.toothDecay?profile.toothDecay:'无'}}
                     <i class="iconfont icon-arrow-right"></i>
                 </span>
             </div>
             <div class="profile-item clearfix">
                 <label class="profile-label">正畸牙</label>
                 <span class="profile-content" @click.stop="status1 = true">
-                    {{profile.phone || '未填写'}}
+                    {{profile.spurTooth==true?'有正畸牙':'无正畸牙'}}
                     <i class="iconfont icon-arrow-right"></i>
                 </span>
             </div>
@@ -68,11 +67,11 @@
                 </div>
                 <div class="dialog-content">
                     <div class="row " style="margin-top: .4rem">
-                        <input type="text" class="form-input" placeholder="请输入您的真实姓名">
+                        <input type="text" class="form-input" placeholder="请输入您的真实姓名" v-model="modifyRealName">
                         <span class="error-text">请输入姓名</span>
                     </div>
                     <div class="row" style="text-align: center;margin-bottom: 0;margin-top: 1.28rem">
-                        <mt-button type="primary">确定</mt-button>
+                        <mt-button type="primary"  @click.stop="modifyName()">确定</mt-button>
                     </div>
                 </div>
             </div>
@@ -85,11 +84,11 @@
                 </div>
                 <div class="dialog-content">
                     <div class="row " style="margin-top: .4rem">
-                        <input type="text" class="form-input" placeholder="请输入邮箱地址">
+                        <input type="text" class="form-input" placeholder="请输入邮箱地址" v-model="modifyEmailAddress">
                         <span class="error-text">邮箱格式不正确，请重新填写</span>
                     </div>
                     <div class="row" style="text-align: center;margin-bottom: 0;margin-top: 1.28rem">
-                        <mt-button type="primary">确定</mt-button>
+                        <mt-button type="primary" @click.stop="modifyEmail()">确定</mt-button>
                     </div>
                 </div>
             </div>
@@ -103,12 +102,12 @@
                 <div class="dialog-content">
                     <div class="row " style="margin-top: .4rem">
                         <input type="text" class="form-input" v-model="mobile" placeholder="请输入需要绑定的手机号码">
-                        <span class="error-text">邮箱格式不正确，请重新填写</span>
+                        <!--<span class="error-text">邮箱格式不正确，请重新填写</span>-->
                     </div>
                     <div class="row hasline" >
-                        <input type="text" class="form-input" placeholder="请输入验证码">
+                        <input type="text" class="form-input" placeholder="请输入验证码" v-model="verificationCode">
                         <button @click.stop="sendCode">{{btnText}}</button>
-                        <span class="error-text">邮箱格式不正确，请重新填写</span>
+                        <!--<span class="error-text">邮箱格式不正确，请重新填写</span>-->
                     </div>
                     <div class="row" style="text-align: center;margin-bottom: 0;margin-top: 1.28rem">
                         <mt-button type="primary" @click.stop="bindMobile">确定</mt-button>
@@ -121,23 +120,23 @@
             <img src="../../assets/profile/1.png" alt="">
             <p>正畸(Orthodontics)就是矫正牙齿、解除错牙合畸形。正畸治疗主要通过各种矫正装置来调整面部骨骼、牙齿及颌面部的神经及肌肉之间的协调性。</p>
             <div class="pane-operate-bar">
-                <mt-button type="primary" style="margin-right: 1.4rem">否</mt-button>
-                <mt-button type="primary">是</mt-button>
+                <mt-button type="primary" @click.stop="setToothStatus(false)" style="margin-right: 1.4rem" >否</mt-button>
+                <mt-button type="primary" @click.stop="setToothStatus(true)">是</mt-button>
             </div>
         </div>
         <div class="pane" v-show="status2">
             <h5>请选择您的蛀牙颗数</h5>
             <img src="../../assets/profile/2.png" alt="">
             <div class="swtich-list clearfix">
-                <a class="switch-item" :class="{'current':activeIndex == 0}" >无</a>
-                <a class="switch-item" :class="{'current':activeIndex == 1}" >1颗</a>
-                <a class="switch-item" :class="{'current':activeIndex == 2}" >2颗</a>
-                <a class="switch-item" :class="{'current':activeIndex == 3}" >3颗</a>
-                <a class="switch-item" :class="{'current':activeIndex == 4}" >4颗</a>
-                <a class="switch-item" :class="{'current':activeIndex == 5}" >4颗以上</a>
+                <a class="switch-item" :class="{'current':activeIndex == 0}" @click.stop="setToothNum(0)">无</a>
+                <a class="switch-item" :class="{'current':activeIndex == 1}" @click.stop="setToothNum(1)">1颗</a>
+                <a class="switch-item" :class="{'current':activeIndex == 2}" @click.stop="setToothNum(2)">2颗</a>
+                <a class="switch-item" :class="{'current':activeIndex == 3}" @click.stop="setToothNum(3)">3颗</a>
+                <a class="switch-item" :class="{'current':activeIndex == 4}" @click.stop="setToothNum(4)">4颗</a>
+                <a class="switch-item" :class="{'current':activeIndex == 5}" @click.stop="setToothNum(5)"style="font-size: 0.3rem;" >4颗以上</a>
             </div>
             <div class="pane-operate-bar">
-                <mt-button type="primary">确认</mt-button>
+                <mt-button type="primary" @click.stop="confirmToothNum()">确认</mt-button>
             </div>
         </div>
         <div class="pane" v-show="status3">
@@ -145,8 +144,8 @@
             <img src="../../assets/profile/3.png" alt="">
             <p>牙结石通常存在于唾液腺开口处的牙齿表面。如下颚前牙的舌侧表面，上颚后牙的颊侧表面和牙齿的颈部。牙结石开始是乳白色的软垢，会因逐渐的钙化而变硬。</p>
             <div class="pane-operate-bar">
-                <mt-button type="primary" style="margin-right: 1.4rem">否</mt-button>
-                <mt-button type="primary">是</mt-button>
+                <mt-button type="primary" style="margin-right: 1.4rem" @click.stop="setToothStone(false)">否</mt-button>
+                <mt-button type="primary" @click.stop="setToothStone(true)">是</mt-button>
             </div>
         </div>
     </div>

@@ -11,15 +11,15 @@
     <div class="medal-count">已获得勋章 <span class="medal-num">{{medalNum}}</span> /9</div>
 
     <ul class="medal-c">
-        <li class="medal-item medal1" :class="{'grey-filter': medalData[0]}"></li>
-        <li class="medal-item medal2" :class="{'grey-filter': medalData[1]}"></li>
-        <li class="medal-item medal3" :class="{'grey-filter': medalData[2]}"></li>
-        <li class="medal-item medal4" :class="{'grey-filter': medalData[3]}"></li>
-        <li class="medal-item medal5" :class="{'grey-filter': medalData[4]}"></li>
-        <li class="medal-item medal6" :class="{'grey-filter': medalData[5]}"></li>
-        <li class="medal-item medal7" :class="{'grey-filter': medalData[6]}"></li>
-        <li class="medal-item medal8" :class="{'grey-filter': medalData[7]}"></li>
-        <li class="medal-item medal9" :class="{'grey-filter': medalData[8]}"></li>
+        <li class="medal-item medal1" :class="{'grey-filter': medalData[0]}" @click="medalDetail(1,medalData[0])"></li>
+        <li class="medal-item medal2" :class="{'grey-filter': medalData[1]}" @click="medalDetail(2,medalData[1])"></li>
+        <li class="medal-item medal3" :class="{'grey-filter': medalData[2]}" @click="medalDetail(3,medalData[2])"></li>
+        <li class="medal-item medal4" :class="{'grey-filter': medalData[3]}" @click="medalDetail(4,medalData[3])"></li>
+        <li class="medal-item medal5" :class="{'grey-filter': medalData[4]}" @click="medalDetail(5,medalData[4])"></li>
+        <li class="medal-item medal6" :class="{'grey-filter': medalData[5]}" @click="medalDetail(6,medalData[5])"></li>
+        <li class="medal-item medal7" :class="{'grey-filter': medalData[6]}" @click="medalDetail(7,medalData[6])"></li>
+        <li class="medal-item medal8" :class="{'grey-filter': medalData[7]}" @click="medalDetail(8,medalData[7])"></li>
+        <li class="medal-item medal9" :class="{'grey-filter': medalData[8]}" @click="medalDetail(9,medalData[8])"></li>
     </ul>
 </div>
 

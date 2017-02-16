@@ -14,16 +14,25 @@ new Vue({
     data(){
         return {
             searchText: '',
-            history: []
-
-
+            history: [],
+            userId: null
         }
     },
 
     methods:{
+        getUserData(){
+            let url = '/Brush/weixin/userInfo/queryUserInfo?'+'code='+util.getQueryString('code');
+            this.$http.get(url).then((response) => {
+
+                this.userId = response.body.result.userInfo.id;
+                this.getHistory({userId: this.userId})
+            }, (err) => {
+                console.log(err)
+            });
+        },
         search() {
 
-            window.location.href = 'searchResult.html?'+this.searchText
+            window.location.href = 'searchResult.html?keyword='+this.searchText
         },
 
         getHistory(obj) {
@@ -52,8 +61,8 @@ new Vue({
             });
         },
 
-        goSearch(text){
-            window.location.href = 'searchResult.html?'+text
+        goResult(text){
+            window.location.href = 'searchResult.html?keyword='+text
 
         }
 
@@ -61,8 +70,8 @@ new Vue({
     },
 
     mounted() {
+        this.getUserData()
 
-        this.getHistory({userId:1})
 
     }
 });

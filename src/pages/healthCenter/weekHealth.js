@@ -96,13 +96,28 @@ new Vue({
             unHealthyTimes: 1,
             starNum: '',
             userRecords: '',
-            starData: ['null-star', 'null-star', 'null-star', 'null-star', 'null-star']
+            starData: ['null-star', 'null-star', 'null-star', 'null-star', 'null-star'],
+            userId: null,
+            profile: {}
 
         }
     },
     methods: {
+        getUserData(){
+            let url = '/Brush/weixin/userInfo/queryUserInfo?'+'code='+util.getQueryString('code');
+            this.$http.get(url).then((response) => {
 
-        getData(obj){
+                this.userId = response.body.result.userInfo.id;
+                this.profile = response.body.result.userInfo;
+                this.getData()
+
+            }, (err) => {
+                console.log(err)
+            });
+        },
+
+        getData(){
+            var obj ={userId: this.userId};
             let url = '/Brush/weixin/queryHealthSummary/queryLastWeekHealthSummary?' + util.getParam(obj);
 
             this.$http.post(url).then((response) => {
@@ -145,7 +160,7 @@ new Vue({
 
     },
     mounted(){
-        this.getData({userId: 13})
+        this.getUserData()
 
     }
 });

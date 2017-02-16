@@ -13,20 +13,29 @@ new Vue({
 
     data(){
         return {
-            myQuestion:''
-
-
+            myQuestion:'',
+            userId: null
         }
     },
 
     methods:{
-        getMyQuestion(obj) {
+        getUserData(){
+            let url = '/Brush/weixin/userInfo/queryUserInfo?code='+util.getQueryString('code');
+            this.$http.get(url).then((response) => {
+
+                this.userId = response.body.result.userInfo.id;
+                this.getMyQuestion()
+
+            }, (err) => {
+                console.log(err)
+            });
+        },
+        getMyQuestion() {
+            var obj ={userId: this.userId};
             let url = '/Brush/weixin/questionInfo/queryMyQuestion?' + util.getParam(obj);
             this.$http.post(url).then((response) =>  {
                 console.log(response.body.result)
                 this.myQuestion = response.body.result.questionInfos2.concat(response.body.result.questionInfos1);
-                // this.myQuestion.concat(response.body.result.questionInfos1)
-                console.log(this.myQuestion)
 
             }, (err) => {
                 console.log(err)
@@ -36,8 +45,7 @@ new Vue({
     },
 
     mounted() {
-
-        this.getMyQuestion({userId:13})
+        this.getUserData()
 
     }
 });

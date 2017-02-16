@@ -15,6 +15,7 @@ new Vue({
     el: '#app',
     data(){
         return {
+            userId: null,
             active: 'tab-day',
             dayDatas: [],
             datePickerData: [],
@@ -105,6 +106,17 @@ new Vue({
         }
     },
     methods: {
+        getUserData(){
+            let url = '/Brush/weixin/userInfo/queryUserInfo?'+'code='+util.getQueryString('code');
+            this.$http.get(url).then((response) => {
+
+                this.userId = response.body.result.userInfo.id;
+                this.getDayData();
+                this.getMonthData()
+            }, (err) => {
+                console.log(err)
+            });
+        },
         chooseTab: function (tab) {
             this.active = tab;
         },
@@ -145,21 +157,23 @@ new Vue({
             }
         },
 
-        getDate: function (time) {
-            let date = new Date(time);
-            console.log(date.getMonth() + '月' + date.getDate() + '日');
-            if (date == new Date()) {
+        getDate: function (date) {
+            // let date = new Date(time);
+            var d = new Date(date);
+            d = d.getFullYear() > 0 ? d : new Date(Date.parse(date.replace(/-/g, "/")));
+            if (d == new Date()) {
                 return '今天'
             } else {
-                return date.getMonth() + 1 + '月' + date.getDate() + '日'
+                return d.getMonth() + 1 + '月' + d.getDate() + '日'
             }
 
         },
 
-        getHours: function (time) {
-            let date = new Date(time);
-
-            return date.getHours() + ':' + date.getMinutes();
+        getHours: function (date) {
+            // let date = new Date(time);
+            var d = new Date(date);
+            d = d.getFullYear() > 0 ? d : new Date(Date.parse(date.replace(/-/g, "/")));
+            return d.getHours() + ':' + d.getMinutes();
         },
 
         getMinutes: function (seconds) {
@@ -168,19 +182,20 @@ new Vue({
 
         },
 
-        getDayData: function (obj) {
-            let url = '/Brush/weixin/allUserRecord/queryFourteenDaysUserRecord?' + util.getParam(obj);
+        getDayData: function () {
+            var obj = {userId: this.userId};
+            let url = '/Brush/weixin/allUserRecord/queryFourteenDaysUserRecord?' + util.getParam(obj)+'&code='+util.getQueryString('code');
             this.$http.post(url).then((response) => {
-                console.log(response.body.result)
-                this.dayDatas = response.body.result.infos;
-
+                this.dayDatas = response.body.result.userRecords;
             }, (err) => {
                 console.log(err)
+
             });
         },
 
-        getMonthData: function (obj) {
-            let url = '/Brush/weixin/allUserRecord/queryEveryMonthUserRecord?' + util.getParam(obj);
+        getMonthData: function () {
+            var obj = {userId: this.userId};
+            let url = '/Brush/weixin/allUserRecord/queryEveryMonthUserRecord?' + util.getParam(obj)+'&code='+util.getQueryString('code');
             this.$http.post(url).then((response) => {
                 this.todayHealthData = response.body.result.healthSummary;
                 let i = 0;
@@ -213,8 +228,8 @@ new Vue({
     },
 
     mounted(){
-        this.getDayData({userId: 1});
-        this.getMonthData({userId: 1})
+        this.getUserData();
+
     }
 
 });

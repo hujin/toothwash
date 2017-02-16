@@ -9,14 +9,16 @@
     box-shadow: 0.2rem 0.3rem 0.5rem #e0f1f2;
     
     .avatar {
-      width: 1.2rem;
-      height: 1.2rem;
-      border-radius: 1.2rem;
-      background-image: url("../../assets/health/avatar.png");
-      background-size: contain;
       position: absolute;
       top: -0.3rem;
       left:0.5rem;
+
+      img {
+        width: 1rem;
+        height: 1rem;
+        border-radius: 100%;
+        margin-bottom: .1rem;
+      }
     }
     .refresh {
       width: 0.8rem;
@@ -114,6 +116,7 @@
         vertical-align: middle;
         margin-right: 0.2rem;
         bottom: 0.1rem;
+        border: none;
       }
       .full-star {
         background: url("../../assets/health/star-all.png") no-repeat;

@@ -16,14 +16,27 @@ new Vue({
 
     data(){
         return {
+            userId: null,
             healthData: '',
-            starData: ['null-star', 'null-star', 'null-star', 'null-star', 'null-star']
-
+            starData: ['null-star', 'null-star', 'null-star', 'null-star', 'null-star'],
+            profile: {}
 
         }
     },
 
     methods: {
+        getUserData(){
+            let url = '/Brush/weixin/userInfo/queryUserInfo?'+'code='+util.getQueryString('code');
+            this.$http.get(url).then((response) => {
+
+                this.userId = response.body.result.userInfo.id;
+                this.profile = response.body.result.userInfo;
+                this.getData()
+
+            }, (err) => {
+                console.log(err)
+            });
+        },
         goTodayHealth(){
             window.location.href = 'todayHealth.html'
         },
@@ -34,10 +47,11 @@ new Vue({
             window.location.href = 'medalWall.html'
         },
 
-        getData(obj) {
-            let url = '/Brush/weixin/allUserRecord/healthCenter?' + util.getParam(obj);
+        getData() {
+            var obj = {userId: this.userId}
+            let url = '/Brush/weixin/allUserRecord/healthCenter?' + util.getParam(obj)+'&code='+util.getQueryString('code');
             this.$http.post(url).then((response) => {
-                console.log(response)
+
                 this.healthData = response.body.result;
                 let rate = this.healthData.healthRate;
                 this.healthData.healthRate = 0;
@@ -45,7 +59,7 @@ new Vue({
                     if(this.healthData.healthRate<rate){
                         this.healthData.healthRate = this.healthData.healthRate+1
                     }
-                },5)
+                },5);
                 this.setStarData();
                 window.circleAnim(rate);
 
@@ -72,8 +86,8 @@ new Vue({
     },
 
     mounted() {
+        this.getUserData();
 
-        this.getData({userId: 13})
 
     }
 });

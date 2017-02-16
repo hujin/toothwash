@@ -10,48 +10,48 @@ Vue.use(Resource);
 
 Vue.component('i-checkbox',Checkbox);
 
-wx.config({
-    beta:true,
-    debug:true,
-    appId: 'wxf67c994040b19368',
-    timestamp:1483844878,
-    noncestr:'Tr4O7u0RTWCle42weF9bQBFTaX1VTlBb',
-    signature:'47f564e3b6da81241a1dde8d2384bc9611f6b75f',
-    jsApiList:['checkJsApi',
-        'onMenuShareTimeline',
-        'onMenuShareAppMessage',
-        'onMenuShareQQ',
-        'onMenuShareWeibo',
-        'hideMenuItems',
-        'showMenuItems',
-        'hideAllNonBaseMenuItem',
-        'showAllNonBaseMenuItem',
-        'translateVoice',
-        'startRecord',
-        'stopRecord',
-        'onRecordEnd',
-        'playVoice',
-        'pauseVoice',
-        'stopVoice',
-        'uploadVoice',
-        'downloadVoice',
-        'chooseImage',
-        'previewImage',
-        'uploadImage',
-        'downloadImage',
-        'getNetworkType',
-        'openLocation',
-        'getLocation',
-        'hideOptionMenu',
-        'showOptionMenu',
-        'closeWindow',
-        'scanQRCode',
-        'chooseWXPay',
-        'openProductSpecificView',
-        'addCard',
-        'chooseCard',
-        'openCard','openWXDeviceLib']
-});
+// wx.config({
+//     beta:true,
+//     debug:true,
+//     appId: 'wxf67c994040b19368',
+//     timestamp:1483844878,
+//     noncestr:'Tr4O7u0RTWCle42weF9bQBFTaX1VTlBb',
+//     signature:'47f564e3b6da81241a1dde8d2384bc9611f6b75f',
+//     jsApiList:['checkJsApi',
+//         'onMenuShareTimeline',
+//         'onMenuShareAppMessage',
+//         'onMenuShareQQ',
+//         'onMenuShareWeibo',
+//         'hideMenuItems',
+//         'showMenuItems',
+//         'hideAllNonBaseMenuItem',
+//         'showAllNonBaseMenuItem',
+//         'translateVoice',
+//         'startRecord',
+//         'stopRecord',
+//         'onRecordEnd',
+//         'playVoice',
+//         'pauseVoice',
+//         'stopVoice',
+//         'uploadVoice',
+//         'downloadVoice',
+//         'chooseImage',
+//         'previewImage',
+//         'uploadImage',
+//         'downloadImage',
+//         'getNetworkType',
+//         'openLocation',
+//         'getLocation',
+//         'hideOptionMenu',
+//         'showOptionMenu',
+//         'closeWindow',
+//         'scanQRCode',
+//         'chooseWXPay',
+//         'openProductSpecificView',
+//         'addCard',
+//         'chooseCard',
+//         'openCard','openWXDeviceLib']
+// });
 
 import './index.scss';
 
@@ -62,12 +62,15 @@ new Vue({
             value:false,
             headerStatus:false,
             deviceList:[],
+            reEquipmentName:'',
+            openId: null,
             deviceInfo:{
                 shelfLife:0,
                 electricQuantity:0,
                 sputtering:false,
                 patternId:0,
                 equipmentName:'',
+                equipmentNum: '',
                 equipmentId:0,
                 remindTime:0,
                 remindTimeName:'关闭'
@@ -118,7 +121,7 @@ new Vue({
             if(!obj.openId){
                 return;
             }
-            let url= '/Brush/weixin/MyEquipment/queryEquipmentInfo?' + util.getParam(obj);
+            let url= '/Brush/weixin/MyEquipment/queryEquipmentInfo?' + util.getParam(obj)+'&code='+util.getQueryString('code');
             this.$http.post(url).then(res => {
                 if(res.data.isSuccess){
                     this.deviceList = res.data.result.equipmentInfos;
@@ -143,14 +146,36 @@ new Vue({
                     this.deviceInfo.patternId = data.equipmentInfo.patternId;
                     this.deviceInfo.equipmentName = data.equipmentInfo.equipmentName;
                     this.deviceInfo.equipmentId = data.equipmentInfo.id;
+                    this.deviceInfo.equipmentNum = data.equipmentInfo.equipmentNum
                     this.deviceInfo.remindTime = data.equipmentInfo.remindTime;
                     this.deviceInfo.remindTimeName = this.setRemind(this.deviceInfo.remindTime);
                     this.form.equipmentId = data.equipmentInfo.id;
                     this.patternList = data.patternInfos;
                     this.headerStatus = false;
+
+
+                    this.setEquipmentData();
                 }
             });
         },
+
+        setEquipmentData(){
+            let url1 = '/Brush/comparingTime?equipmentNum=' + this.deviceInfo.equipmentNum+'&openId='+this.openId;
+            this.$http.post(url1).then(res => {
+
+            });
+
+            let url2 = '/Brush/battery?equipmentNum=' + this.deviceInfo.equipmentNum+'&openId='+this.openId;
+            this.$http.post(url2).then(res => {
+
+            });
+
+            let url3 = '/Brush/insertUserRecord?equipmentNum=' + this.deviceInfo.equipmentNum+'&openId='+this.openId;
+            this.$http.post(url3).then(res => {
+
+            });
+        },
+
         addPattern(){
             if(!this.form.patternName){
                 alert('请填写模式名称!');
@@ -262,24 +287,35 @@ new Vue({
         setEquipmentName(){
             let obj = {
                 id:this.deviceInfo.equipmentId,
-                equipmentName:this.deviceInfo.equipmentName
+                equipmentName:this.reEquipmentName
             }
             let url ='/Brush/weixin/MyEquipment/updateEquipmentName?' + util.getParam(obj);
             this.$http.post(url).then(res => {
                 if(res.data.isSuccess){
                     this.deviceStatus = false;
+                    this.deviceInfo.equipmentName =  this.reEquipmentName
                 }
+            });
+        },
+        getOneDevice(obj){
+
+            let url ='/Brush/weixin/MyEquipment/queryOneEquipmentInfo?' + util.getParam(obj);
+            this.$http.get(url).then(res => {
+
+                this.openId = res.body.result.equipmentInfo.openId;
+                this.getDeviceList({openId: this.openId });
             });
         }
     },
     mounted(){
-        let openid = util.getQueryString('openId');
-        this.getDeviceList({openId:openid});
 
-        wx.ready(function () {
-            wx.invoke('openWXDeviceLib',{'connType':'blue'},function (res) {
-               console.log(res);
-            });
-        });
+        this.getOneDevice({code:util.getQueryString('code')})
+
+        // wx.ready(function () {
+        //     wx.invoke('openWXDeviceLib',{'connType':'blue'},function (res) {
+        //        console.log(res);
+        //     });
+        // });
+
     }
 });
