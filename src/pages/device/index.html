@@ -3,15 +3,19 @@
 <head>
 	<meta charset="UTF-8">
 	<title>设备管理</title>
-	<!--<meta name="flexible" content="initial-dpr=1,maximum-dpr=1,width=device-width" />-->
+	<!--<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">-->
 	<meta content="telephone=no" name="format-detection" />
 
 	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 </head>
 <body>
 	<div id="app">
+		<div style="position: fixed;width: 100vw;height: 100vh;z-index: 99999999;background-color: white;" :class="loadClass">
+			<mt-spinner :type="2" :size="60" style="text-align: center;display:block; margin-top: 6rem;"></mt-spinner>
+			<p style="text-align: center;font-size: 0.4rem;">加载中...</p>
+		</div>
 		<div class="header" @click="showHeader">
-			<span>{{deviceInfo.equipmentName || '设备'}} <i class="iconfont icon-arrow-down"></i></span>
+			<span v-text="deviceInfo.equipmentName || '设备'"> <i class="iconfont icon-arrow-down"></i></span>
 			<ul class="header-list" v-show="headerStatus">
 				<li class="header-list-item" :class="{'active':item.id == deviceInfo.equipmentId}" v-for="item in deviceList" @click.stop="getDevice({id:item.id})">{{item.equipmentName || '设备'}}</li>
 			</ul>
@@ -20,11 +24,11 @@
 			<div class="device-info">
 				<div class="device-item" @click.stop="goDetail">
 					<img src="../../assets/device/1.png" alt="">
-					<span>离更换喷头还剩<strong>{{deviceInfo.shelfLife}}</strong>天</span>
+					<span>离更换喷头还剩<strong>{{deviceInfo.lastDayNum}}</strong>天</span>
 				</div>
 				<div class="device-item">
 					<img src="../../assets/device/2.png" alt="">
-					<span>电量还剩<strong>{{deviceInfo.electricQuantity}}</strong>%</span>
+					<span>电量还剩<strong v-text="deviceInfo.electricQuantity"></strong>%</span>
 				</div>
 				<i class="line"></i>
 			</div>
@@ -38,7 +42,7 @@
 					<span>间断水柱按摩牙龈</span>
 				</a>
 				<a class="model-item" :class="{'active':deviceInfo.patternId == 4}" @click.stop="choosePattern(4)">
-					<i class="icon item2"></i>
+					<i class="icon item2" style="width: 1.7rem;"></i>
 					<h6>呵护模式</h6>
 					<span>持续冲洗洁白牙齿</span>
 				</a>
@@ -52,9 +56,9 @@
 				<a class="model-item" :class="{'delete':deleteStatus,'active':deviceInfo.patternId == item.id}" v-for="(item,index) in patternList" @click.stop="choosePattern(item.id)">
 					<div class="delete-pane" @click.stop="deletePattern(item.id,index)">
 						<i class="iconfont icon-close"></i>
-						<h6>{{item.patternName}}</h6>
+						<h6 v-text="item.patternName"></h6>
 					</div>
-					<h6>{{item.patternName}}</h6>
+					<h6 v-text="item.patternName"></h6>
 				</a>
 				<a class="model-item setting" @click.stop="addCustom">
 					<img src="../../assets/device/add.png" alt="">
@@ -80,7 +84,7 @@
 					</div>
 				</li>
 				<li class="setting-item">
-					<i class="icon icon2"></i>
+					<i class="icon icon2" style="width: 0.6rem;"></i>
 					<div class="settting-item-info">
 						<h5>定时提醒</h5>
 						<span>设置提醒时间，管理刷牙习惯。</span>
@@ -91,13 +95,13 @@
 					</div>
 				</li>
 				<li class="setting-item">
-					<i class="icon icon3"></i>
+					<i class="icon icon3" style="width: 0.7rem;"></i>
 					<div class="settting-item-info">
-						<h5>重命名</h5>
-						<span>设置当前设备名称。</span>
+						<h5>设备信息</h5>
+						<span>冲牙器详细信息和绑定信息。</span>
 					</div>
 					<div class="operate" @click.stop="setDeviceName">
-						<span>{{deviceInfo.equipmentName}}</span>
+						<span  v-text="deviceInfo.equipmentName"></span>
 						<i class="iconfont icon-arrow-right"></i>
 					</div>
 				</li>
@@ -118,16 +122,17 @@
 						</label>
 					</div>
 					<div class="row">
-						<label for="" class="col-label">水压</label>
+						<label class="col-label">水压</label>
 						<div class="col-content">
 							<mt-range v-model="form.hydraulicPressure"
 									  :min="0"
+									  :step="5"
 									  :max="100" :bar-height="3"></mt-range>
 						</div>
 						<span class="col-text">{{form.hydraulicPressure}}%</span>
 					</div>
-					<div class="row" style="margin-bottom: .62rem">
-						<label for="" class="col-label">间隔</label>
+					<div class="row" style="margin-top: 0.3rem;margin-bottom: 0.3rem;">
+						<label class="col-label">间隔</label>
 						<div class="col-content">
 							<mt-range v-model="form.frequency"
 									  :min="0"
@@ -135,7 +140,7 @@
 						</div>
 						<span class="col-text">0.{{form.frequency}}s</span>
 					</div>
-					<div class="row" style="text-align: center;margin-bottom: 0">
+					<div class="row" style="text-align: center;">
 						<mt-button type="primary" @click.stop="addPattern">确定</mt-button>
 					</div>
 				</div>
@@ -173,6 +178,17 @@
 					<div class="row" style="text-align: center">
 						<mt-button type="primary" @click.stop="setEquipmentName">确定</mt-button>
 					</div>
+				</div>
+			</div>
+		</div>
+		<div class="mask" v-show="settingStatus">
+			<div class="dialog device-dialog" >
+				<div class="dialog-content" >
+					<div class="row" style="padding:0 .6rem;margin-bottom: 1.32rem;margin-top: .4rem;height: 1rem;">
+						<mt-spinner :type="2" :size="60" style="text-align: center;display:block;margin-top: 1rem "></mt-spinner>
+						<p style="text-align: center;font-size: 0.4rem;margin-top: 1rem;">正在设置，请稍后...</p>
+					</div>
+
 				</div>
 			</div>
 		</div>

@@ -7,6 +7,12 @@
 </head>
 <body>
     <div id="app">
+        <div style="position: fixed;width: 100vw;height: 100vh;z-index: 99999999;background-color: white;" :class="loadClass">
+            <mt-spinner :type="2" :size="60" style="text-align: center;display:block; margin-top: 6rem;"></mt-spinner>
+            <p style="text-align: center;font-size: 0.4rem;">加载中...</p>
+        </div>
+
+        <div style="padding: .58rem .4rem;">
         <div class="avatar-wrap">
             <div class="avatar">
                 <img :src="profile.userImage" alt="">
@@ -66,9 +72,9 @@
                     <i class="iconfont icon-close" @click.stop="dialogNameClose"></i>
                 </div>
                 <div class="dialog-content">
-                    <div class="row " style="margin-top: .4rem">
+                    <div class="row hasline" style="margin-top: .4rem">
                         <input type="text" class="form-input" placeholder="请输入您的真实姓名" v-model="modifyRealName">
-                        <span class="error-text">请输入姓名</span>
+                        <span class="error-text" v-if="nameErrorStatus">请输入姓名</span>
                     </div>
                     <div class="row" style="text-align: center;margin-bottom: 0;margin-top: 1.28rem">
                         <mt-button type="primary"  @click.stop="modifyName()">确定</mt-button>
@@ -83,11 +89,11 @@
                     <i class="iconfont icon-close" @click.stop="dialogEmailClose"></i>
                 </div>
                 <div class="dialog-content">
-                    <div class="row " style="margin-top: .4rem">
+                    <div class="row hasline" style="margin-top: .4rem">
                         <input type="text" class="form-input" placeholder="请输入邮箱地址" v-model="modifyEmailAddress">
-                        <span class="error-text">邮箱格式不正确，请重新填写</span>
+                        <span class="error-text" v-if="emailErrorStatus">邮箱格式不正确，请重新填写</span>
                     </div>
-                    <div class="row" style="text-align: center;margin-bottom: 0;margin-top: 1.28rem">
+                    <div class="row hasline" style="text-align: center;margin-bottom: 0;margin-top: 1.28rem">
                         <mt-button type="primary" @click.stop="modifyEmail()">确定</mt-button>
                     </div>
                 </div>
@@ -100,14 +106,15 @@
                     <i class="iconfont icon-close" @click.stop="dialogPhoneClose"></i>
                 </div>
                 <div class="dialog-content">
-                    <div class="row " style="margin-top: .4rem">
+                    <div class="row hasline" style="margin-top: .4rem">
                         <input type="text" class="form-input" v-model="mobile" placeholder="请输入需要绑定的手机号码">
                         <!--<span class="error-text">邮箱格式不正确，请重新填写</span>-->
                     </div>
                     <div class="row hasline" >
                         <input type="text" class="form-input" placeholder="请输入验证码" v-model="verificationCode">
-                        <button @click.stop="sendCode">{{btnText}}</button>
-                        <!--<span class="error-text">邮箱格式不正确，请重新填写</span>-->
+                        <button @click.stop="sendCode" class="send-btn">{{btnText}}</button>
+                        <span class="error-text" v-if="phoneErrorStatus">请输入正确的手机号码</span>
+                        <span class="error-text" v-if="phoneBindStatus">请输入正确的验证码</span>
                     </div>
                     <div class="row" style="text-align: center;margin-bottom: 0;margin-top: 1.28rem">
                         <mt-button type="primary" @click.stop="bindMobile">确定</mt-button>
@@ -147,6 +154,7 @@
                 <mt-button type="primary" style="margin-right: 1.4rem" @click.stop="setToothStone(false)">否</mt-button>
                 <mt-button type="primary" @click.stop="setToothStone(true)">是</mt-button>
             </div>
+        </div>
         </div>
     </div>
     <script>

@@ -59,6 +59,10 @@ new Vue({
                     {
                         type: 'value',
                         axisTick: false,
+                        scale:true,
+                        splitNumber:5,
+                        min: 0,
+                        max: 100,
                         axisLabel: {
                             formatter: '{value}%'
                         },
@@ -93,18 +97,19 @@ new Vue({
             },
             topHealthRate: 0,
             healthSummary: '',
-            unHealthyTimes: 1,
+            unHealthyTimes: 0,
             starNum: '',
             userRecords: '',
             starData: ['null-star', 'null-star', 'null-star', 'null-star', 'null-star'],
             userId: null,
-            profile: {}
+            profile: {},
+            date: ''
 
         }
     },
     methods: {
         getUserData(){
-            let url = '/Brush/weixin/userInfo/queryUserInfo?'+'code='+util.getQueryString('code');
+            let url = '/Brush/weixin/userInfo/queryUserInfo?' + 'code=' + util.getQueryString('code');
             this.$http.get(url).then((response) => {
 
                 this.userId = response.body.result.userInfo.id;
@@ -113,11 +118,12 @@ new Vue({
 
             }, (err) => {
                 console.log(err)
+                alert('服务器异常请重新进入！')
             });
         },
 
         getData(){
-            var obj ={userId: this.userId};
+            var obj = {userId: this.userId};
             let url = '/Brush/weixin/queryHealthSummary/queryLastWeekHealthSummary?' + util.getParam(obj);
 
             this.$http.post(url).then((response) => {
@@ -132,15 +138,26 @@ new Vue({
                 response.body.result.userRecords.forEach((data, index) => {
                     this.lineOptions.series[0].data.push(data.healthRate)
 
-
-
                 })
 
                 this.setStarData()
+                this.date = this.setStartEndDate(this.userRecords);
 
             }, (err) => {
                 console.log(err)
             });
+        },
+        setStartEndDate(arr){
+            let startDate = arr[0].startTime;
+            let endDate = arr[arr.length - 1].startTime;
+
+            return this.getDate(startDate)+' - '+ this.getDate(endDate)
+        },
+        getDate: function (date) {
+            var d = new Date(date);
+            d = d.getFullYear() > 0 ? d : new Date(Date.parse(date.replace(/-/g, "/")));
+            return d.getMonth() + 1 + '月' + d.getDate() + '日'
+
         },
         setStarData() {
             let starNum = this.starNum * 2;
@@ -161,6 +178,5 @@ new Vue({
     },
     mounted(){
         this.getUserData()
-
     }
 });

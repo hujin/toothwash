@@ -18,6 +18,7 @@
         height: 1rem;
         border-radius: 100%;
         margin-bottom: .1rem;
+        border-width:0;
       }
     }
     .refresh {
@@ -117,6 +118,7 @@
         margin-right: 0.2rem;
         bottom: 0.1rem;
         border: none;
+        overflow: hidden;
       }
       .full-star {
         background: url("../../assets/health/star-all.png") no-repeat;

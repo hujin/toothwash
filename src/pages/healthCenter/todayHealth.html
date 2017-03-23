@@ -8,28 +8,30 @@
 <body class="todayHealth">
 
 <div id="todayHealth">
-    <p class="date">12月18日</p>
+    <p class="date" v-text="getDate(healthSummary.updateTime)"></p>
     <div class="avatar">
         <img :src="profile.userImage" alt="用户头像">
     </div>
-    <p>{{profile.userName}}</p>
+    <p v-text="profile.userName"></p>
     <p class="mouth-text">今日口腔清洁度</p>
-    <p class="percent-text">{{healthRate}}<span class="percent-symbol">%</span></p>
-    <p class="mouth-tip">{{healthSummary.titleDetail}}</p>
+    <p class="percent-text" >{{healthRate}}<span class="percent-symbol">%</span></p>
+    <p class="mouth-tip" v-text="healthSummary.titleDetail"></p>
     <p class="mouth-state">牙菌斑状况</p>
 
-    <div :class="healthStateClass"></div>
-    <p class="state-text">{{healthSummary.grades}}</p>
+    <div class="state-img">
+        <img :src="healthSummary.toothImage" alt="">
+    </div>
+    <p class="state-text" v-text="healthSummary.grades"></p>
 
-    <p class="state-tip">{{healthSummary.description}}</p>
+    <p class="state-tip" v-text="healthSummary.description"></p>
 
     <div class="info-c">
         <div class="time-info">
             <span class="time-tip">本日累计刷牙时长</span>
-            <span class="time-text">{{sumNum}}</span>
+            <span class="time-text" v-text="sumTime"></span>
         </div>
-            <p class="today-summary">今日小结</p>
-            <p class="tip-info">{{healthSummary.summaryDetail}}</p>
+            <p class="today-summary">每日小结</p>
+            <p class="tip-info" v-text="healthSummary.summaryDetail"></p>
     </div>
 
 </div>

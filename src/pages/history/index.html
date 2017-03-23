@@ -8,6 +8,13 @@
 <body>
 
 <div id="app" class="history">
+    <div style="position: fixed;width: 100vw;height: 100vh;z-index: 9;background-color: white;" :class="loadClass">
+        <mt-spinner :type="2" :size="60" style="text-align: center;display:block; margin-top: 6rem;"></mt-spinner>
+        <p style="text-align: center;font-size: 0.4rem;">加载中...</p>
+    </div>
+    <div style="padding: 1rem 0.6rem 0 0.6rem">
+
+
     <div class="nav-group">
         <button type="default" class="nav-btn" style="margin-right: 1rem" :class="{active: active=='tab-day'}"
                 @click="chooseTab('tab-day')">日
@@ -19,11 +26,11 @@
         <mt-tab-container-item id="tab-day" class="tab-day">
             <ul class="">
                 <li v-for="data in dayDatas">
-                    <span class="date">{{getDate(data.startTime)}}</span>
+                    <span class="date" v-text="getDate(data.startTime)"></span>
                     <div class="data-group">
-                        <span>{{getHours(data.startTime)}}</span>
-                        <span>{{getMinutes(data.totalTime)}}</span>
-                        <span>健康度:{{data.healthRate}}%</span>
+                        <span v-text="getHours(data.startTime)"></span>
+                        <span v-text="getMinutes(data.totalTime)"></span>
+                        <span >健康度:<i v-text="data.healthRate"></i>%</span>
                     </div>
                 </li>
             </ul>
@@ -44,6 +51,7 @@
             </div>
         </mt-tab-container-item>
     </mt-tab-container>
+    </div>
 </div>
 
 

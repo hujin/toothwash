@@ -32,7 +32,7 @@ new Vue({
         },
         search() {
 
-            window.location.href = 'searchResult.html?keyword='+this.searchText
+            window.location.href = 'searchResult.html?keyword='+this.searchText+'&userId='+this.userId
         },
 
         getHistory(obj) {

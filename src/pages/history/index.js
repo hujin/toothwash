@@ -15,6 +15,7 @@ new Vue({
     el: '#app',
     data(){
         return {
+            loadClass:'',
             userId: null,
             active: 'tab-day',
             dayDatas: [],
@@ -61,6 +62,10 @@ new Vue({
                     {
                         type: 'value',
                         axisTick: false,
+                        scale:true,
+                        splitNumber:5,
+                        min: 0,
+                        max: 100,
                         axisLabel : {
                             formatter : '{value}%'
                         },
@@ -76,7 +81,7 @@ new Vue({
                     legendHoverLink: false,
                     type: 'line',
                     smooth: true,
-                    data: [100, 90, 86, 89, 0, 0, 100],
+                    data: [],
                     itemStyle: {
                         normal: {
                             areaStyle: {
@@ -107,8 +112,12 @@ new Vue({
     },
     methods: {
         getUserData(){
+            setTimeout(() => {
+                this.loadClass = 'hide'
+            },300)
             let url = '/Brush/weixin/userInfo/queryUserInfo?'+'code='+util.getQueryString('code');
             this.$http.get(url).then((response) => {
+                this.loadClass = 'hide'
 
                 this.userId = response.body.result.userInfo.id;
                 this.getDayData();
@@ -158,7 +167,6 @@ new Vue({
         },
 
         getDate: function (date) {
-            // let date = new Date(time);
             var d = new Date(date);
             d = d.getFullYear() > 0 ? d : new Date(Date.parse(date.replace(/-/g, "/")));
             if (d == new Date()) {

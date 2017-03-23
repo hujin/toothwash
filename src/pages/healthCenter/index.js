@@ -17,7 +17,9 @@ new Vue({
     data(){
         return {
             userId: null,
-            healthData: '',
+            healthData: {
+                medalNum: 0
+            },
             starData: ['null-star', 'null-star', 'null-star', 'null-star', 'null-star'],
             profile: {}
 
@@ -28,6 +30,9 @@ new Vue({
         getUserData(){
             let url = '/Brush/weixin/userInfo/queryUserInfo?'+'code='+util.getQueryString('code');
             this.$http.get(url).then((response) => {
+                setTimeout(() => {
+                    this.loadClass = 'hide'
+                },300);
 
                 this.userId = response.body.result.userInfo.id;
                 this.profile = response.body.result.userInfo;

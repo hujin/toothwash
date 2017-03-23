@@ -9,39 +9,58 @@ Vue.use(Resource);
 import './detail.scss';
 
 new Vue({
-   el:'#app',
-   data(){
-      return {
-         tipsStatus:false,
-         lastDayNum:null,
-         usedDayNum:null,
-         consume:null
-      }
-   },
-   methods:{
-      show(){
-         this.tipsStatus = true;
-      },
-      hide(){
-         this.tipsStatus = false
-      },
-      confirm(){
-          window.location.href = 'index.html';
-       },
-      getDetail(){
-         var equipmentId = util.getQueryString('equipmentId');
-         let url = '/Brush/weixin/MyEquipment/queryReplaceSprayerDays?equipmentId=' + equipmentId;
-         this.$http.get(url).then(res => {
-            if(res.data.isSuccess) {
-               this.lastDayNum = res.data.result.lastDayNum;
-               this.usedDayNum = res.data.result.usedDayNum;
-               this.consume = Math.round(this.usedDayNum / 90 * 10000) / 100.00
-            }
-         });
+    el: '#app',
+    data(){
+        return {
+            tipsStatus: false,
+            lastDayNum: null,
+            usedDayNum: null,
+            attritionRate: null,
+            photo: '../../assets/avatar.png'
+        }
+    },
+    methods: {
+        show(){
+            this.tipsStatus = true;
+        },
+        hide(){
+            this.tipsStatus = false
+        },
+        confirm(){
+            let equipmentId = util.getQueryString('equipmentId');
+            let url = '/Brush/weixin/equipmentSprayer/replaceEquipmentSprayer?equipmentId=' + equipmentId + '&isReplace=true';
+            this.$http.get(url).then(res => {
+               this.hide();
+               this.getDetail();
+            });
 
-      }
-   },
-   mounted(){
-      this.getDetail();
-   }
+        },
+        getDetail(){
+            let equipmentId = util.getQueryString('equipmentId');
+            let url = '/Brush/weixin/equipmentSprayer/queryEquipmentSprayer?equipmentId=' + equipmentId;
+            this.$http.get(url).then(res => {
+                if (res.data.isSuccess) {
+
+                    this.attritionRate = res.data.result.attritionRate;
+                    // this.usedDayNum = res.data.result.usedDayNum;
+                    this.getUsedDay();
+                }
+            });
+
+        },
+        getUsedDay(){
+            var equipmentId = util.getQueryString('equipmentId');
+            var openId = util.getQueryString('openId');
+            let url = '/Brush/weixin/equipmentSprayer/queryEquipmentSprayer?equipmentId=' + util.getQueryString('equipmentId');
+            this.$http.post(url).then(res => {
+                this.usedDayNum = res.data.result.usedDayNum;
+                this.attritionRate = res.data.result.attritionRate;
+                this.photo = res.data.result.photo;
+
+            });
+        }
+    },
+    mounted(){
+        this.getUsedDay();
+    }
 });

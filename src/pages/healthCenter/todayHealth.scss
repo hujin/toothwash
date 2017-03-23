@@ -50,11 +50,13 @@
   }
 
   .state-img {
-    width: 5rem;
-    height: 5rem;
-    background: url("../../assets/health/good-health.png") center no-repeat;
-    background-size: contain;
+
     margin-left: calc(50% - 2.5rem);
+    img {
+      width: 5rem;
+      height: 5rem;
+      background-size: contain;
+    }
   }
 
   .excellent-status {

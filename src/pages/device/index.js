@@ -59,6 +59,7 @@ new Vue({
     el:'#app',
     data(){
         return {
+            loadClass:'',
             value:false,
             headerStatus:false,
             deviceList:[],
@@ -73,7 +74,8 @@ new Vue({
                 equipmentNum: '',
                 equipmentId:0,
                 remindTime:0,
-                remindTimeName:'关闭'
+                remindTimeName:'关闭',
+                lastDayNum: 0
             },
             form:{
                 equipmentId:0,
@@ -86,7 +88,8 @@ new Vue({
             customAddStatus:false,
             deleteStatus:false,
             clockStatus:false,
-            deviceStatus:false
+            deviceStatus:false,
+            settingStatus:false
         }
     },
     methods:{
@@ -95,6 +98,7 @@ new Vue({
         },
         addCustom(){
             this.customAddStatus = true;
+            this.deleteStatus = false;
         },
         dialogCustomClose(){
             this.customAddStatus = false;
@@ -115,7 +119,7 @@ new Vue({
             this.deviceStatus = true;
         },
         goDetail(){
-            window.location.href = 'detail.html?equipmentId=' + this.deviceInfo.equipmentId
+            window.location.href = 'detail.html?equipmentId=' + this.deviceInfo.equipmentId+'&openId'+ this.openId;
         },
         getDeviceList(obj){
             if(!obj.openId){
@@ -160,20 +164,29 @@ new Vue({
         },
 
         setEquipmentData(){
+
+            let url0 = '/Brush/weixin/equipmentSprayer/queryEquipmentSprayer?equipmentId=' + this.deviceInfo.equipmentId;
+
+            this.$http.post(url0).then(res => {
+                this.deviceInfo.lastDayNum = res.data.result.lastDayNum
+
+            });
             let url1 = '/Brush/comparingTime?equipmentNum=' + this.deviceInfo.equipmentNum+'&openId='+this.openId;
             this.$http.post(url1).then(res => {
+                let url2 = '/Brush/battery?equipmentNum=' + this.deviceInfo.equipmentNum+'&openId='+this.openId;
+                this.$http.post(url2).then(res => {
 
+                    let url3 = '/Brush/insertUserRecord?equipmentNum=' + this.deviceInfo.equipmentNum+'&openId='+this.openId;
+                    this.$http.post(url3).then(res => {
+
+                    });
+
+                });
             });
 
-            let url2 = '/Brush/battery?equipmentNum=' + this.deviceInfo.equipmentNum+'&openId='+this.openId;
-            this.$http.post(url2).then(res => {
 
-            });
 
-            let url3 = '/Brush/insertUserRecord?equipmentNum=' + this.deviceInfo.equipmentNum+'&openId='+this.openId;
-            this.$http.post(url3).then(res => {
 
-            });
         },
 
         addPattern(){
@@ -227,11 +240,25 @@ new Vue({
             if(!id){
                 return;
             }
+            this.settingStatus = !this.settingStatus;
             let url ='/Brush/weixin/myPattern/selectPattern?id=' + id + '&equipmentId=' + this.deviceInfo.equipmentId;
             this.$http.post(url).then(res => {
                if(res.data.isSuccess){
+                   setTimeout(()=>{
+                       this.settingStatus = false;
+                   },2000)
+
                    this.deviceInfo.patternId = id;
+
+                   let url4 = '/Brush/pattern?openId=' + this.openId+'&equipmentNum='+this.deviceInfo.equipmentNum+'&id='+id;
+                   this.$http.post(url4).then(res => {
+
+                   });
                }
+            },err => {
+                setTimeout(()=>{
+                    this.settingStatus = false;
+                },2000)
             });
 
         },
@@ -299,8 +326,12 @@ new Vue({
         },
         getOneDevice(obj){
 
+            setTimeout(() => {
+            this.loadClass = 'hide'
+            },300)
             let url ='/Brush/weixin/MyEquipment/queryOneEquipmentInfo?' + util.getParam(obj);
             this.$http.get(url).then(res => {
+
 
                 this.openId = res.body.result.equipmentInfo.openId;
                 this.getDeviceList({openId: this.openId });
@@ -310,6 +341,7 @@ new Vue({
     mounted(){
 
         this.getOneDevice({code:util.getQueryString('code')})
+
 
         // wx.ready(function () {
         //     wx.invoke('openWXDeviceLib',{'connType':'blue'},function (res) {

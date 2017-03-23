@@ -15,16 +15,16 @@
     <div class="issue-c">
     <div v-for="item in searchData">
         <div class="info-c">
-            <span class="ask-name">name</span>
+            <span class="ask-name">{{item.userName}}</span>
             <span class="ask-time">{{item.updateTime.split(' ')[0]}}</span>
         </div>
         <div class="ask-c">
             <i class="iconfont icon-ask ask-logo"></i>
-            <span>{{item.keywords}}</span>
+            <span>{{item.question}}</span>
         </div>
         <div class="answer-c">
             <i class="iconfont icon-answer answer-logo"></i>
-            <div class="answer-content">{{item.question}}</div>
+            <div class="answer-content">{{item.answer||'售后正在处理'}}</div>
         </div>
 
     </div>

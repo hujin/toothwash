@@ -19,7 +19,7 @@
   }
 
   .write-btn {
-    font-size: 0.5rem;
+    font-size: 0.58rem;
     display: block;
     position: absolute;
     color: #5eb8b9;
@@ -46,11 +46,13 @@
       width: 3.5rem;
       height: 0.8rem;
       border: solid 1px #63abab;
+      border-radius: 0.2rem;
       appearance: none;
       -webkit-appearance: none;
       background: transparent;
       padding-left: 0.5rem;
       outline: none;
+      font-size: 0.45rem;
     }
     .down-icon {
       width: 0.8rem;
@@ -72,7 +74,7 @@
       width: 3.5rem;
       height: 0.8rem;
       border: 1px solid #63abab;
-      border-radius: 0.1rem;
+      border-radius: 0.2rem;
       display: inline-block;
       vertical-align: bottom;
       line-height: 0.8rem;
@@ -80,6 +82,7 @@
       color: #63abab;
       position: absolute;
       right: 1rem;
+      font-size: 0.45rem;
     }
     .badge {
       width: 0.5rem;
@@ -132,6 +135,7 @@
       display: inline-block;
       width: 90%;
       vertical-align: top;
+      padding-left: 0.15rem;
     }
   }
 }

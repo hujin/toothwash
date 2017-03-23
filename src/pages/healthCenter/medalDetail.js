@@ -15,8 +15,9 @@ new Vue({
             result: '',
             desc: '',
             id: 0,
-            medalClass: ''
-
+            medalClass: '',
+            greyClass: '',
+            isSuccess: false
         }
     },
     methods: {
@@ -34,11 +35,33 @@ new Vue({
         },
         getData() {
 
-            var obj = {userId: this.userId};
+            let obj = {userId: this.userId};
             let url = '/Brush/weixin/obtainMedalIllustrate/queryIsObtainMedal?' + util.getParam(obj) + '&medalId=' + util.getQueryString('id');
             this.$http.post(url).then((response) => {
                 this.result = response.body.result;
-                this.desc = response.body.message;
+
+                if(this.result=='未完成'){
+                    this.isSuccess = false;
+                }else {
+                    this.isSuccess = true;
+                }
+
+                if(!this.isSuccess){
+                    this.greyClass = 'grey-filter';
+                }
+
+            }, (err) => {
+                console.log(err)
+            });
+            this.getDesc();
+        },
+        getDesc() {
+            let obj = {userId: this.userId};
+            let url = '/Brush/weixin/UserMedalInfo/queryAllMedalInfo?' + util.getParam(obj);
+            this.$http.post(url).then((response) => {
+
+                 this.desc = response.body.result.medalInfos[util.getQueryString('id')-1].medalDescription;
+
 
             }, (err) => {
                 console.log(err)

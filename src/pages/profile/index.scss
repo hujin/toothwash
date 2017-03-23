@@ -1,6 +1,4 @@
-#app{
-  padding: .58rem .4rem;
-}
+
 
 .avatar-wrap{
   width: 100%;
@@ -46,7 +44,7 @@
 .profile-item{
   height: 1.64rem;
   font-size: .43rem;
-  border-bottom: 2px solid #eeeeee;
+  border-bottom: 0.035rem solid #eeeeee;
 }
 
 .profile-label{
@@ -71,7 +69,7 @@
 }
 
 .info-dialog{
-  margin-top: -2.95rem;
+  margin-top: -3.5rem;
 
   .dialog-content{
     padding: .666667rem .5rem 0 .5rem;
@@ -83,47 +81,50 @@
   position: relative;
 
   &.hasline{
-    border-bottom:2px solid #5eb8b9;
+
+    z-index: 99999;
 
     .form-input{
       border-bottom: none;
-      width: 50%;
+      border-radius: 0;
+      border-bottom:0.035rem solid #5eb8b9;
     }
 
-    button{
+    .send-btn{
       width: 2.8rem;
       height: .56rem;
       color: #5eb8b9;
-      border:2px solid #5eb8b9;
+      border:0.035rem solid #5eb8b9;
       font-size: .32rem;
       background-color: #fff;
       border-radius: 20px;
       position: absolute;
       right: 0;
+      top:0;
     }
   }
   .form-input{
     width: 100%;
     height: .68rem;
     border: none;
-    border-bottom:2px solid #5eb8b9;
+    //border-bottom:0.035rem solid #5eb8b9;
     outline: none;
+    padding: 0 6px;
     font-size: .48rem;
+    border-radius: 0;
   }
 
   .error-text{
     position: absolute;
-    text-align: center;
     width: 100%;
     color:#ff7a76;
     font-size: .32rem;
     bottom: -.6rem;
-    display: none;
   }
 
   &.error{
     .form-input{
-      border-bottom:2px solid #ff7a76;
+      border-bottom:0.035rem solid #ff7a76;
     }
 
     .error-text{
@@ -133,7 +134,7 @@
 }
 
 .pane{
-  position: absolute;
+  position: fixed;
   background-color: #fff;
   width: 100%;
   height: 100%;
@@ -207,4 +208,8 @@ html{
     font-size: .5rem;
     border-radius: 3rem;
   }
+}
+
+.hide {
+  display: none;
 }

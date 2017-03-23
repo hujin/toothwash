@@ -8,9 +8,9 @@
 <body>
 
 <div id="medalDetail" class="medalDetail">
-    <div class="medal-img" :class="medalClass"></div>
+    <div class="medal-img" :class="[medalClass,greyClass]"></div>
 
-    <p class="complete">{{result}}</p>
+    <p class="complete">{{result}}<i class="iconfont icon-Done done-icon" style="font-size: 0.4rem;" v-if="isSuccess"></i></p>
     <p class="tip">{{desc}}</p>
 </div>
 

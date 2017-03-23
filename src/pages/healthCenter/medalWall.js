@@ -46,7 +46,7 @@ new Vue({
                 this.medalNum = response.body.result.userMedals.length;
                 for (let data of response.body.result.userMedals) {
                     console.log(data)
-                    this.medalData[data.id-1] = false;
+                    this.medalData[data.medalId-1] = false;
                 }
 
 

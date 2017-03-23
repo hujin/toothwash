@@ -7,19 +7,19 @@
 </head>
 <body>
 <div id="weekHealth" class="weekHealth">
-    <p class="date">12月11日~12月18日</p>
+    <p class="date" v-text="date"></p>
     <div class="avatar">
         <img :src="profile.userImage" alt="用户头像">
     </div>
-    <p>{{profile.userName}}</p>
+    <p v-text="profile.userName"></p>
     <p class="mouth-text">上周口腔护理星际评估</p>
-    <p class="rate-num">{{starNum}}</p>
+    <p class="rate-num" v-text="starNum"></p>
     <div class="star-c">
-        <div class="star-img" :class="starData[0]">️</div>
-        <div class="star-img" :class="starData[1]">️</div>
-        <div class="star-img" :class="starData[2]">️</div>
-        <div class="star-img" :class="starData[3]">️</div>
-        <div class="star-img" :class="starData[4]">️</div>
+        <div class="star-img" :class="starData[0]">&nbsp;️</div>
+        <div class="star-img" :class="starData[1]">&nbsp;️</div>
+        <div class="star-img" :class="starData[2]">️&nbsp;</div>
+        <div class="star-img" :class="starData[3]">️&nbsp;</div>
+        <div class="star-img" :class="starData[4]">️&nbsp;</div>
     </div>
 
     <p>上周口腔健康情况</p>
@@ -35,10 +35,10 @@
         </div>
         <div class="time-info">
             <span class="time-tip">上周未健康冲牙次数</span>
-            <span class="time-text">{{unHealthyTimes}}次</span>
+            <span class="time-text"><i v-text="unHealthyTimes"></i>次</span>
         </div>
-        <p class="today-summary">今日小结</p>
-        <p class="tip-info">{{healthSummary.summaryDetail}}</p>
+        <p class="today-summary">每周小结</p>
+        <p class="tip-info" v-text="healthSummary.summaryDetail"></p>
     </div>
 
 </div>
