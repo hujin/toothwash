@@ -8,13 +8,13 @@
 <body class="todayHealth">
 
 <div id="todayHealth">
-    <p class="date" v-text="getDate(healthSummary.updateTime)"></p>
+    <!--<p class="date" v-text="getDate(healthSummary.updateTime)"></p>-->
     <div class="avatar">
         <img :src="profile.userImage" alt="用户头像">
     </div>
     <p v-text="profile.userName"></p>
     <p class="mouth-text">今日口腔清洁度</p>
-    <p class="percent-text" >{{healthRate}}<span class="percent-symbol">%</span></p>
+    <p class="percent-text" ><span>{{healthRate}}</span><span class="percent-symbol">%</span></p>
     <p class="mouth-tip" v-text="healthSummary.titleDetail"></p>
     <p class="mouth-state">牙菌斑状况</p>
 
@@ -158,6 +158,6 @@
     })(window, window['lib'] || (window['lib'] = {}));
 
 </script>
-
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 </body>
 </html>

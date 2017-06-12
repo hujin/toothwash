@@ -1,317 +1,354 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>设备管理</title>
-	<!--<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">-->
-	<meta content="telephone=no" name="format-detection" />
+    <meta charset="UTF-8">
+    <title>设备管理</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <meta content="telephone=no" name="format-detection"/>
 
-	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 </head>
 <body>
-	<div id="app">
-		<div style="position: fixed;width: 100vw;height: 100vh;z-index: 99999999;background-color: white;" :class="loadClass">
-			<mt-spinner :type="2" :size="60" style="text-align: center;display:block; margin-top: 6rem;"></mt-spinner>
-			<p style="text-align: center;font-size: 0.4rem;">加载中...</p>
-		</div>
-		<div class="header" @click="showHeader">
-			<span v-text="deviceInfo.equipmentName || '设备'"> <i class="iconfont icon-arrow-down"></i></span>
-			<ul class="header-list" v-show="headerStatus">
-				<li class="header-list-item" :class="{'active':item.id == deviceInfo.equipmentId}" v-for="item in deviceList" @click.stop="getDevice({id:item.id})">{{item.equipmentName || '设备'}}</li>
-			</ul>
-		</div>
-		<div class="device-info-wrap">
-			<div class="device-info">
-				<div class="device-item" @click.stop="goDetail">
-					<img src="../../assets/device/1.png" alt="">
-					<span>离更换喷头还剩<strong>{{deviceInfo.lastDayNum}}</strong>天</span>
-				</div>
-				<div class="device-item">
-					<img src="../../assets/device/2.png" alt="">
-					<span>电量还剩<strong v-text="deviceInfo.electricQuantity"></strong>%</span>
-				</div>
-				<i class="line"></i>
-			</div>
-		</div>
-		<div class="model-wrap">
-			<h3>情景模式</h3>
-			<div class="default-model clearfix">
-				<a class="model-item " :class="{'active':deviceInfo.patternId == 3}" @click.stop="choosePattern(3)">
-					<i class="icon item1"></i>
-					<h6>按摩模式</h6>
-					<span>间断水柱按摩牙龈</span>
-				</a>
-				<a class="model-item" :class="{'active':deviceInfo.patternId == 4}" @click.stop="choosePattern(4)">
-					<i class="icon item2" style="width: 1.7rem;"></i>
-					<h6>呵护模式</h6>
-					<span>持续冲洗洁白牙齿</span>
-				</a>
-				<a class="model-item" :class="{'active':deviceInfo.patternId == 5}" @click.stop="choosePattern(5)">
-					<i class="icon item3"></i>
-					<h6>新手模式</h6>
-					<span>温和水柱舒适牙龈</span>
-				</a>
-			</div>
-			<div class="custom-model clearfix">
-				<a class="model-item" :class="{'delete':deleteStatus,'active':deviceInfo.patternId == item.id}" v-for="(item,index) in patternList" @click.stop="choosePattern(item.id)">
-					<div class="delete-pane" @click.stop="deletePattern(item.id,index)">
-						<i class="iconfont icon-close"></i>
-						<h6 v-text="item.patternName"></h6>
-					</div>
-					<h6 v-text="item.patternName"></h6>
-				</a>
-				<a class="model-item setting" @click.stop="addCustom">
-					<img src="../../assets/device/add.png" alt="">
-					<h6>添加模式</h6>
-				</a>
-				<a class="model-item setting" @click.stop="deleteCustom" v-show="patternList.length > 0">
-					<img src="../../assets/device/del.png" alt="">
-					<h6>删除模式</h6>
-				</a>
-			</div>
-		</div>
-		<div class="setting-wrap">
-			<h3>个性设置</h3>
-			<ul>
-				<li class="setting-item">
-					<i class="icon icon1"></i>
-					<div class="settting-item-info">
-						<h5>防止溅射</h5>
-						<span>开机后水压由小到大，防止溅射。</span>
-					</div>
-					<div class="switch-c">
-						<mt-switch v-model="deviceInfo.sputtering" @change="setSputtering"></mt-switch>
-					</div>
-				</li>
-				<li class="setting-item">
-					<i class="icon icon2" style="width: 0.6rem;"></i>
-					<div class="settting-item-info">
-						<h5>定时提醒</h5>
-						<span>设置提醒时间，管理刷牙习惯。</span>
-					</div>
-					<div class="operate" @click.stop="setClock">
-						<span>{{deviceInfo.remindTimeName}}</span>
-						<i class="iconfont icon-arrow-right"></i>
-					</div>
-				</li>
-				<li class="setting-item">
-					<i class="icon icon3" style="width: 0.7rem;"></i>
-					<div class="settting-item-info">
-						<h5>设备信息</h5>
-						<span>冲牙器详细信息和绑定信息。</span>
-					</div>
-					<div class="operate" @click.stop="setDeviceName">
-						<span  v-text="deviceInfo.equipmentName"></span>
-						<i class="iconfont icon-arrow-right"></i>
-					</div>
-				</li>
-			</ul>
-		</div>
-		<div class="mask" v-show="customAddStatus">
-			<div class="dialog custom-dialog">
-				<div class="dialog-header">
-					<span>新增模式</span>
-					<i class="iconfont icon-close" @click.stop="dialogCustomClose"></i>
-				</div>
-				<div class="dialog-content">
-					<div class="row" style="margin-bottom: .74666rem">
-						<input type="text" class="form-input" v-model="form.patternName">
-						<label style="float:right;">
-							<span style="font-size: .4rem;">试用</span>
-							<i-checkbox v-model="useStatus"></i-checkbox>
-						</label>
-					</div>
-					<div class="row">
-						<label class="col-label">水压</label>
-						<div class="col-content">
-							<mt-range v-model="form.hydraulicPressure"
-									  :min="0"
-									  :step="5"
-									  :max="100" :bar-height="3"></mt-range>
-						</div>
-						<span class="col-text">{{form.hydraulicPressure}}%</span>
-					</div>
-					<div class="row" style="margin-top: 0.3rem;margin-bottom: 0.3rem;">
-						<label class="col-label">间隔</label>
-						<div class="col-content">
-							<mt-range v-model="form.frequency"
-									  :min="0"
-									  :max="5" :bar-height="3"></mt-range>
-						</div>
-						<span class="col-text">0.{{form.frequency}}s</span>
-					</div>
-					<div class="row" style="text-align: center;">
-						<mt-button type="primary" @click.stop="addPattern">确定</mt-button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="mask" v-show="clockStatus">
-			<div class="dialog clock-dialog">
-				<div class="dialog-header">
-					<span>定时提醒</span>
-					<i class="iconfont icon-close" @click.stop="dialogClockClose"></i>
-				</div>
-				<div class="dialog-content">
-					<div class="swtich-list clearfix">
-						<a class="switch-item" :class="{'current':deviceInfo.remindTime == 0}" @click.stop="deviceInfo.remindTime = 0">关闭</a>
-						<a class="switch-item" :class="{'current':deviceInfo.remindTime == 1}" @click.stop="deviceInfo.remindTime = 1">15秒</a>
-						<a class="switch-item" :class="{'current':deviceInfo.remindTime == 2}" @click.stop="deviceInfo.remindTime = 2">30秒</a>
-						<a class="switch-item" :class="{'current':deviceInfo.remindTime == 3}" @click.stop="deviceInfo.remindTime = 3">60秒</a>
-					</div>
-					<div style="text-align: center;margin-top: .5rem">
-						<mt-button type="primary" @click.stop="setRemindTime">确定</mt-button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="mask" v-show="deviceStatus">
-			<div class="dialog device-dialog" >
-				<div class="dialog-header">
-					<span>设备名称</span>
-					<i class="iconfont icon-close" @click.stop="dialogDeviceClose"></i>
-				</div>
-				<div class="dialog-content" >
-					<div class="row" style="padding:0 .6rem;margin-bottom: 1.32rem;margin-top: .4rem;height: 1rem;">
-						<input type="text" class="form-input" v-model="reEquipmentName" style="width: 100%;line-height: 0rem">
-					</div>
-					<div class="row" style="text-align: center">
-						<mt-button type="primary" @click.stop="setEquipmentName">确定</mt-button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="mask" v-show="settingStatus">
-			<div class="dialog device-dialog" >
-				<div class="dialog-content" >
-					<div class="row" style="padding:0 .6rem;margin-bottom: 1.32rem;margin-top: .4rem;height: 1rem;">
-						<mt-spinner :type="2" :size="60" style="text-align: center;display:block;margin-top: 1rem "></mt-spinner>
-						<p style="text-align: center;font-size: 0.4rem;margin-top: 1rem;">正在设置，请稍后...</p>
-					</div>
+<div id="app">
+    <div style="position: fixed;width: 100vw;height: 100vh;z-index: 99999999;background-color: white;"
+         :class="loadClass">
+        <mt-spinner :type="2" :size="60" style="text-align: center;display:block; margin-top: 6rem;"></mt-spinner>
+        <p style="text-align: center;font-size: 0.4rem;">加载中...</p>
+    </div>
+    <div class="header" @click="showHeader">
+        <span v-text="deviceInfo.equipmentName || '设备'"> <i class="iconfont icon-arrow-down"></i></span>
+        <ul class="header-list" v-show="headerStatus">
+            <li class="header-list-item" :class="{'active':item.id == deviceInfo.equipmentId}"
+                v-for="item in deviceList" @click.stop="getDevice({id:item.id})">{{item.equipmentName || '设备'}}
+            </li>
+        </ul>
+    </div>
+    <div class="device-info-wrap">
+        <div class="device-info">
+            <div class="device-item" @click.stop="goDetail">
+                <img src="../../assets/device/1.png" alt="">
+                <span>离更换喷头还剩<strong>{{deviceInfo.lastDayNum}}</strong>天</span>
+            </div>
+            <div class="device-item">
+                <img src="../../assets/device/2.png" alt="">
+                <span v-if="deviceInfo.electricQuantity!=101">电量还剩<strong v-text="deviceInfo.electricQuantity"></strong>%</span>
+                <span v-if="deviceInfo.electricQuantity==101">正在充电中</span>
+            </div>
+            <i class="line"></i>
+        </div>
+    </div>
+    <div class="model-wrap">
+        <h3>情景模式</h3>
+        <div class="default-model clearfix">
+            <a class="model-item " :class="{'active':deviceInfo.patternId == 3}" @click.stop="choosePattern(3)">
+                <i class="icon item1"></i>
+                <h6>按摩模式</h6>
+                <span>间断水柱按摩牙龈</span>
+            </a>
+            <a class="model-item" :class="{'active':deviceInfo.patternId == 4}" @click.stop="choosePattern(4)">
+                <i class="icon item2" style="width: 1.7rem;"></i>
+                <h6>呵护模式</h6>
+                <span>持续冲洗洁白牙齿</span>
+            </a>
+            <a class="model-item" :class="{'active':deviceInfo.patternId == 5}" @click.stop="choosePattern(5)">
+                <i class="icon item3"></i>
+                <h6>新手模式</h6>
+                <span>温和水柱舒适牙龈</span>
+            </a>
+        </div>
+        <div class="custom-model clearfix">
+            <a class="model-item" :class="{'delete':deleteStatus,'active':deviceInfo.patternId == item.id}"
+               v-for="(item,index) in patternList" @click.stop="choosePattern(item.id)">
+                <div class="delete-pane" @click.stop="deletePattern(item.id,index)">
+                    <i class="iconfont icon-close"></i>
+                    <h6 v-text="item.patternName"></h6>
+                </div>
+                <h6 v-text="item.patternName"></h6>
+            </a>
+            <a class="model-item setting" @click.stop="addCustom">
+                <img src="../../assets/device/add.png" alt="">
+                <h6>新增模式</h6>
+            </a>
+            <a class="model-item setting" @click.stop="deleteCustom" v-show="patternList.length > 0">
+                <img src="../../assets/device/del.png" alt="">
+                <h6>删除模式</h6>
+            </a>
+        </div>
+    </div>
+    <div class="setting-wrap">
+        <h3>个性设置</h3>
+        <ul>
+            <li class="setting-item">
+                <i class="icon icon1"></i>
+                <div class="settting-item-info">
+                    <h5>防止溅射</h5>
+                    <span>开机后水压由小到大，防止溅射。</span>
+                </div>
+                <div class="switch-c">
+                    <mt-switch v-model="deviceInfo.sputtering" @change="setSputtering"></mt-switch>
+                </div>
+            </li>
+            <li class="setting-item" @click.stop="setClock">
+                <i class="icon icon2" style="width: 0.6rem;"></i>
+                <div class="settting-item-info">
+                    <h5>定时提醒</h5>
+                    <span>设置提醒时间，管理刷牙习惯。</span>
+                </div>
+                <div class="operate" >
+                    <span>{{deviceInfo.remindTimeName}}</span>
+                    <i class="iconfont icon-arrow-right"></i>
+                </div>
+            </li>
+            <li class="setting-item" @click.stop="setDeviceName">
+                <i class="icon icon3" style="width: 0.7rem;"></i>
+                <div class="settting-item-info">
+                    <h5>设备信息</h5>
+                    <span>冲牙器详细信息和绑定信息。</span>
+                </div>
+                <div class="operate" >
+                    <span v-text="deviceInfo.equipmentName"></span>
+                    <i class="iconfont icon-arrow-right"></i>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="mask" v-show="customAddStatus">
+        <div class="dialog custom-dialog">
+            <div class="dialog-header">
+                <span>新增模式</span>
+                <i class="iconfont icon-close" @click.stop="dialogCustomClose"></i>
+            </div>
+            <div class="dialog-content">
+                <div class="row" style="margin-bottom: .74666rem">
+                    <input type="text" placeholder="新增模式" class="form-input" v-model="form.patternName">
+                    <!--<label style="float:right;">-->
+                    <!--<span style="font-size: .4rem;">试用</span>-->
+                    <!--<i-checkbox v-model="useStatus"></i-checkbox>-->
+                    <!--</label>-->
+                </div>
+                <div class="row">
+                    <label class="col-label">水压 小</label>
+                    <div class="col-content">
+                        <mt-range v-model="form.hydraulicPressure"
+                                  :min="40"
+                                  :step="5"
+                                  :max="100" :bar-height="3"></mt-range>
+                    </div>
 
-				</div>
-			</div>
-		</div>
-	</div>
+                    <span class="col-text">大 {{form.hydraulicPressure}}%</span>
+                </div>
+                <div class="row" style="margin-top: 0.3rem;margin-bottom: 0.3rem;">
+                    <label class="col-label">间隔 慢</label>
+                    <div class="col-content">
+                        <mt-range v-model="form.frequency"
+                                  :min="0"
+                                  :max="5" :bar-height="3"></mt-range>
+                    </div>
+                    <span class="col-text">快 0.{{form.frequency}}s</span>
+                </div>
+                <div class="row" style="text-align: center;">
+                    <mt-button type="primary" @click.stop="addPattern">确定</mt-button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mask" v-show="clockStatus">
+        <div class="dialog clock-dialog">
+            <div class="dialog-header">
+                <span>定时提醒</span>
+                <i class="iconfont icon-close" @click.stop="dialogClockClose"></i>
+            </div>
+            <div class="dialog-content">
+                <div class="swtich-list clearfix">
+                    <a class="switch-item" :class="{'current':deviceInfo.remindTime == 0}"
+                       @click.stop="deviceInfo.remindTime = 0">关闭</a>
+                    <a class="switch-item" :class="{'current':deviceInfo.remindTime == 1}"
+                       @click.stop="deviceInfo.remindTime = 1">15秒</a>
+                    <a class="switch-item" :class="{'current':deviceInfo.remindTime == 2}"
+                       @click.stop="deviceInfo.remindTime = 2">30秒</a>
+                    <a class="switch-item" :class="{'current':deviceInfo.remindTime == 3}"
+                       @click.stop="deviceInfo.remindTime = 3">60秒</a>
+                </div>
+                <div style="text-align: center;margin-top: .5rem">
+                    <mt-button type="primary" @click.stop="setRemindTime">确定</mt-button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mask" v-show="deviceStatus">
+        <div class="dialog device-dialog">
+            <div class="dialog-header">
+                <span>设备名称</span>
+                <i class="iconfont icon-close" @click.stop="dialogDeviceClose"></i>
+            </div>
+            <div class="dialog-content">
+                <div class="row" style="padding:0 .6rem;margin-bottom: 1.32rem;margin-top: .4rem;height: 1rem;">
+                    <input type="text" class="form-input" v-model="reEquipmentName"
+                           style="width: 100%;line-height: 0rem">
+                </div>
+                <div class="row" style="text-align: center">
+                    <mt-button type="primary" @click.stop="setEquipmentName">确定</mt-button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mask" v-show="settingStatus">
+        <div class="dialog device-dialog">
+            <div class="dialog-content">
+                <div class="row" style="padding:0 .6rem;margin-bottom: 1.32rem;margin-top: .4rem;height: 1rem;">
+                    <mt-spinner :type="2" :size="60"
+                                style="text-align: center;display:block;margin-top: 1rem "></mt-spinner>
+                    <p style="text-align: center;font-size: 0.4rem;margin-top: 1rem;">正在设置，请稍后...</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="equ-pane" v-show="false">
+
+            <img src="../../assets/device/toothBrush.png" alt="">
+            <div class="" style="font-size: 0.63rem;margin: 0.5rem 0;">我的设备 <i class="iconfont icon-rename write-btn" style="font-size:0.6rem;color:#5eb8b9" @click.stop="goWrite()"></i> </div>
+            <p class="text">产&nbsp;品&nbsp;&nbsp;名：未豆易携家用冲牙器</p>
+            <p class="text">型&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：VT1</p>
+            <p class="text">额定电压：3.7V</p>
+            <p class="text">工作功率：5.5W</p>
+            <p class="text">执行标准：GB4706.1 GB4706.59</p>
+            <p class="text">产&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;地：中国</p>
+            <p class="text">制&nbsp;造&nbsp;&nbsp;商：佛山俊客科技有限公司</p>
+        
+            <mt-button type="primary" style="width: 55%;marginTop:0.6rem;" @click.stop="closeBundleDialog()">解除绑定</mt-button>
+
+    </div>
+    <div class="pane" v-show="bundleStatus">
+        <div class="content">
+            <img src="../../assets/device/bundle.png" alt="">
+            <p class="text1">请先绑定未豆冲牙器</p>
+            <p class="text2">仅限智能版设备</p>
+            <mt-button type="primary" style="width: 80%;margin-bottom: 0.5rem" @click.stop="goToBundle()">绑定设备
+            </mt-button>
+            <mt-button type="primary" style="width: 80%;" @click.stop="closeBundleDialog()">关闭</mt-button>
+        </div>
+    </div>
+</div>
 
 <script>
-	;(function(win, lib) {
-		var doc = win.document;
-		var docEl = doc.documentElement;
-		var metaEl = doc.querySelector('meta[name="viewport"]');
-		var flexibleEl = doc.querySelector('meta[name="flexible"]');
-		var dpr = 0;
-		var scale = 0;
-		var tid;
-		var flexible = lib.flexible || (lib.flexible = {});
+    ;(function (win, lib) {
+        var doc = win.document;
+        var docEl = doc.documentElement;
+        var metaEl = doc.querySelector('meta[name="viewport"]');
+        var flexibleEl = doc.querySelector('meta[name="flexible"]');
+        var dpr = 0;
+        var scale = 0;
+        var tid;
+        var flexible = lib.flexible || (lib.flexible = {});
 
-		if (metaEl) {
-			console.warn('将根据已有的meta标签来设置缩放比例');
-			var match = metaEl.getAttribute('content').match(/initial\-scale=([\d\.]+)/);
-			if (match) {
-				scale = parseFloat(match[1]);
-				dpr = parseInt(1 / scale);
-			}
-		} else if (flexibleEl) {
-			var content = flexibleEl.getAttribute('content');
-			if (content) {
-				var initialDpr = content.match(/initial\-dpr=([\d\.]+)/);
-				var maximumDpr = content.match(/maximum\-dpr=([\d\.]+)/);
-				if (initialDpr) {
-					dpr = parseFloat(initialDpr[1]);
-					scale = parseFloat((1 / dpr).toFixed(2));
-				}
-				if (maximumDpr) {
-					dpr = parseFloat(maximumDpr[1]);
-					scale = parseFloat((1 / dpr).toFixed(2));
-				}
-			}
-		}
+        if (metaEl) {
+            console.warn('将根据已有的meta标签来设置缩放比例');
+            var match = metaEl.getAttribute('content').match(/initial\-scale=([\d\.]+)/);
+            if (match) {
+                scale = parseFloat(match[1]);
+                dpr = parseInt(1 / scale);
+            }
+        } else if (flexibleEl) {
+            var content = flexibleEl.getAttribute('content');
+            if (content) {
+                var initialDpr = content.match(/initial\-dpr=([\d\.]+)/);
+                var maximumDpr = content.match(/maximum\-dpr=([\d\.]+)/);
+                if (initialDpr) {
+                    dpr = parseFloat(initialDpr[1]);
+                    scale = parseFloat((1 / dpr).toFixed(2));
+                }
+                if (maximumDpr) {
+                    dpr = parseFloat(maximumDpr[1]);
+                    scale = parseFloat((1 / dpr).toFixed(2));
+                }
+            }
+        }
 
-		if (!dpr && !scale) {
-			var isAndroid = win.navigator.appVersion.match(/android/gi);
-			var isIPhone = win.navigator.appVersion.match(/iphone/gi);
-			var devicePixelRatio = win.devicePixelRatio;
-			if (isIPhone) {
-				// iOS下，对于2和3的屏，用2倍的方案，其余的用1倍方案
-				if (devicePixelRatio >= 3 && (!dpr || dpr >= 3)) {
-					dpr = 3;
-				} else if (devicePixelRatio >= 2 && (!dpr || dpr >= 2)){
-					dpr = 2;
-				} else {
-					dpr = 1;
-				}
-			} else {
-				// 其他设备下，仍旧使用1倍的方案
-				dpr = 1;
-			}
-			scale = 1 / dpr;
-		}
+        if (!dpr && !scale) {
+            var isAndroid = win.navigator.appVersion.match(/android/gi);
+            var isIPhone = win.navigator.appVersion.match(/iphone/gi);
+            var devicePixelRatio = win.devicePixelRatio;
+            if (isIPhone) {
+                // iOS下，对于2和3的屏，用2倍的方案，其余的用1倍方案
+                if (devicePixelRatio >= 3 && (!dpr || dpr >= 3)) {
+                    dpr = 3;
+                } else if (devicePixelRatio >= 2 && (!dpr || dpr >= 2)) {
+                    dpr = 2;
+                } else {
+                    dpr = 1;
+                }
+            } else {
+                // 其他设备下，仍旧使用1倍的方案
+                dpr = 1;
+            }
+            scale = 1 / dpr;
+        }
 
-		docEl.setAttribute('data-dpr', dpr);
-		if (!metaEl) {
-			metaEl = doc.createElement('meta');
-			metaEl.setAttribute('name', 'viewport');
-			metaEl.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
-			if (docEl.firstElementChild) {
-				docEl.firstElementChild.appendChild(metaEl);
-			} else {
-				var wrap = doc.createElement('div');
-				wrap.appendChild(metaEl);
-				doc.write(wrap.innerHTML);
-			}
-		}
+        docEl.setAttribute('data-dpr', dpr);
+        if (!metaEl) {
+            metaEl = doc.createElement('meta');
+            metaEl.setAttribute('name', 'viewport');
+            metaEl.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
+            if (docEl.firstElementChild) {
+                docEl.firstElementChild.appendChild(metaEl);
+            } else {
+                var wrap = doc.createElement('div');
+                wrap.appendChild(metaEl);
+                doc.write(wrap.innerHTML);
+            }
+        }
 
-		function refreshRem(){
-			var width = docEl.getBoundingClientRect().width;
-			if (width / dpr > 540) {
-				width = 540 * dpr;
-			}
-			var rem = width / 10;
-			docEl.style.fontSize = rem + 'px';
-			flexible.rem = win.rem = rem;
-		}
+        function refreshRem() {
+            var width = docEl.getBoundingClientRect().width;
+            if (width / dpr > 540) {
+                width = 540 * dpr;
+            }
+            var rem = width / 10;
+            docEl.style.fontSize = rem + 'px';
+            flexible.rem = win.rem = rem;
+        }
 
-		win.addEventListener('resize', function() {
-			clearTimeout(tid);
-			tid = setTimeout(refreshRem, 300);
-		}, false);
-		win.addEventListener('pageshow', function(e) {
-			if (e.persisted) {
-				clearTimeout(tid);
-				tid = setTimeout(refreshRem, 300);
-			}
-		}, false);
+        win.addEventListener('resize', function () {
+            clearTimeout(tid);
+            tid = setTimeout(refreshRem, 300);
+        }, false);
+        win.addEventListener('pageshow', function (e) {
+            if (e.persisted) {
+                clearTimeout(tid);
+                tid = setTimeout(refreshRem, 300);
+            }
+        }, false);
 
-		if (doc.readyState === 'complete') {
-			doc.body.style.fontSize = 12 * dpr + 'px';
-		} else {
-			doc.addEventListener('DOMContentLoaded', function(e) {
-				doc.body.style.fontSize = 12 * dpr + 'px';
-			}, false);
-		}
+        if (doc.readyState === 'complete') {
+            doc.body.style.fontSize = 12 * dpr + 'px';
+        } else {
+            doc.addEventListener('DOMContentLoaded', function (e) {
+                doc.body.style.fontSize = 12 * dpr + 'px';
+            }, false);
+        }
 
 
-		refreshRem();
+        refreshRem();
 
-		flexible.dpr = win.dpr = dpr;
-		flexible.refreshRem = refreshRem;
-		flexible.rem2px = function(d) {
-			var val = parseFloat(d) * this.rem;
-			if (typeof d === 'string' && d.match(/rem$/)) {
-				val += 'px';
-			}
-			return val;
-		}
-		flexible.px2rem = function(d) {
-			var val = parseFloat(d) / this.rem;
-			if (typeof d === 'string' && d.match(/px$/)) {
-				val += 'rem';
-			}
-			return val;
-		}
+        flexible.dpr = win.dpr = dpr;
+        flexible.refreshRem = refreshRem;
+        flexible.rem2px = function (d) {
+            var val = parseFloat(d) * this.rem;
+            if (typeof d === 'string' && d.match(/rem$/)) {
+                val += 'px';
+            }
+            return val;
+        }
+        flexible.px2rem = function (d) {
+            var val = parseFloat(d) / this.rem;
+            if (typeof d === 'string' && d.match(/px$/)) {
+                val += 'rem';
+            }
+            return val;
+        }
 
-	})(window, window['lib'] || (window['lib'] = {}));
+    })(window, window['lib'] || (window['lib'] = {}));
 
 </script>
 </body>

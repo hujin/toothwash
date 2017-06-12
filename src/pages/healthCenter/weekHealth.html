@@ -7,12 +7,16 @@
 </head>
 <body>
 <div id="weekHealth" class="weekHealth">
-    <p class="date" v-text="date"></p>
+    <div style="position: fixed;width: 100vw;height: 100vh;z-index: 99999999;background-color: white;" :class="loadClass">
+        <mt-spinner :type="2" :size="60" style="text-align: center;display:block; margin-top: 6rem;"></mt-spinner>
+        <p style="text-align: center;font-size: 0.4rem;">加载中...</p>
+    </div>
+    <!--<p class="date" v-text="date"></p>-->
     <div class="avatar">
         <img :src="profile.userImage" alt="用户头像">
     </div>
     <p v-text="profile.userName"></p>
-    <p class="mouth-text">上周口腔护理星际评估</p>
+    <p class="mouth-text">上周口腔护理星级评估</p>
     <p class="rate-num" v-text="starNum"></p>
     <div class="star-c">
         <div class="star-img" :class="starData[0]">&nbsp;️</div>
@@ -34,8 +38,8 @@
             <span class="time-text">{{topHealthRate}}%</span>
         </div>
         <div class="time-info">
-            <span class="time-tip">上周未健康冲牙次数</span>
-            <span class="time-text"><i v-text="unHealthyTimes"></i>次</span>
+            <span class="time-tip">上周未健康冲牙天数</span>
+            <span class="time-text"><i v-text="unHealthyTimes"></i>天</span>
         </div>
         <p class="today-summary">每周小结</p>
         <p class="tip-info" v-text="healthSummary.summaryDetail"></p>
@@ -164,6 +168,6 @@
     })(window, window['lib'] || (window['lib'] = {}));
 
 </script>
-
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 </body>
 </html>

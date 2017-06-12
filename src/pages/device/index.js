@@ -10,48 +10,6 @@ Vue.use(Resource);
 
 Vue.component('i-checkbox',Checkbox);
 
-// wx.config({
-//     beta:true,
-//     debug:true,
-//     appId: 'wxf67c994040b19368',
-//     timestamp:1483844878,
-//     noncestr:'Tr4O7u0RTWCle42weF9bQBFTaX1VTlBb',
-//     signature:'47f564e3b6da81241a1dde8d2384bc9611f6b75f',
-//     jsApiList:['checkJsApi',
-//         'onMenuShareTimeline',
-//         'onMenuShareAppMessage',
-//         'onMenuShareQQ',
-//         'onMenuShareWeibo',
-//         'hideMenuItems',
-//         'showMenuItems',
-//         'hideAllNonBaseMenuItem',
-//         'showAllNonBaseMenuItem',
-//         'translateVoice',
-//         'startRecord',
-//         'stopRecord',
-//         'onRecordEnd',
-//         'playVoice',
-//         'pauseVoice',
-//         'stopVoice',
-//         'uploadVoice',
-//         'downloadVoice',
-//         'chooseImage',
-//         'previewImage',
-//         'uploadImage',
-//         'downloadImage',
-//         'getNetworkType',
-//         'openLocation',
-//         'getLocation',
-//         'hideOptionMenu',
-//         'showOptionMenu',
-//         'closeWindow',
-//         'scanQRCode',
-//         'chooseWXPay',
-//         'openProductSpecificView',
-//         'addCard',
-//         'chooseCard',
-//         'openCard','openWXDeviceLib']
-// });
 
 import './index.scss';
 
@@ -59,6 +17,7 @@ new Vue({
     el:'#app',
     data(){
         return {
+            bundleStatus:true,
             loadClass:'',
             value:false,
             headerStatus:false,
@@ -80,7 +39,7 @@ new Vue({
             form:{
                 equipmentId:0,
                 patternName:'',
-                hydraulicPressure:0,
+                hydraulicPressure:40,
                 frequency:0
             },
             patternList:[],
@@ -116,7 +75,8 @@ new Vue({
             this.deviceStatus = false;
         },
         setDeviceName(){
-            this.deviceStatus = true;
+            // this.deviceStatus = true;
+            window.location.href = 'equipment.html?equipmentName='+this.deviceInfo.equipmentName+'&equipmentId='+this.deviceInfo.equipmentId+'&openId='+this.openId+'&equipmentNum='+this.deviceInfo.equipmentNum
         },
         goDetail(){
             window.location.href = 'detail.html?equipmentId=' + this.deviceInfo.equipmentId+'&openId'+ this.openId;
@@ -128,11 +88,15 @@ new Vue({
             let url= '/Brush/weixin/MyEquipment/queryEquipmentInfo?' + util.getParam(obj)+'&code='+util.getQueryString('code');
             this.$http.post(url).then(res => {
                 if(res.data.isSuccess){
+
                     this.deviceList = res.data.result.equipmentInfos;
                     if(this.deviceInfo.equipmentId == 0){
                         this.getDevice({id:this.deviceList[0].id});
                     }
-
+                    console.log(this.deviceList)
+                    if(res.data.result.equipmentInfos.length>0){
+                        this.bundleStatus = false;
+                    }
                 }
             });
         },
@@ -156,10 +120,19 @@ new Vue({
                     this.form.equipmentId = data.equipmentInfo.id;
                     this.patternList = data.patternInfos;
                     this.headerStatus = false;
-
-
                     this.setEquipmentData();
+                    setInterval(()=>{
+                        this.getelectricQuantity();
+                    },3000)
                 }
+            });
+        },
+        getelectricQuantity(){
+            let url = '/Brush/weixin/MyEquipment/electricQuantity?equipmentId=' + this.deviceInfo.equipmentId+'&openId='+this.openId;
+
+            this.$http.get(url).then(res => {
+                this.deviceInfo.electricQuantity = res.data.result.electricQuantity
+
             });
         },
 
@@ -183,10 +156,6 @@ new Vue({
 
                 });
             });
-
-
-
-
         },
 
         addPattern(){
@@ -207,7 +176,7 @@ new Vue({
                         id:res.data.result.id
                     });
                     this.form.patternName='';
-                    this.form.hydraulicPressure=0;
+                    this.form.hydraulicPressure=40;
                     this.form.frequency=0
                 }
             });
@@ -246,7 +215,7 @@ new Vue({
                if(res.data.isSuccess){
                    setTimeout(()=>{
                        this.settingStatus = false;
-                   },2000)
+                   },1000)
 
                    this.deviceInfo.patternId = id;
 
@@ -258,7 +227,7 @@ new Vue({
             },err => {
                 setTimeout(()=>{
                     this.settingStatus = false;
-                },2000)
+                },1000)
             });
 
         },
@@ -327,6 +296,7 @@ new Vue({
         getOneDevice(obj){
 
             setTimeout(() => {
+
             this.loadClass = 'hide'
             },300)
             let url ='/Brush/weixin/MyEquipment/queryOneEquipmentInfo?' + util.getParam(obj);
@@ -336,18 +306,17 @@ new Vue({
                 this.openId = res.body.result.equipmentInfo.openId;
                 this.getDeviceList({openId: this.openId });
             });
+        },
+        closeBundleDialog(){
+            this.bundleStatus = false;
+        },
+        goToBundle(){
+            location.href = 'http://weixin.vtooth.com/pages/bangding/bangding.html'
         }
     },
     mounted(){
 
         this.getOneDevice({code:util.getQueryString('code')})
-
-
-        // wx.ready(function () {
-        //     wx.invoke('openWXDeviceLib',{'connType':'blue'},function (res) {
-        //        console.log(res);
-        //     });
-        // });
 
     }
 });

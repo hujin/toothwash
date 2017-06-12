@@ -22,20 +22,6 @@ new Vue({
             datePickerData: [],
             axisData: [{startTime: [],healthRate:[]}, {startTime: [],healthRate:[]}, {startTime: [],healthRate:[]}, {startTime: [],healthRate:[]}, {startTime: [],healthRate:[]}, {startTime: [],healthRate:[]}, {startTime: [],healthRate:[]}, {startTime: [],healthRate:[]}, {startTime: [],healthRate:[]}, {startTime: [],healthRate:[]}, {startTime: [],healthRate:[]}, {startTime: [],healthRate:[]}],
             lineOptions: {
-
-                tooltip: {
-                    trigger: 'axis'
-                },
-                legend: {
-                    data: ['邮件营销'],
-
-                },
-
-                toolbox: {
-                    feature: {
-                        saveAsImage: {},
-                    }
-                },
                 grid: {
                     left: '3%',
                     right: '4%',
@@ -96,6 +82,37 @@ new Vue({
                         }
                     },
                 }],
+                visualMap: {
+                    show: false,
+                    pieces: [
+                        {
+                            gt: 80,
+                            color: "#91ff91",
+                            symbol: "circle",
+                            symbolSize: 10
+                        },
+                        {
+                            gt: 70,
+                            lte: 80,
+                            color: "#fff45c",
+                            symbol: "circle",
+                            symbolSize: 10,
+                        },
+                        {
+                            gt: 60,
+                            lte: 70,
+                            color: "#ffa95c",
+                            symbol: "circle",
+                            symbolSize: 10
+                        },
+                        {
+                            lte: 60,
+                            color: "#ff5c5c",
+                            symbol: "circle",
+                            symbolSize: 10
+                        }
+                    ]
+                }
 
             },
             datePickerStyle: {
@@ -178,10 +195,9 @@ new Vue({
         },
 
         getHours: function (date) {
-            // let date = new Date(time);
-            var d = new Date(date);
-            d = d.getFullYear() > 0 ? d : new Date(Date.parse(date.replace(/-/g, "/")));
-            return d.getHours() + ':' + d.getMinutes();
+            let time = date.split(" ")[1].split(":")
+
+            return time[0] + ':' + time[1];
         },
 
         getMinutes: function (seconds) {

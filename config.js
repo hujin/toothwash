@@ -21,7 +21,7 @@ module.exports = {
         assetsPublicPath:'/',
         proxyTable:{
             '/Brush':{
-                target:'http://116.62.30.219/Brush',
+                target:'http://weixin.vtooth.com/Brush',
                 changeOrigin:true,
                 pathRewrite:function (path,req) {
                     return path.replace('/Brush', '');

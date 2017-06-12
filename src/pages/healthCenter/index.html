@@ -20,14 +20,13 @@
                     <circle class="progressCircle J_preC" r="18" cx="19" cy="19" stroke-width="0.6"  stroke="rgba(255,255,255,0.6)" stroke-dasharray="0 100" fill="none" transform="rotate(-89, 19 19)"></circle>
                     <circle class="lineEnd J_lineEnd" r="0.6" cx="19" cy="1" stroke-width="1" stroke="#fff" fill="#fff"></circle>
                 </svg>
-
             </div>
 
         </div>
         <div class="out-circle">
             <div class="inner-circle" @click="goTodayHealth()">
                 <p>今日口腔健康度</p>
-                <p class="percent">{{healthData.healthRate||0}}<span class="percent-symbol">%</span></p>
+                <p class="percent"><span v-text="healthData.healthRate||0"></span><span class="percent-symbol">%</span></p>
                 <span>点击查看详情</span>
             </div>
         </div>
@@ -208,6 +207,9 @@ var  circleAnim = function(data) {
 }
 //    });
 </script>
-
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
+<script> 
+ 
+</script> 
 </body>
 </html>
