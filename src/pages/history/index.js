@@ -22,14 +22,15 @@ new Vue({
             datePickerData: [],
             axisData: [{startTime: [],healthRate:[]}, {startTime: [],healthRate:[]}, {startTime: [],healthRate:[]}, {startTime: [],healthRate:[]}, {startTime: [],healthRate:[]}, {startTime: [],healthRate:[]}, {startTime: [],healthRate:[]}, {startTime: [],healthRate:[]}, {startTime: [],healthRate:[]}, {startTime: [],healthRate:[]}, {startTime: [],healthRate:[]}, {startTime: [],healthRate:[]}],
             lineOptions: {
+               tooltip: {
+                    show: false
+                },
                 grid: {
                     left: '3%',
                     right: '4%',
                     bottom: '3%',
                     containLabel: true
                 },
-
-
                 xAxis: [
                     {
                         type: 'category',
@@ -202,7 +203,15 @@ new Vue({
 
         getMinutes: function (seconds) {
 
-            return parseInt(seconds / 60) + '分' + parseInt(seconds % 60) + '秒'
+            let a = parseInt(seconds % 60)
+            let b;
+            if(a<10){
+              b='0'+a.toString()
+            }else {
+              b=a;
+            }
+
+            return parseInt(seconds / 60) + '分' + b + '秒'
 
         },
 

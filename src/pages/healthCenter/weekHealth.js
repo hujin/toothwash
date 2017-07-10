@@ -20,7 +20,7 @@ new Vue({
         return {
             lineOptions: {
                 tooltip: {
-                    trigger: "axis"
+                    show: false
                 },
 
                 grid: {

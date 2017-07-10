@@ -8,105 +8,190 @@ import util from '../../../lib/util/util';
 Vue.use(Mint);
 Vue.use(Resource);
 
-Vue.component('i-checkbox',Checkbox);
+Vue.component('i-checkbox', Checkbox);
 
 
 import './index.scss';
 
 new Vue({
-    el:'#app',
-    data(){
+    el: '#app',
+    data() {
         return {
-            bundleStatus:true,
-            loadClass:'',
-            value:false,
-            headerStatus:false,
-            deviceList:[],
-            reEquipmentName:'',
+            deviceConnect:true,
+            bundleStatus: true,
+            loadClass: '',
+            value: false,
+            headerStatus: false,
+            deviceList: [],
+            reEquipmentName: '',
             openId: null,
-            deviceInfo:{
-                shelfLife:0,
-                electricQuantity:0,
-                sputtering:false,
-                patternId:0,
-                equipmentName:'',
+            deviceInfo: {
+                shelfLife: 0,
+                electricQuantity: 0,
+                sputtering: false,
+                patternId: 0,
+                equipmentName: '',
                 equipmentNum: '',
-                equipmentId:0,
-                remindTime:0,
-                remindTimeName:'关闭',
+                equipmentId: 0,
+                remindTime: 0,
+                remindTimeName: '关闭',
                 lastDayNum: 0
             },
-            form:{
-                equipmentId:0,
-                patternName:'',
-                hydraulicPressure:40,
-                frequency:0
+            form: {
+                equipmentId: 0,
+                patternName: '新增模式',
+                hydraulicPressure: 40,
+                frequency: 0
             },
-            patternList:[],
-            useStatus:false,
-            customAddStatus:false,
-            deleteStatus:false,
-            clockStatus:false,
-            deviceStatus:false,
-            settingStatus:false
+            patternList: [],
+            useStatus: false,
+            customAddStatus: false,
+            deleteStatus: false,
+            clockStatus: false,
+            deviceStatus: false,
+            settingStatus: false
         }
     },
-    methods:{
-        showHeader(){
+    methods: {
+        showHeader() {
             this.headerStatus = !this.headerStatus;
         },
-        addCustom(){
+        addCustom() {
+            if(!this.deviceConnect){
+                alert('请先连接设备')
+                return 
+            }
             this.customAddStatus = true;
             this.deleteStatus = false;
         },
-        dialogCustomClose(){
+        dialogCustomClose() {
             this.customAddStatus = false;
         },
-        dialogClockClose(){
+        dialogClockClose() {
             this.clockStatus = false;
         },
-        setClock(){
+        setClock() {
+            if(!this.deviceConnect){
+                alert('请先连接设备')
+                return 
+            }
             this.clockStatus = !this.clockStatus
         },
-        deleteCustom(){
+        deleteCustom() {
+            if(!this.deviceConnect){
+                alert('请先连接设备')
+                return 
+            }
             this.deleteStatus = !this.deleteStatus;
         },
-        dialogDeviceClose(){
+        dialogDeviceClose() {
             this.deviceStatus = false;
         },
-        setDeviceName(){
+        setDeviceName() {
+            if(!this.deviceConnect){
+                alert('请先连接设备')
+                return 
+            }
             // this.deviceStatus = true;
-            window.location.href = 'equipment.html?equipmentName='+this.deviceInfo.equipmentName+'&equipmentId='+this.deviceInfo.equipmentId+'&openId='+this.openId+'&equipmentNum='+this.deviceInfo.equipmentNum
+            window.location.href = 'equipment.html?equipmentName=' + this.deviceInfo.equipmentName + '&equipmentId=' + this.deviceInfo.equipmentId + '&openId=' + this.openId + '&equipmentNum=' + this.deviceInfo.equipmentNum
         },
-        goDetail(){
-            window.location.href = 'detail.html?equipmentId=' + this.deviceInfo.equipmentId+'&openId'+ this.openId;
+        goDetail() {
+            if(!this.deviceConnect){
+                alert('请先连接设备')
+                return 
+            }
+            window.location.href = 'detail.html?equipmentId=' + this.deviceInfo.equipmentId + '&openId' + this.openId;
         },
-        getDeviceList(obj){
-            if(!obj.openId){
+
+        getShareData() {
+            let url =
+                "/Brush/admin/sharepage?url=" +
+                encodeURIComponent(window.location.href);
+            this.$http.get(url).then(
+                response => {
+                    let data = response.body.result;
+                    console.log(data);
+                    this.checkBlueTooth();
+                    wx.config({
+                        debug: false,
+                        appId: data.appId,
+                        timestamp: data.timestamp,
+                        nonceStr: data.nonceStr,
+                        signature: data.signature,
+                        beta: true,
+                        jsApiList: [
+                            'openWXDeviceLib',
+                            'onMenuShareTimeline',
+                            'onMenuShareAppMessage',
+                            'getWXDeviceInfos',
+                            'closeWXDeviceLib'
+                        ]
+                    });
+
+                    
+                },
+                err => {
+                    console.log(err);
+                }
+            );
+        },
+
+        checkBlueTooth() {
+            console.log('0')
+            wx.ready(() => {
+            wx.invoke('openWXDeviceLib', {'brandUserName':'gh_9002006202f2'}, function(res) {
+     	     //alert(res.err_msg+"  "+res.bluetoothState);
+     	    });
+            console.log('1')
+                wx.invoke('getWXDeviceInfos', {}, (res)=> {
+                    console.log('2',res)
+                    if (res.err_msg == "getWXDeviceInfos:ok") {
+                        if (res.deviceInfos.length > 0) {
+
+                            if (res.deviceInfos[0].state == "connected") {
+                                //"设备已连接"
+                                // alert("设备已连接")
+                            }else {
+                               this.deviceConnect = false;
+                            //    alert("设备未连接")
+                            }
+                        }
+                        else {
+                            this.deviceConnect = false;
+                            // alert("您当前暂时没有绑定的设备");
+                        }
+                    }
+
+                });
+            })
+
+        },
+        getDeviceList(obj) {
+            if (!obj.openId) {
                 return;
             }
-            let url= '/Brush/weixin/MyEquipment/queryEquipmentInfo?' + util.getParam(obj)+'&code='+util.getQueryString('code');
+            let url = '/Brush/weixin/MyEquipment/queryEquipmentInfo?' + util.getParam(obj) + '&code=' + util.getQueryString('code');
             this.$http.post(url).then(res => {
-                if(res.data.isSuccess){
+                if (res.data.isSuccess) {
 
                     this.deviceList = res.data.result.equipmentInfos;
-                    if(this.deviceInfo.equipmentId == 0){
-                        this.getDevice({id:this.deviceList[0].id});
+                    if (this.deviceInfo.equipmentId == 0) {
+                        this.getDevice({ id: this.deviceList[0].id });
                     }
                     console.log(this.deviceList)
-                    if(res.data.result.equipmentInfos.length>0){
+                    if (res.data.result.equipmentInfos.length > 0) {
                         this.bundleStatus = false;
                     }
                 }
             });
         },
-        getDevice(obj){
-            if(!obj.id){
+        getDevice(obj) {
+            if (!obj.id) {
                 return
             }
             let url = '/Brush/weixin/MyEquipment/selectEquipmentInfo?' + util.getParam(obj);
             this.$http.post(url).then(res => {
-                if(res.data.isSuccess){
+                if (res.data.isSuccess) {
                     const data = res.data.result;
                     this.deviceInfo.shelfLife = data.equipmentInfo.shelfLife;
                     this.deviceInfo.electricQuantity = data.equipmentInfo.electricQuantity;
@@ -121,14 +206,14 @@ new Vue({
                     this.patternList = data.patternInfos;
                     this.headerStatus = false;
                     this.setEquipmentData();
-                    setInterval(()=>{
+                    setInterval(() => {
                         this.getelectricQuantity();
-                    },3000)
+                    }, 3000)
                 }
             });
         },
-        getelectricQuantity(){
-            let url = '/Brush/weixin/MyEquipment/electricQuantity?equipmentId=' + this.deviceInfo.equipmentId+'&openId='+this.openId;
+        getelectricQuantity() {
+            let url = '/Brush/weixin/MyEquipment/electricQuantity?equipmentId=' + this.deviceInfo.equipmentId + '&openId=' + this.openId;
 
             this.$http.get(url).then(res => {
                 this.deviceInfo.electricQuantity = res.data.result.electricQuantity
@@ -136,7 +221,7 @@ new Vue({
             });
         },
 
-        setEquipmentData(){
+        setEquipmentData() {
 
             let url0 = '/Brush/weixin/equipmentSprayer/queryEquipmentSprayer?equipmentId=' + this.deviceInfo.equipmentId;
 
@@ -144,12 +229,12 @@ new Vue({
                 this.deviceInfo.lastDayNum = res.data.result.lastDayNum
 
             });
-            let url1 = '/Brush/comparingTime?equipmentNum=' + this.deviceInfo.equipmentNum+'&openId='+this.openId;
+            let url1 = '/Brush/comparingTime?equipmentNum=' + this.deviceInfo.equipmentNum + '&openId=' + this.openId;
             this.$http.post(url1).then(res => {
-                let url2 = '/Brush/battery?equipmentNum=' + this.deviceInfo.equipmentNum+'&openId='+this.openId;
+                let url2 = '/Brush/battery?equipmentNum=' + this.deviceInfo.equipmentNum + '&openId=' + this.openId;
                 this.$http.post(url2).then(res => {
 
-                    let url3 = '/Brush/insertUserRecord?equipmentNum=' + this.deviceInfo.equipmentNum+'&openId='+this.openId;
+                    let url3 = '/Brush/insertUserRecord?equipmentNum=' + this.deviceInfo.equipmentNum + '&openId=' + this.openId;
                     this.$http.post(url3).then(res => {
 
                     });
@@ -158,103 +243,107 @@ new Vue({
             });
         },
 
-        addPattern(){
-            if(!this.form.patternName){
+        addPattern() {
+            if (!this.form.patternName) {
                 alert('请填写模式名称!');
                 return;
             }
             let url = '/Brush/weixin/myPattern/addDefinePattern?' + util.getParam(this.form);
             this.$http.post(url).then(res => {
-                if(res.data.isSuccess){
+                if (res.data.isSuccess) {
                     this.customAddStatus = false;
                     const obj = this.form;
                     this.patternList.push({
-                        equipmentId:obj.equipmentId,
-                        patternName:obj.patternName,
-                        hydraulicPressure:obj.hydraulicPressure,
-                        frequency:obj.frequency,
-                        id:res.data.result.id
+                        equipmentId: obj.equipmentId,
+                        patternName: obj.patternName,
+                        hydraulicPressure: obj.hydraulicPressure,
+                        frequency: obj.frequency,
+                        id: res.data.result.id
                     });
-                    this.form.patternName='';
-                    this.form.hydraulicPressure=40;
-                    this.form.frequency=0
+                    this.form.patternName = '';
+                    this.form.hydraulicPressure = 40;
+                    this.form.frequency = 0
                 }
             });
         },
-        deletePattern(id,index){
+        deletePattern(id, index) {
             var obj = {
-                equipmentId:this.form.equipmentId,
-                deleteId:id,
-                updateId:0
+                equipmentId: this.form.equipmentId,
+                deleteId: id,
+                updateId: 0
             }
-            if(this.deviceInfo.patternId == id){
-                if(this.patternList.length <= 1 || index == 0){
+            if (this.deviceInfo.patternId == id) {
+                if (this.patternList.length <= 1 || index == 0) {
                     obj.updateId = 1
-                }else{
-                    obj.updateId = this.patternList[index-1].id;
+                } else {
+                    obj.updateId = this.patternList[index - 1].id;
                 }
             }
             let url = '/Brush/weixin/myPattern/deleteDefinePattern?' + util.getParam(obj);
             this.$http.post(url).then(res => {
-                if(res.data.isSuccess){
-                    if(obj.updateId != 0){
+                if (res.data.isSuccess) {
+                    if (obj.updateId != 0) {
                         this.deviceInfo.patternId = obj.updateId;
                     }
-                    this.patternList.splice(index,1);
+                    this.patternList.splice(index, 1);
                 }
             });
 
         },
-        choosePattern(id){
-            if(!id){
+        choosePattern(id) {
+            if (!id) {
                 return;
             }
+            if(!this.deviceConnect){
+                alert('请先连接设备')
+                return 
+            }
             this.settingStatus = !this.settingStatus;
-            let url ='/Brush/weixin/myPattern/selectPattern?id=' + id + '&equipmentId=' + this.deviceInfo.equipmentId;
+            let url = '/Brush/weixin/myPattern/selectPattern?id=' + id + '&equipmentId=' + this.deviceInfo.equipmentId;
             this.$http.post(url).then(res => {
-               if(res.data.isSuccess){
-                   setTimeout(()=>{
-                       this.settingStatus = false;
-                   },1000)
+                if (res.data.isSuccess) {
+                    setTimeout(() => {
+                        this.settingStatus = false;
+                    }, 1000)
 
-                   this.deviceInfo.patternId = id;
+                    this.deviceInfo.patternId = id;
 
-                   let url4 = '/Brush/pattern?openId=' + this.openId+'&equipmentNum='+this.deviceInfo.equipmentNum+'&id='+id;
-                   this.$http.post(url4).then(res => {
+                    let url4 = '/Brush/pattern?openId=' + this.openId + '&equipmentNum=' + this.deviceInfo.equipmentNum + '&id=' + id;
+                    this.$http.post(url4).then(res => {
 
-                   });
-               }
-            },err => {
-                setTimeout(()=>{
+                    });
+                }
+            }, err => {
+                setTimeout(() => {
                     this.settingStatus = false;
-                },1000)
+                }, 1000)
             });
 
         },
-        setRemindTime(){
+        setRemindTime() {
             let obj = {
-                id:this.deviceInfo.equipmentId,
-                remindTime:this.deviceInfo.remindTime,
-                isRemind:false
+                id: this.deviceInfo.equipmentId,
+                remindTime: this.deviceInfo.remindTime,
+                isRemind: false
             }
 
-            if(obj.remindTime != 0){
+            if (obj.remindTime != 0) {
                 obj.isRemind = true;
             }
 
             let url = '/Brush/weixin/MyEquipment/updateEquipmentRemindTime?' + util.getParam(obj);
 
             this.$http.post(url).then(res => {
-                if(res.data.isSuccess){
+                if (res.data.isSuccess) {
                     this.clockStatus = false;
                     this.deviceInfo.remindTimeName = this.setRemind(this.deviceInfo.remindTime);
                 }
             });
         },
-        setRemind(kind){
+        setRemind(kind) {
             kind = parseInt(kind);
             let str = '';
-            switch (kind){
+            switch (kind) {
                 case 0:
                     str = '关闭';
                     break;
@@ -270,53 +359,63 @@ new Vue({
             }
             return str;
         },
-        setSputtering(status){
+        setSputtering(status) {
+            console.log(status)
+            // console.log(1,this.deviceInfo.sputtering)
+            // this.deviceInfo.sputtering = !status;
+            // console.log(2,this.deviceInfo.sputtering)
+            if(!this.deviceConnect){
+                alert('请先连接设备')
+                return 
+            }
             let obj = {
-                id:this.deviceInfo.equipmentId,
-                sputtering:status
+                id: this.deviceInfo.equipmentId,
+                sputtering: status
             }
             let url = '/Brush/weixin/MyEquipment/updateEquipmentSputtering?' + util.getParam(obj);
             this.$http.post(url).then(res => {
-
+                this.deviceInfo.sputtering = status;
+            },(err)=>{
+                this.deviceInfo.sputtering = !status;
             });
         },
-        setEquipmentName(){
+        setEquipmentName() {
             let obj = {
-                id:this.deviceInfo.equipmentId,
-                equipmentName:this.reEquipmentName
+                id: this.deviceInfo.equipmentId,
+                equipmentName: this.reEquipmentName
             }
-            let url ='/Brush/weixin/MyEquipment/updateEquipmentName?' + util.getParam(obj);
+            let url = '/Brush/weixin/MyEquipment/updateEquipmentName?' + util.getParam(obj);
             this.$http.post(url).then(res => {
-                if(res.data.isSuccess){
+                if (res.data.isSuccess) {
                     this.deviceStatus = false;
-                    this.deviceInfo.equipmentName =  this.reEquipmentName
+                    this.deviceInfo.equipmentName = this.reEquipmentName
                 }
             });
         },
-        getOneDevice(obj){
+        getOneDevice(obj) {
 
-            setTimeout(() => {
-
-            this.loadClass = 'hide'
-            },300)
-            let url ='/Brush/weixin/MyEquipment/queryOneEquipmentInfo?' + util.getParam(obj);
+            // setTimeout(() => {
+            //
+            //
+            // },2000)
+            let url = '/Brush/weixin/MyEquipment/queryOneEquipmentInfo?' + util.getParam(obj);
             this.$http.get(url).then(res => {
-
-
+                this.loadClass = 'hide'
                 this.openId = res.body.result.equipmentInfo.openId;
-                this.getDeviceList({openId: this.openId });
-            });
+                this.getDeviceList({ openId: this.openId });
+            },err=> this.loadClass = 'hide');
         },
-        closeBundleDialog(){
+        closeBundleDialog() {
             this.bundleStatus = false;
         },
-        goToBundle(){
+        goToBundle() {
             location.href = 'http://weixin.vtooth.com/pages/bangding/bangding.html'
         }
     },
-    mounted(){
+    mounted() {
 
-        this.getOneDevice({code:util.getQueryString('code')})
+        this.getOneDevice({ code: util.getQueryString('code') })
+        this.getShareData()
 
     }
 });

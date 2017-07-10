@@ -27,11 +27,11 @@
         <div class="device-info">
             <div class="device-item" @click.stop="goDetail">
                 <img src="../../assets/device/1.png" alt="">
-                <span>离更换喷头还剩<strong>{{deviceInfo.lastDayNum}}</strong>天</span>
+                <span>距离喷头更换剩余<strong>{{deviceInfo.lastDayNum}}</strong>天</span>
             </div>
             <div class="device-item">
                 <img src="../../assets/device/2.png" alt="">
-                <span v-if="deviceInfo.electricQuantity!=101">电量还剩<strong v-text="deviceInfo.electricQuantity"></strong>%</span>
+                <span v-if="deviceInfo.electricQuantity!=101">上次同步时电量剩余<strong v-text="deviceInfo.electricQuantity"></strong>%</span>
                 <span v-if="deviceInfo.electricQuantity==101">正在充电中</span>
             </div>
             <i class="line"></i>
@@ -135,16 +135,16 @@
                                   :max="100" :bar-height="3"></mt-range>
                     </div>
 
-                    <span class="col-text">大 {{form.hydraulicPressure}}%</span>
+                    <span class="col-text">大</span>
                 </div>
                 <div class="row" style="margin-top: 0.3rem;margin-bottom: 0.3rem;">
-                    <label class="col-label">间隔 慢</label>
+                    <label class="col-label">间隔 短</label>
                     <div class="col-content">
                         <mt-range v-model="form.frequency"
                                   :min="0"
                                   :max="5" :bar-height="3"></mt-range>
                     </div>
-                    <span class="col-text">快 0.{{form.frequency}}s</span>
+                    <span class="col-text">长</span>
                 </div>
                 <div class="row" style="text-align: center;">
                     <mt-button type="primary" @click.stop="addPattern">确定</mt-button>
@@ -203,21 +203,6 @@
 
             </div>
         </div>
-    </div>
-    <div class="equ-pane" v-show="false">
-
-            <img src="../../assets/device/toothBrush.png" alt="">
-            <div class="" style="font-size: 0.63rem;margin: 0.5rem 0;">我的设备 <i class="iconfont icon-rename write-btn" style="font-size:0.6rem;color:#5eb8b9" @click.stop="goWrite()"></i> </div>
-            <p class="text">产&nbsp;品&nbsp;&nbsp;名：未豆易携家用冲牙器</p>
-            <p class="text">型&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：VT1</p>
-            <p class="text">额定电压：3.7V</p>
-            <p class="text">工作功率：5.5W</p>
-            <p class="text">执行标准：GB4706.1 GB4706.59</p>
-            <p class="text">产&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;地：中国</p>
-            <p class="text">制&nbsp;造&nbsp;&nbsp;商：佛山俊客科技有限公司</p>
-        
-            <mt-button type="primary" style="width: 55%;marginTop:0.6rem;" @click.stop="closeBundleDialog()">解除绑定</mt-button>
-
     </div>
     <div class="pane" v-show="bundleStatus">
         <div class="content">
@@ -352,4 +337,8 @@
 
 </script>
 </body>
+<script type="text/javascript"src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>   
+<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+
 </html>
