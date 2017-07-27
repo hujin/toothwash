@@ -17,8 +17,9 @@ new Vue({
     el: '#app',
     data() {
         return {
-            deviceConnect:true,
-            bundleStatus: true,
+            deviceConnectDialog: false,
+            deviceConnect: false,
+            bundleStatus: false,
             loadClass: '',
             value: false,
             headerStatus: false,
@@ -57,10 +58,6 @@ new Vue({
             this.headerStatus = !this.headerStatus;
         },
         addCustom() {
-            if(!this.deviceConnect){
-                alert('请先连接设备')
-                return 
-            }
             this.customAddStatus = true;
             this.deleteStatus = false;
         },
@@ -71,36 +68,39 @@ new Vue({
             this.clockStatus = false;
         },
         setClock() {
-            if(!this.deviceConnect){
-                alert('请先连接设备')
-                return 
-            }
-            this.clockStatus = !this.clockStatus
+            this.checkBlueTooth(() => {
+                this.clockStatus = !this.clockStatus
+            }, () => {
+                this.openDeviceConnectDialog()
+            });
         },
         deleteCustom() {
-            if(!this.deviceConnect){
-                alert('请先连接设备')
-                return 
-            }
+        
             this.deleteStatus = !this.deleteStatus;
         },
         dialogDeviceClose() {
             this.deviceStatus = false;
         },
         setDeviceName() {
-            if(!this.deviceConnect){
-                alert('请先连接设备')
-                return 
-            }
-            // this.deviceStatus = true;
             window.location.href = 'equipment.html?equipmentName=' + this.deviceInfo.equipmentName + '&equipmentId=' + this.deviceInfo.equipmentId + '&openId=' + this.openId + '&equipmentNum=' + this.deviceInfo.equipmentNum
         },
+        closeDeviceConnectDialog() {
+            this.deviceConnectDialog = false
+
+        },
+        openDeviceConnectDialog() {
+
+            this.deviceConnectDialog = true
+
+        },
         goDetail() {
-            if(!this.deviceConnect){
-                alert('请先连接设备')
-                return 
-            }
-            window.location.href = 'detail.html?equipmentId=' + this.deviceInfo.equipmentId + '&openId' + this.openId;
+            this.checkBlueTooth(() => {
+                window.location.href = 'detail.html?equipmentId=' + this.deviceInfo.equipmentId + '&openId' + this.openId;
+            }, () => {
+                this.openDeviceConnectDialog()
+            });
+
+
         },
 
         getShareData() {
@@ -111,7 +111,7 @@ new Vue({
                 response => {
                     let data = response.body.result;
                     console.log(data);
-                    this.checkBlueTooth();
+
                     wx.config({
                         debug: false,
                         appId: data.appId,
@@ -128,7 +128,12 @@ new Vue({
                         ]
                     });
 
-                    
+                    setTimeout(() => {
+                        this.checkBlueTooth();
+                    }, 300)
+
+
+
                 },
                 err => {
                     console.log(err);
@@ -136,34 +141,40 @@ new Vue({
             );
         },
 
-        checkBlueTooth() {
-            console.log('0')
-            wx.ready(() => {
-            wx.invoke('openWXDeviceLib', {'brandUserName':'gh_9002006202f2'}, function(res) {
-     	     //alert(res.err_msg+"  "+res.bluetoothState);
-     	    });
-            console.log('1')
-                wx.invoke('getWXDeviceInfos', {}, (res)=> {
-                    console.log('2',res)
-                    if (res.err_msg == "getWXDeviceInfos:ok") {
-                        if (res.deviceInfos.length > 0) {
+        checkBlueTooth(success, error) {
+            // alert('0')
+            // wx.ready(() => {
+            wx.invoke('openWXDeviceLib', {
+                'brandUserName': 'gh_9002006202f2'
+            }, function (res) {
+                //alert(res.err_msg+"  "+res.bluetoothState);
+            });
+            // alert('1')
+            wx.invoke('getWXDeviceInfos', {}, (res) => {
+                // alert('2')
+                if (res.err_msg == "getWXDeviceInfos:ok") {
+                    if (res.deviceInfos.length > 0) {
 
-                            if (res.deviceInfos[0].state == "connected") {
-                                //"设备已连接"
-                                // alert("设备已连接")
-                            }else {
-                               this.deviceConnect = false;
+                        // alert(res.deviceInfos[0].state)
+                        if (res.deviceInfos[0].state == "connected") {
+                            //"设备已连接"
+                            // alert("设备已连接")
+                            this.deviceConnect = true;
+                            success();
+                        } else {
+                            //    this.deviceConnect = false;
                             //    alert("设备未连接")
-                            }
+                            error();
                         }
-                        else {
-                            this.deviceConnect = false;
-                            // alert("您当前暂时没有绑定的设备");
-                        }
+                    } else {
+                        // this.deviceConnect = false;
+                        // alert("您当前暂时没有绑定的设备");
+                        error();
                     }
+                }
 
-                });
-            })
+            });
+            // })
 
         },
         getDeviceList(obj) {
@@ -176,11 +187,13 @@ new Vue({
 
                     this.deviceList = res.data.result.equipmentInfos;
                     if (this.deviceInfo.equipmentId == 0) {
-                        this.getDevice({ id: this.deviceList[0].id });
+                        this.getDevice({
+                            id: this.deviceList[0].id
+                        });
                     }
                     console.log(this.deviceList)
-                    if (res.data.result.equipmentInfos.length > 0) {
-                        this.bundleStatus = false;
+                    if (this.deviceList.length <= 0) {
+                        this.bundleStatus = true;
                     }
                 }
             });
@@ -294,30 +307,38 @@ new Vue({
             if (!id) {
                 return;
             }
-            if(!this.deviceConnect){
-                alert('请先连接设备')
-                return 
-            }
-            this.settingStatus = !this.settingStatus;
-            let url = '/Brush/weixin/myPattern/selectPattern?id=' + id + '&equipmentId=' + this.deviceInfo.equipmentId;
-            this.$http.post(url).then(res => {
-                if (res.data.isSuccess) {
+            this.checkBlueTooth(() => {
+                this.settingStatus = !this.settingStatus;
+                let url = '/Brush/weixin/myPattern/selectPattern?id=' + id + '&equipmentId=' + this.deviceInfo.equipmentId;
+                this.$http.post(url).then(res => {
+                    if (res.data.isSuccess) {
+                        setTimeout(() => {
+                            this.settingStatus = false;
+                        }, 1000)
+
+                        this.deviceInfo.patternId = id;
+
+                        let url4 = '/Brush/pattern?openId=' + this.openId + '&equipmentNum=' + this.deviceInfo.equipmentNum + '&id=' + id;
+                        this.$http.post(url4).then(res => {
+
+                        });
+                    }
+                }, err => {
                     setTimeout(() => {
                         this.settingStatus = false;
                     }, 1000)
+                });
 
-                    this.deviceInfo.patternId = id;
+            }, () => {
 
-                    let url4 = '/Brush/pattern?openId=' + this.openId + '&equipmentNum=' + this.deviceInfo.equipmentNum + '&id=' + id;
-                    this.$http.post(url4).then(res => {
 
-                    });
-                }
-            }, err => {
-                setTimeout(() => {
-                    this.settingStatus = false;
-                }, 1000)
+                this.openDeviceConnectDialog()
+
+
             });
+
+
+
 
         },
         setRemindTime() {
@@ -361,22 +382,22 @@ new Vue({
         },
         setSputtering(status) {
             console.log(status)
-            // console.log(1,this.deviceInfo.sputtering)
-            // this.deviceInfo.sputtering = !status;
-            // console.log(2,this.deviceInfo.sputtering)
-            if(!this.deviceConnect){
-                alert('请先连接设备')
-                return 
-            }
-            let obj = {
-                id: this.deviceInfo.equipmentId,
-                sputtering: status
-            }
-            let url = '/Brush/weixin/MyEquipment/updateEquipmentSputtering?' + util.getParam(obj);
-            this.$http.post(url).then(res => {
-                this.deviceInfo.sputtering = status;
-            },(err)=>{
-                this.deviceInfo.sputtering = !status;
+            this.checkBlueTooth(() => {
+                let obj = {
+                    id: this.deviceInfo.equipmentId,
+                    sputtering: status
+                }
+                let url = '/Brush/weixin/MyEquipment/updateEquipmentSputtering?' + util.getParam(obj);
+                this.$http.post(url).then(res => {
+                    this.deviceInfo.sputtering = status;
+                }, (err) => {
+                    this.deviceInfo.sputtering = !status;
+                });
+            }, () => {
+                this.openDeviceConnectDialog()
+                setTimeout(() => {
+                    this.deviceInfo.sputtering = !status;
+                }, 300)
             });
         },
         setEquipmentName() {
@@ -394,16 +415,17 @@ new Vue({
         },
         getOneDevice(obj) {
 
-            // setTimeout(() => {
-            //
-            //
-            // },2000)
             let url = '/Brush/weixin/MyEquipment/queryOneEquipmentInfo?' + util.getParam(obj);
             this.$http.get(url).then(res => {
                 this.loadClass = 'hide'
                 this.openId = res.body.result.equipmentInfo.openId;
-                this.getDeviceList({ openId: this.openId });
-            },err=> this.loadClass = 'hide');
+                this.getDeviceList({
+                    openId: this.openId
+                });
+            }, err => {
+                this.loadClass = 'hide'
+                 this.bundleStatus = true;
+        });
         },
         closeBundleDialog() {
             this.bundleStatus = false;
@@ -414,7 +436,9 @@ new Vue({
     },
     mounted() {
 
-        this.getOneDevice({ code: util.getQueryString('code') })
+        this.getOneDevice({
+            code: util.getQueryString('code')
+        })
         this.getShareData()
 
     }

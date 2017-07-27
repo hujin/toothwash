@@ -204,6 +204,22 @@
             </div>
         </div>
     </div>
+    <div class="mask" v-show="deviceConnectDialog">
+        <div class="dialog device-dialog">
+            <div class="dialog-header">
+                <span>温馨提示</span>
+                <i class="iconfont icon-close" @click.stop="closeDeviceConnectDialog"></i>
+            </div>
+            <div class="dialog-content">
+                <div class="row" style="padding:0 .6rem;margin-bottom: 0.8rem;margin-top: .3rem;height: 1rem;">
+                   <p style="font-size: 0.45rem;text-align: center;">请您先连接蓝牙设备</p>
+                </div>
+                <div class="row" style="text-align: center">
+                    <mt-button type="primary" @click.stop="closeDeviceConnectDialog">确定</mt-button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="pane" v-show="bundleStatus">
         <div class="content">
             <img src="../../assets/device/bundle.png" alt="">
